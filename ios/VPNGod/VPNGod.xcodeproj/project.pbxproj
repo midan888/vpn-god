@@ -26,6 +26,15 @@
 		D5AF44FF3DD721A3BC9D6FEF /* PacketTunnel.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6E0E4DE364E7C9F5ADC87092 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DF981B5CAF572AC12E25EAC1 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E66635BF1366130E2BCAD4 /* AuthModels.swift */; };
 		E289F31EA01F6CD2C41A430E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960B2BCCF82E8CF37176B01 /* SettingsView.swift */; };
+		AA0001010000000100000001 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000100000001 /* Colors.swift */; };
+		AA0001010000000200000001 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000200000001 /* Typography.swift */; };
+		AA0001010000000300000001 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000300000001 /* Spacing.swift */; };
+		AA0001010000000400000001 /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000400000001 /* GlassCard.swift */; };
+		AA0001010000000500000001 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000500000001 /* GradientButton.swift */; };
+		AA0001010000000600000001 /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000600000001 /* StatusBadge.swift */; };
+		AA0001010000000700000001 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000700000001 /* CustomTextField.swift */; };
+		AA0001010000000800000001 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000800000001 /* CustomTabBar.swift */; };
+		AA0001070000000100000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0001030000000100000001 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +89,15 @@
 		DCA040B594CB2708E3FF4529 /* PacketTunnel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunnel.entitlements; sourceTree = "<group>"; };
 		E9029145B671B3029C3A214D /* wireguard-apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "wireguard-apple"; path = "../wireguard-apple"; sourceTree = SOURCE_ROOT; };
 		FDB48CA65D3BCA11E2CE111B /* VPNGod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VPNGod.entitlements; sourceTree = "<group>"; };
+		AA0001020000000100000001 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		AA0001020000000200000001 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		AA0001020000000300000001 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		AA0001020000000400000001 /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
+		AA0001020000000500000001 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		AA0001020000000600000001 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
+		AA0001020000000700000001 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		AA0001020000000800000001 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		AA0001030000000100000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,12 +116,37 @@
 			isa = PBXGroup;
 			children = (
 				8C84C3C9458979EB88D3FA04 /* App */,
+				AA0001040000000100000001 /* DesignSystem */,
 				4150A7666DF825DF4ABB6674 /* Models */,
 				66E7E86F45B16B48BDD3FE07 /* Services */,
 				9D1AEFF542401DB5BC6C5EDE /* ViewModels */,
 				FF00DB92CCB7C7E41A418485 /* Views */,
+				AA0001030000000100000001 /* Assets.xcassets */,
 			);
 			path = VPNGod;
+			sourceTree = "<group>";
+		};
+		AA0001040000000100000001 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				AA0001020000000100000001 /* Colors.swift */,
+				AA0001020000000200000001 /* Typography.swift */,
+				AA0001020000000300000001 /* Spacing.swift */,
+				AA0001050000000100000001 /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		AA0001050000000100000001 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AA0001020000000400000001 /* GlassCard.swift */,
+				AA0001020000000500000001 /* GradientButton.swift */,
+				AA0001020000000600000001 /* StatusBadge.swift */,
+				AA0001020000000700000001 /* CustomTextField.swift */,
+				AA0001020000000800000001 /* CustomTabBar.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		4150A7666DF825DF4ABB6674 /* Models */ = {
@@ -234,6 +277,7 @@
 			buildConfigurationList = 5A8400749CC1D9E6F545D839 /* Build configuration list for PBXNativeTarget "VPNGod" */;
 			buildPhases = (
 				3340A61F7A625E44895AC35C /* Sources */,
+				AA0001060000000100000001 /* Resources */,
 				E404293801B8C100B24E964C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -301,6 +345,14 @@
 				3DB1B228E29D9A72BE6D2D87 /* VPNGodApp.swift in Sources */,
 				519D6CDA2CA5A9C1697E990B /* VPNManager.swift in Sources */,
 				5A754C2DD5189EB01B659EB2 /* WireGuardConfig.swift in Sources */,
+				AA0001010000000100000001 /* Colors.swift in Sources */,
+				AA0001010000000200000001 /* Typography.swift in Sources */,
+				AA0001010000000300000001 /* Spacing.swift in Sources */,
+				AA0001010000000400000001 /* GlassCard.swift in Sources */,
+				AA0001010000000500000001 /* GradientButton.swift in Sources */,
+				AA0001010000000600000001 /* StatusBadge.swift in Sources */,
+				AA0001010000000700000001 /* CustomTextField.swift in Sources */,
+				AA0001010000000800000001 /* CustomTabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +365,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA0001060000000100000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0001070000000100000001 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		57CE9F0B8D197B8AC03A8AF1 /* PBXTargetDependency */ = {

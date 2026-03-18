@@ -21,7 +21,10 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
 	<key>UIRequiresFullScreen</key>
