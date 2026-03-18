@@ -54,14 +54,14 @@ targets:
     platform: iOS
     sources:
       - PacketTunnel
+    configFiles:
+      Debug: PacketTunnel/PacketTunnel.xcconfig
+      Release: PacketTunnel/PacketTunnel.xcconfig
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.vpngod.VPNGod.PacketTunnel
         INFOPLIST_FILE: PacketTunnel/Info.plist
         CODE_SIGN_ENTITLEMENTS: PacketTunnel/PacketTunnel.entitlements
-        LIBRARY_SEARCH_PATHS:
-          - "$(inherited)"
-          - "$(SRCROOT)/../wireguard-apple/Sources/WireGuardKitGo/out"
     entitlements:
       path: PacketTunnel/PacketTunnel.entitlements
       properties:

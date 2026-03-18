@@ -1,11 +1,16 @@
 import NetworkExtension
+
+#if !targetEnvironment(simulator)
 import WireGuardKit
+#endif
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
 
+    #if !targetEnvironment(simulator)
     private lazy var adapter = WireGuardAdapter(with: self) { _, message in
         NSLog("WireGuard: %@", message)
     }
+    #endif
 
     override func startTunnel(options: [String: NSObject]? = nil) async throws {
         // Load WireGuard config from App Group
@@ -15,8 +20,20 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         }
 
         let config = try JSONDecoder().decode(WGConfig.self, from: data)
-        let tunnelConfig = try config.toTunnelConfiguration()
 
+        #if targetEnvironment(simulator)
+        // Simulator: just configure network settings without WireGuard
+        let settings = NEPacketTunnelNetworkSettings(tunnelRemoteAddress: config.peerEndpoint)
+        let ipv4 = NEIPv4Settings(
+            addresses: [config.interfaceAddress.components(separatedBy: "/").first ?? "10.0.0.2"],
+            subnetMasks: ["255.255.255.255"]
+        )
+        ipv4.includedRoutes = [NEIPv4Route.default()]
+        settings.ipv4Settings = ipv4
+        settings.dnsSettings = NEDNSSettings(servers: [config.interfaceDNS])
+        try await setTunnelNetworkSettings(settings)
+        #else
+        let tunnelConfig = try config.toTunnelConfiguration()
         return try await withCheckedThrowingContinuation { continuation in
             adapter.start(tunnelConfiguration: tunnelConfig) { adapterError in
                 if let adapterError {
@@ -27,14 +44,17 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
                 }
             }
         }
+        #endif
     }
 
     override func stopTunnel(with reason: NEProviderStopReason) async {
+        #if !targetEnvironment(simulator)
         return await withCheckedContinuation { continuation in
             adapter.stop { _ in
                 continuation.resume()
             }
         }
+        #endif
     }
 
     override func handleAppMessage(_ messageData: Data) async -> Data? {
@@ -58,10 +78,8 @@ enum PacketTunnelError: LocalizedError {
     }
 }
 
-// MARK: - Config Mapping
+// MARK: - Config
 
-/// Local copy of the WireGuard config received from the backend.
-/// Kept separate from the main app target since extensions can't share sources easily.
 private struct WGConfig: Decodable {
     let interfacePrivateKey: String
     let interfaceAddress: String
@@ -79,6 +97,7 @@ private struct WGConfig: Decodable {
         case peerAllowedIPs = "peer_allowed_ips"
     }
 
+    #if !targetEnvironment(simulator)
     func toTunnelConfiguration() throws -> TunnelConfiguration {
         guard let privateKey = PrivateKey(base64Key: interfacePrivateKey) else {
             throw PacketTunnelError.invalidConfiguration("invalid client private key")
@@ -92,7 +111,6 @@ private struct WGConfig: Decodable {
             throw PacketTunnelError.invalidConfiguration("invalid server endpoint: \(peerEndpoint)")
         }
 
-        // Interface
         var interface = InterfaceConfiguration(privateKey: privateKey)
         interface.addresses = interfaceAddress
             .split(separator: ",")
@@ -102,7 +120,6 @@ private struct WGConfig: Decodable {
             .split(separator: ",")
             .compactMap { DNSServer(from: String($0).trimmingCharacters(in: .whitespaces)) }
 
-        // Peer
         var peer = PeerConfiguration(publicKey: serverPublicKey)
         peer.endpoint = endpoint
         peer.allowedIPs = peerAllowedIPs
@@ -111,4 +128,5 @@ private struct WGConfig: Decodable {
 
         return TunnelConfiguration(name: "VPN God", interface: interface, peers: [peer])
     }
+    #endif
 }

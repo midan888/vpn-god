@@ -63,8 +63,9 @@
 		43981D610D4A40B1B7FA37A3 /* WireGuardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireGuardConfig.swift; sourceTree = "<group>"; };
 		4D789473EFFCF6DCB6FA4CB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		66F9BE4C8AF1C7633D4682F4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
-		6E0E4DE364E7C9F5ADC87092 /* PacketTunnel.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E0E4DE364E7C9F5ADC87092 /* PacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C58ACEDDC5243D65D54DF35 /* VPNGod.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VPNGod.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		80FFF58CE74B8E730685B059 /* PacketTunnel.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PacketTunnel.xcconfig; sourceTree = "<group>"; };
 		90304B537A149B7B2766769F /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
 		974BF143F87615280A366A95 /* VPNGodApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNGodApp.swift; sourceTree = "<group>"; };
 		975806E95EB96747B89D941C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -158,6 +159,7 @@
 			children = (
 				4D789473EFFCF6DCB6FA4CB2 /* Info.plist */,
 				DCA040B594CB2708E3FF4529 /* PacketTunnel.entitlements */,
+				80FFF58CE74B8E730685B059 /* PacketTunnel.xcconfig */,
 				99E913E13A559187D389210A /* PacketTunnelProvider.swift */,
 			);
 			path = PacketTunnel;
@@ -242,8 +244,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 5995E59168903964F96DB97C /* Build configuration list for PBXProject "VPNGod" */;
 			developmentRegion = en;
@@ -369,17 +369,15 @@
 		};
 		4116F3C367D134EE7133786D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80FFF58CE74B8E730685B059 /* PacketTunnel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PacketTunnel/PacketTunnel.entitlements;
+				DEVELOPMENT_TEAM = D4DPR2Z5GA;
 				INFOPLIST_FILE = PacketTunnel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../wireguard-apple/Sources/WireGuardKitGo/out",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vpngod.VPNGod.PacketTunnel;
 				SDKROOT = iphoneos;
@@ -389,17 +387,15 @@
 		};
 		D1B220C0EE7C6FCABACF70EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80FFF58CE74B8E730685B059 /* PacketTunnel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PacketTunnel/PacketTunnel.entitlements;
+				DEVELOPMENT_TEAM = D4DPR2Z5GA;
 				INFOPLIST_FILE = PacketTunnel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../wireguard-apple/Sources/WireGuardKitGo/out",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.vpngod.VPNGod.PacketTunnel;
 				SDKROOT = iphoneos;
