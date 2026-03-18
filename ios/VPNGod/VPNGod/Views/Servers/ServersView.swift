@@ -64,9 +64,21 @@ struct ServersView: View {
 
                 // Server list
                 if viewModel.isLoading && viewModel.servers.isEmpty {
+                    // Skeleton loading
+                    ScrollView {
+                        VStack(spacing: VPNSpacing.md) {
+                            SkeletonServerList(count: 6)
+                        }
+                        .padding(.horizontal, VPNSpacing.md)
+                        .padding(.top, VPNSpacing.md)
+                    }
+                    .scrollIndicators(.hidden)
+                } else if viewModel.servers.isEmpty && viewModel.error != nil {
                     Spacer()
-                    ProgressView()
-                        .tint(Color.vpnPrimary)
+                    ErrorStateView(
+                        message: "Unable to load servers.\nCheck your connection.",
+                        retryAction: { Task { await viewModel.loadServers() } }
+                    )
                     Spacer()
                 } else if displayedServers.isEmpty {
                     Spacer()

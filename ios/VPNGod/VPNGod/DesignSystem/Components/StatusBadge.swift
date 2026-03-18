@@ -27,6 +27,7 @@ struct StatusBadge: View {
             Capsule()
                 .stroke(status.color.opacity(0.3), lineWidth: 1)
         )
+        .accessibilityLabel("VPN status: \(status.label)")
     }
 }
 

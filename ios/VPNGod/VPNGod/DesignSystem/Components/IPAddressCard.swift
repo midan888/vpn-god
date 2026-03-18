@@ -28,6 +28,8 @@ struct IPAddressCard: View {
                     .symbolRenderingMode(.hierarchical)
             }
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(ip != nil ? "Your IP address is \(ip!), location \(location ?? "unknown")" : "Not connected, IP address hidden")
     }
 }
 

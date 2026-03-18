@@ -69,6 +69,8 @@ struct PowerButton: View {
             }
         }
         .buttonStyle(PowerButtonStyle())
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityHint(status == .connected ? "Double tap to disconnect" : "Double tap to connect")
         .disabled(status == .connecting || status == .disconnecting)
         .onChange(of: status) { _, newStatus in
             updateAnimations(for: newStatus)
@@ -79,6 +81,15 @@ struct PowerButton: View {
     }
 
     // MARK: - Computed Properties
+
+    private var accessibilityLabel: String {
+        switch status {
+        case .connected: return "VPN connected. Tap to disconnect."
+        case .connecting: return "VPN connecting."
+        case .disconnected: return "VPN disconnected. Tap to connect."
+        case .disconnecting: return "VPN disconnecting."
+        }
+    }
 
     private var statusColor: Color {
         status.color

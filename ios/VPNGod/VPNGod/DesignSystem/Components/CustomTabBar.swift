@@ -81,6 +81,8 @@ struct CustomTabBar: View {
             }
             .frame(maxWidth: .infinity)
         }
+        .accessibilityLabel(tab.title)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

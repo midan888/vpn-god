@@ -18,46 +18,66 @@ struct HomeView: View {
             // Content
             ScrollView {
                 VStack(spacing: VPNSpacing.lg) {
-                    // Server card
-                    ServerCard(
-                        server: displayServer,
-                        onChangeTapped: { showServerSheet = true }
-                    )
+                    if viewModel.isLoading && viewModel.servers.isEmpty {
+                        // Skeleton loading
+                        SkeletonServerCard()
+                        Spacer().frame(height: VPNSpacing.sm)
+                        PowerButton(status: .disconnected) {}
+                            .disabled(true)
+                            .opacity(0.5)
+                        Spacer().frame(height: VPNSpacing.sm)
+                        SkeletonStatsRow()
+                        SkeletonIPCard()
+                    } else if viewModel.servers.isEmpty && viewModel.error != nil {
+                        // Error state
+                        Spacer().frame(height: VPNSpacing.xxl)
+                        ErrorStateView(
+                            message: "Unable to load servers.\nCheck your connection.",
+                            retryAction: { Task { await viewModel.loadServers() } }
+                        )
+                    } else {
+                        // Server card
+                        ServerCard(
+                            server: displayServer,
+                            onChangeTapped: { showServerSheet = true }
+                        )
 
-                    Spacer()
-                        .frame(height: VPNSpacing.sm)
+                        Spacer()
+                            .frame(height: VPNSpacing.sm)
 
-                    // Power button
-                    PowerButton(status: vpn.status) {
-                        handlePowerButtonTap()
+                        // Power button
+                        PowerButton(status: vpn.status) {
+                            handlePowerButtonTap()
+                        }
+
+                        // Status badge + text
+                        VStack(spacing: VPNSpacing.sm) {
+                            StatusBadge(status: vpn.status)
+
+                            Text(statusMessage)
+                                .vpnTextStyle(.body, color: .vpnTextSecondary)
+                        }
+
+                        Spacer()
+                            .frame(height: VPNSpacing.xs)
+
+                        // Quick stats
+                        QuickStatsRow(
+                            isConnected: vpn.status == .connected,
+                            connectedDate: connectedDate
+                        )
+
+                        // IP card
+                        IPAddressCard(
+                            ip: vpn.status == .connected ? vpn.connectedServer?.host : nil,
+                            location: vpn.status == .connected ? serverLocationString : nil
+                        )
                     }
-
-                    // Status badge + text
-                    VStack(spacing: VPNSpacing.sm) {
-                        StatusBadge(status: vpn.status)
-
-                        Text(statusMessage)
-                            .vpnTextStyle(.body, color: .vpnTextSecondary)
-                    }
-
-                    Spacer()
-                        .frame(height: VPNSpacing.xs)
-
-                    // Quick stats
-                    QuickStatsRow(
-                        isConnected: vpn.status == .connected,
-                        connectedDate: connectedDate
-                    )
-
-                    // IP card
-                    IPAddressCard(
-                        ip: vpn.status == .connected ? vpn.connectedServer?.host : nil,
-                        location: vpn.status == .connected ? serverLocationString : nil
-                    )
                 }
                 .padding(.horizontal, VPNSpacing.md)
                 .padding(.top, VPNSpacing.md)
                 .padding(.bottom, 100) // Space for tab bar
+                .animation(.easeInOut(duration: 0.3), value: viewModel.isLoading)
             }
             .scrollIndicators(.hidden)
         }

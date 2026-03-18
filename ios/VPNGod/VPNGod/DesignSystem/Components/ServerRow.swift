@@ -55,6 +55,8 @@ struct ServerRow: View {
         .padding(.vertical, VPNSpacing.sm)
         .padding(.horizontal, VPNSpacing.md)
         .opacity(server.isActive ? 1 : 0.5)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(server.name), \(server.country)\(isConnected ? ", connected" : "")\(isFavorite ? ", favorite" : "")\(server.isActive ? "" : ", unavailable")")
     }
 
     // MARK: - Flag Helper
