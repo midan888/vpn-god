@@ -44,6 +44,7 @@
 		CC0003010000000200000001 /* FavoritesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000200000001 /* FavoritesService.swift */; };
 		CC0003010000000300000001 /* ServerSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000300000001 /* ServerSelectionSheet.swift */; };
 		CC0003010000000400000001 /* ServersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000400000001 /* ServersView.swift */; };
+		DD0004010000000100000001 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0004020000000100000001 /* MainTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		CC0003020000000200000001 /* FavoritesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesService.swift; sourceTree = "<group>"; };
 		CC0003020000000300000001 /* ServerSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionSheet.swift; sourceTree = "<group>"; };
 		CC0003020000000400000001 /* ServersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersView.swift; sourceTree = "<group>"; };
+		DD0004020000000100000001 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +271,7 @@
 				66F9BE4C8AF1C7633D4682F4 /* AuthView.swift */,
 				90304B537A149B7B2766769F /* ConnectionView.swift */,
 				BB0002030000000100000001 /* Home */,
+				DD0004020000000100000001 /* MainTabView.swift */,
 				CC0003030000000100000001 /* Servers */,
 				0083E159B330B8B508FE039B /* ServerListView.swift */,
 				C960B2BCCF82E8CF37176B01 /* SettingsView.swift */,
@@ -405,6 +408,7 @@
 				CC0003010000000200000001 /* FavoritesService.swift in Sources */,
 				CC0003010000000300000001 /* ServerSelectionSheet.swift in Sources */,
 				CC0003010000000400000001 /* ServersView.swift in Sources */,
+				DD0004010000000100000001 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

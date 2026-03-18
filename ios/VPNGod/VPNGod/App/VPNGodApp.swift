@@ -11,7 +11,7 @@ struct VPNGodApp: App {
                 if auth.isLoading {
                     ProgressView("Loading...")
                 } else if auth.isAuthenticated {
-                    HomeView()
+                    MainTabView()
                 } else {
                     AuthView()
                 }
