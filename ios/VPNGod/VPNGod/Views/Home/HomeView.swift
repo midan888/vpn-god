@@ -1,0 +1,299 @@
+import SwiftUI
+
+struct HomeView: View {
+    @Environment(VPNManager.self) private var vpn
+    @State private var viewModel = ServerListViewModel()
+    @State private var showServerSheet = false
+    @State private var selectedServer: Server?
+    @State private var error: String?
+    @State private var showError = false
+    @State private var connectedDate: Date?
+    @State private var uptimeTimer: Timer?
+
+    var body: some View {
+        ZStack {
+            // Background
+            backgroundView
+
+            // Content
+            ScrollView {
+                VStack(spacing: VPNSpacing.lg) {
+                    // Server card
+                    ServerCard(
+                        server: displayServer,
+                        onChangeTapped: { showServerSheet = true }
+                    )
+
+                    Spacer()
+                        .frame(height: VPNSpacing.sm)
+
+                    // Power button
+                    PowerButton(status: vpn.status) {
+                        handlePowerButtonTap()
+                    }
+
+                    // Status badge + text
+                    VStack(spacing: VPNSpacing.sm) {
+                        StatusBadge(status: vpn.status)
+
+                        Text(statusMessage)
+                            .vpnTextStyle(.body, color: .vpnTextSecondary)
+                    }
+
+                    Spacer()
+                        .frame(height: VPNSpacing.xs)
+
+                    // Quick stats
+                    QuickStatsRow(
+                        isConnected: vpn.status == .connected,
+                        connectedDate: connectedDate
+                    )
+
+                    // IP card
+                    IPAddressCard(
+                        ip: vpn.status == .connected ? vpn.connectedServer?.host : nil,
+                        location: vpn.status == .connected ? serverLocationString : nil
+                    )
+                }
+                .padding(.horizontal, VPNSpacing.md)
+                .padding(.top, VPNSpacing.md)
+                .padding(.bottom, 100) // Space for tab bar
+            }
+            .scrollIndicators(.hidden)
+        }
+        .onChange(of: vpn.status) { oldStatus, newStatus in
+            handleStatusChange(from: oldStatus, to: newStatus)
+        }
+        .sheet(isPresented: $showServerSheet) {
+            serverSelectionSheet
+        }
+        .alert("Connection Error", isPresented: $showError) {
+            Button("OK") {}
+        } message: {
+            Text(error ?? "")
+        }
+        .task {
+            await viewModel.loadServers()
+            // Auto-select first server if none selected
+            if selectedServer == nil, let first = viewModel.servers.first(where: { $0.isActive }) {
+                selectedServer = first
+            }
+            // If already connected, sync selected server
+            if let connectedServer = vpn.connectedServer {
+                selectedServer = connectedServer
+            }
+        }
+    }
+
+    // MARK: - Background
+
+    @ViewBuilder
+    private var backgroundView: some View {
+        ZStack {
+            Color.vpnBackground.ignoresSafeArea()
+
+            // Gradient orb that changes with status
+            RadialGradient(
+                colors: [vpn.status.color.opacity(0.15), Color.clear],
+                center: .center,
+                startRadius: 20,
+                endRadius: 300
+            )
+            .offset(y: -60)
+            .ignoresSafeArea()
+            .animation(.easeInOut(duration: 0.8), value: vpn.status)
+        }
+    }
+
+    // MARK: - Server Selection Sheet
+
+    private var serverSelectionSheet: some View {
+        NavigationStack {
+            Group {
+                if viewModel.servers.isEmpty && viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    List {
+                        ForEach(viewModel.servers) { server in
+                            Button {
+                                selectServer(server)
+                            } label: {
+                                serverRow(server)
+                            }
+                            .disabled(!server.isActive)
+                            .listRowBackground(Color.vpnSurface)
+                        }
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                }
+            }
+            .background(Color.vpnBackground)
+            .navigationTitle("Select Server")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { showServerSheet = false }
+                        .foregroundStyle(Color.vpnPrimary)
+                }
+            }
+        }
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+        .presentationBackground(Color.vpnBackground)
+    }
+
+    private func serverRow(_ server: Server) -> some View {
+        HStack(spacing: VPNSpacing.md) {
+            Text(flag(for: server.country))
+                .font(.title2)
+
+            VStack(alignment: .leading, spacing: VPNSpacing.xs) {
+                Text(server.name)
+                    .vpnTextStyle(.body, color: server.isActive ? .vpnTextPrimary : .vpnTextTertiary)
+            }
+
+            Spacer()
+
+            if vpn.connectedServer?.id == server.id && vpn.status == .connected {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundStyle(Color.vpnConnected)
+            } else if selectedServer?.id == server.id {
+                Image(systemName: "checkmark.circle")
+                    .foregroundStyle(Color.vpnPrimary)
+            }
+
+            Circle()
+                .fill(server.isActive ? Color.vpnConnected : Color.vpnInactive)
+                .frame(width: 8, height: 8)
+        }
+        .padding(.vertical, VPNSpacing.xs)
+        .opacity(server.isActive ? 1 : 0.5)
+    }
+
+    // MARK: - Computed Properties
+
+    private var displayServer: Server? {
+        vpn.connectedServer ?? selectedServer
+    }
+
+    private var statusMessage: String {
+        switch vpn.status {
+        case .connected: return "You're invisible."
+        case .connecting: return "Going dark..."
+        case .disconnected: return "You're exposed."
+        case .disconnecting: return "Reconnecting..."
+        }
+    }
+
+    private var serverLocationString: String? {
+        guard let server = vpn.connectedServer else { return nil }
+        return "\(server.name), \(server.country.uppercased())"
+    }
+
+    // MARK: - Actions
+
+    private func handlePowerButtonTap() {
+        triggerHaptic(for: vpn.status)
+
+        Task {
+            do {
+                if vpn.status == .connected {
+                    try await vpn.disconnect()
+                } else if let server = selectedServer {
+                    try await vpn.connect(server: server)
+                } else {
+                    showServerSheet = true
+                }
+            } catch let apiError as APIError {
+                error = apiError.errorDescription
+                showError = true
+            } catch {
+                self.error = "Connection failed. Please try again."
+                showError = true
+            }
+        }
+    }
+
+    private func selectServer(_ server: Server) {
+        selectedServer = server
+        showServerSheet = false
+
+        // Auto-connect if currently disconnected
+        if vpn.status == .disconnected {
+            Task {
+                do {
+                    try await vpn.connect(server: server)
+                } catch let apiError as APIError {
+                    error = apiError.errorDescription
+                    showError = true
+                } catch {
+                    self.error = "Connection failed. Please try again."
+                    showError = true
+                }
+            }
+        } else if vpn.status == .connected {
+            // Switch servers
+            Task {
+                do {
+                    try await vpn.disconnect()
+                    try await vpn.connect(server: server)
+                } catch let apiError as APIError {
+                    error = apiError.errorDescription
+                    showError = true
+                } catch {
+                    self.error = "Connection failed. Please try again."
+                    showError = true
+                }
+            }
+        }
+    }
+
+    // MARK: - Status Change Handling
+
+    private func handleStatusChange(from oldStatus: VPNManager.VPNStatus, to newStatus: VPNManager.VPNStatus) {
+        triggerHaptic(for: newStatus)
+
+        switch newStatus {
+        case .connected:
+            connectedDate = Date()
+        case .disconnected:
+            connectedDate = nil
+        default:
+            break
+        }
+    }
+
+    // MARK: - Haptics
+
+    private func triggerHaptic(for status: VPNManager.VPNStatus) {
+        switch status {
+        case .connected:
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        case .disconnected:
+            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+        case .connecting:
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        case .disconnecting:
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
+    }
+
+    // MARK: - Helpers
+
+    private func flag(for countryCode: String) -> String {
+        let base: UInt32 = 127397
+        return countryCode
+            .uppercased()
+            .unicodeScalars
+            .compactMap { UnicodeScalar(base + $0.value) }
+            .map { String($0) }
+            .joined()
+    }
+}
+
+#Preview {
+    HomeView()
+        .environment(VPNManager.shared)
+}

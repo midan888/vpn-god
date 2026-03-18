@@ -35,6 +35,11 @@
 		AA0001010000000700000001 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000700000001 /* CustomTextField.swift */; };
 		AA0001010000000800000001 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000800000001 /* CustomTabBar.swift */; };
 		AA0001070000000100000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0001030000000100000001 /* Assets.xcassets */; };
+		BB0002010000000100000001 /* PowerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000100000001 /* PowerButton.swift */; };
+		BB0002010000000200000001 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000200000001 /* ServerCard.swift */; };
+		BB0002010000000300000001 /* QuickStatsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000300000001 /* QuickStatsRow.swift */; };
+		BB0002010000000400000001 /* IPAddressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000400000001 /* IPAddressCard.swift */; };
+		BB0002010000000500000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000500000001 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +103,11 @@
 		AA0001020000000700000001 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		AA0001020000000800000001 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		AA0001030000000100000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BB0002020000000100000001 /* PowerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerButton.swift; sourceTree = "<group>"; };
+		BB0002020000000200000001 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
+		BB0002020000000300000001 /* QuickStatsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatsRow.swift; sourceTree = "<group>"; };
+		BB0002020000000400000001 /* IPAddressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressCard.swift; sourceTree = "<group>"; };
+		BB0002020000000500000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +155,10 @@
 				AA0001020000000600000001 /* StatusBadge.swift */,
 				AA0001020000000700000001 /* CustomTextField.swift */,
 				AA0001020000000800000001 /* CustomTabBar.swift */,
+				BB0002020000000100000001 /* PowerButton.swift */,
+				BB0002020000000200000001 /* ServerCard.swift */,
+				BB0002020000000300000001 /* QuickStatsRow.swift */,
+				BB0002020000000400000001 /* IPAddressCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -244,10 +258,19 @@
 			children = (
 				66F9BE4C8AF1C7633D4682F4 /* AuthView.swift */,
 				90304B537A149B7B2766769F /* ConnectionView.swift */,
+				BB0002030000000100000001 /* Home */,
 				0083E159B330B8B508FE039B /* ServerListView.swift */,
 				C960B2BCCF82E8CF37176B01 /* SettingsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		BB0002030000000100000001 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				BB0002020000000500000001 /* HomeView.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -353,6 +376,11 @@
 				AA0001010000000600000001 /* StatusBadge.swift in Sources */,
 				AA0001010000000700000001 /* CustomTextField.swift in Sources */,
 				AA0001010000000800000001 /* CustomTabBar.swift in Sources */,
+				BB0002010000000100000001 /* PowerButton.swift in Sources */,
+				BB0002010000000200000001 /* ServerCard.swift in Sources */,
+				BB0002010000000300000001 /* QuickStatsRow.swift in Sources */,
+				BB0002010000000400000001 /* IPAddressCard.swift in Sources */,
+				BB0002010000000500000001 /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
