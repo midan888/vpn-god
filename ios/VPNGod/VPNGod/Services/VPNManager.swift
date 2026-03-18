@@ -1,0 +1,156 @@
+import Foundation
+import NetworkExtension
+
+@MainActor
+@Observable
+final class VPNManager {
+    static let shared = VPNManager()
+
+    private(set) var status: VPNStatus = .disconnected
+    private(set) var connectedServer: Server?
+
+    private var tunnelManager: NETunnelProviderManager?
+    private var statusObserver: NSObjectProtocol?
+
+    static let appGroupID = "group.com.vpngod.VPNGod"
+
+    enum VPNStatus: Equatable {
+        case disconnected
+        case connecting
+        case connected
+        case disconnecting
+    }
+
+    private init() {
+        observeVPNStatus()
+    }
+
+    // MARK: - Connection
+
+    func connect(server: Server) async throws {
+        status = .connecting
+        connectedServer = server
+
+        do {
+            // Get WireGuard config from backend
+            let config = try await APIClient.shared.connect(serverID: server.id)
+
+            // Save config to App Group for the tunnel extension
+            saveConfigToAppGroup(config)
+
+            // Configure and start the tunnel
+            let manager = try await loadOrCreateTunnelManager()
+            let proto = NETunnelProviderProtocol()
+            proto.providerBundleIdentifier = "com.vpngod.VPNGod.PacketTunnel"
+            proto.serverAddress = server.host
+
+            manager.protocolConfiguration = proto
+            manager.localizedDescription = "VPN God"
+            manager.isEnabled = true
+
+            try await manager.saveToPreferences()
+            try await manager.loadFromPreferences()
+            try manager.connection.startVPNTunnel()
+
+            tunnelManager = manager
+        } catch {
+            status = .disconnected
+            connectedServer = nil
+            throw error
+        }
+    }
+
+    func disconnect() async throws {
+        status = .disconnecting
+
+        tunnelManager?.connection.stopVPNTunnel()
+
+        do {
+            _ = try await APIClient.shared.disconnect()
+        } catch {
+            // Log but don't block UI — tunnel is already stopped locally
+        }
+
+        connectedServer = nil
+        status = .disconnected
+    }
+
+    // MARK: - Status Sync
+
+    func syncStatus() async {
+        guard let manager = try? await loadOrCreateTunnelManager() else {
+            status = .disconnected
+            return
+        }
+
+        tunnelManager = manager
+
+        switch manager.connection.status {
+        case .connected:
+            status = .connected
+        case .connecting, .reasserting:
+            status = .connecting
+        case .disconnecting:
+            status = .disconnecting
+        default:
+            status = .disconnected
+            connectedServer = nil
+        }
+    }
+
+    // MARK: - Private
+
+    private func loadOrCreateTunnelManager() async throws -> NETunnelProviderManager {
+        let managers = try await NETunnelProviderManager.loadAllFromPreferences()
+        if let existing = managers.first {
+            return existing
+        }
+        return NETunnelProviderManager()
+    }
+
+    private func saveConfigToAppGroup(_ config: WireGuardConfig) {
+        guard let defaults = UserDefaults(suiteName: Self.appGroupID) else { return }
+        let data = try? JSONEncoder().encode(config)
+        defaults.set(data, forKey: "wg_config")
+    }
+
+    private func observeVPNStatus() {
+        statusObserver = NotificationCenter.default.addObserver(
+            forName: .NEVPNStatusDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let connection = notification.object as? NEVPNConnection else { return }
+
+            Task { @MainActor in
+                guard let self else { return }
+                switch connection.status {
+                case .connected:
+                    self.status = .connected
+                case .connecting, .reasserting:
+                    self.status = .connecting
+                case .disconnecting:
+                    self.status = .disconnecting
+                case .disconnected, .invalid:
+                    self.status = .disconnected
+                    self.connectedServer = nil
+                @unknown default:
+                    break
+                }
+            }
+        }
+    }
+}
+
+// Make WireGuardConfig Encodable for App Group storage
+extension WireGuardConfig: Encodable {
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(interfacePrivateKey, forKey: .interfacePrivateKey)
+        try container.encode(interfaceAddress, forKey: .interfaceAddress)
+        try container.encode(interfaceDNS, forKey: .interfaceDNS)
+        try container.encode(peerPublicKey, forKey: .peerPublicKey)
+        try container.encode(peerEndpoint, forKey: .peerEndpoint)
+        try container.encode(peerAllowedIPs, forKey: .peerAllowedIPs)
+    }
+}
