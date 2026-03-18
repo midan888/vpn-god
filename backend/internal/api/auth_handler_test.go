@@ -54,10 +54,20 @@ func (m *mockUserStore) GetUserByID(_ context.Context, id uuid.UUID) (*models.Us
 	return nil, store.ErrUserNotFound
 }
 
+type mockServerStore struct{}
+
+func (m *mockServerStore) ListActiveServers(_ context.Context) ([]models.Server, error) {
+	return nil, nil
+}
+
+func (m *mockServerStore) GetServerByID(_ context.Context, _ uuid.UUID) (*models.Server, error) {
+	return nil, store.ErrServerNotFound
+}
+
 func setupRouter() (http.Handler, *mockUserStore) {
 	ms := newMockUserStore()
 	jwtSvc := auth.NewJWTService("test-secret")
-	router := NewRouter(ms, jwtSvc)
+	router := NewRouter(ms, &mockServerStore{}, jwtSvc)
 	return router, ms
 }
 

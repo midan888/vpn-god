@@ -36,9 +36,10 @@ func main() {
 	}
 
 	userStore := store.NewPostgresUserStore(db)
+	serverStore := store.NewPostgresServerStore(db)
 	jwtService := auth.NewJWTService(cfg.JWTSecret)
 
-	router := api.NewRouter(userStore, jwtService)
+	router := api.NewRouter(userStore, serverStore, jwtService)
 
 	srv := &http.Server{
 		Addr:         ":" + cfg.Port,

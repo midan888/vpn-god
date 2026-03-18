@@ -9,7 +9,7 @@ import (
 	"vpn-god/backend/internal/store"
 )
 
-func NewRouter(users store.UserStore, jwtService *auth.JWTService) http.Handler {
+func NewRouter(users store.UserStore, servers store.ServerStore, jwtService *auth.JWTService) http.Handler {
 	mux := http.NewServeMux()
 
 	humaAPI := humago.New(mux, huma.DefaultConfig("VPN God API", "1.0.0"))
@@ -40,6 +40,17 @@ func NewRouter(users store.UserStore, jwtService *auth.JWTService) http.Handler 
 		Summary:     "Refresh access token",
 		Tags:        []string{"Auth"},
 	}, authHandler.Refresh)
+
+	serverHandler := NewServerHandler(servers, jwtService)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodGet,
+		Path:        "/api/v1/servers",
+		OperationID: "list-servers",
+		Summary:     "List available VPN servers",
+		Tags:        []string{"Servers"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, serverHandler.ListServers)
 
 	return mux
 }
