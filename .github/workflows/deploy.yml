@@ -63,11 +63,6 @@ jobs:
                 "$(openssl rand -base64 32)" > .env
             fi
 
-            # Ensure PGWEB_HASH is set
-            if ! grep -q PGWEB_HASH .env; then
-              echo "PGWEB_HASH=${{ secrets.PGWEB_HASH }}" >> .env
-            fi
-
             docker compose -f docker-compose.prod.yml pull backend
             docker compose -f docker-compose.prod.yml up -d
 
