@@ -20,6 +20,8 @@ services:
     image: caddy:2-alpine
     restart: unless-stopped
     network_mode: host
+    environment:
+      PGWEB_HASH: ${PGWEB_HASH}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./certs:/etc/caddy/certs:ro
