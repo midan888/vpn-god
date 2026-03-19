@@ -8,45 +8,45 @@
 
 /* Begin PBXBuildFile section */
 		0BC6A9074EC3AE6C342561FB /* ServerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0083E159B330B8B508FE039B /* ServerListView.swift */; };
+		111BFA2016F0FBE8A5ECFA43 /* QuickStatsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12891530B7BC30168B0EB154 /* QuickStatsRow.swift */; };
+		114E97614EC39E200C587F88 /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387EB815422158E9C026295 /* StatusBadge.swift */; };
+		165992E609C8BC1EEE5AD4E8 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F32D79A095C2D4003A6F06 /* CustomTabBar.swift */; };
 		319322FB489C9FADFEC7F66C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD733ACFAE13B90743AAA37 /* LoginViewModel.swift */; };
 		3314C089959080D3F9DBE038 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975806E95EB96747B89D941C /* APIError.swift */; };
 		3DB1B228E29D9A72BE6D2D87 /* VPNGodApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974BF143F87615280A366A95 /* VPNGodApp.swift */; };
 		4204373DD9E4FCD03B35EE14 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A355366D8D0B466ED437561C /* KeychainService.swift */; };
 		43CF867F747A8CE8C4901639 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A22EE50EF2F3A7DE50A5B5D /* Server.swift */; };
+		46C4F6E4AC79878D383BA3AC /* ServersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46986FA72D7A2FFB95B38F3C /* ServersView.swift */; };
+		4F084FAC9F90EA2F1B58416D /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD85D35E30D407DBAF6C8C7 /* SkeletonView.swift */; };
 		519D6CDA2CA5A9C1697E990B /* VPNManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AF97C0DC9C66AFFE092B50 /* VPNManager.swift */; };
 		52D5808021C94A275DF1C39F /* ServerListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8B6FDF471B82FADA450E59 /* ServerListViewModel.swift */; };
 		5417CA7F0ADF67824C5E5AFE /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F9BE4C8AF1C7633D4682F4 /* AuthView.swift */; };
+		5423A51CE4AED90065EA4CF3 /* PowerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04522C250BA2399F8CCF0457 /* PowerButton.swift */; };
 		59B2DD633D62934DB52067AB /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90304B537A149B7B2766769F /* ConnectionView.swift */; };
 		5A754C2DD5189EB01B659EB2 /* WireGuardConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43981D610D4A40B1B7FA37A3 /* WireGuardConfig.swift */; };
+		5B0A59C15DBE5DC841C24089 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E557789A36C33DF9FD6B1C /* GradientButton.swift */; };
 		5D1D821197A2439D0ACCDC3D /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F5CF36D3C21B0C91FC2383 /* AuthService.swift */; };
+		65DBE236E0C0AC34821E56CD /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9BD72D6E9381B7C2E229126 /* GlassCard.swift */; };
+		6B1FFBD27546DD531D749C2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEFC21B8616FE8E8EB455958 /* Assets.xcassets */; };
+		6BFAC16C4E86F289A181E507 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E19E8AB3EF29EEEA32D36E /* ServerCard.swift */; };
 		77A80C21330207FBE935FFA0 /* WireGuardKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2645556CC991CDD2AA9DAD /* WireGuardKit */; };
+		793A833B1F97CA2D5E415DE2 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC76DF9B808133FC235B3 /* Spacing.swift */; };
+		8F4A5E0B6347B4EE7CE980E1 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3813D598DC18ECD1C489957B /* Typography.swift */; };
+		9D8043D46A57E56BEE8C5EDE /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8C0C8EF0010956B620E6130 /* Colors.swift */; };
+		A71BB6C1B29082426C93B955 /* ServerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D0C6D6EFA2578BFB01FAD5 /* ServerRow.swift */; };
+		AE78A8DCBF37173CC7A3DA6B /* IPAddressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B7E000A64B4FF7C22FB5A0 /* IPAddressCard.swift */; };
 		BA7ABF62F5C3EB9E5997E175 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E913E13A559187D389210A /* PacketTunnelProvider.swift */; };
+		C3304AAE29EA1F0F3AFFA6C9 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C216BF2FC4E10EB47331CA6 /* HomeView.swift */; };
 		CA252858BA14AFC5094054EE /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36365DD09DDCB5D8B95DA08E /* APIClient.swift */; };
 		CB0BF9B04C8E6F19C0B6DD64 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361B8B3A2BE1B5C2713B5537 /* RegisterViewModel.swift */; };
 		D5AF44FF3DD721A3BC9D6FEF /* PacketTunnel.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 6E0E4DE364E7C9F5ADC87092 /* PacketTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D65699B5FD0F57C7CB1A4763 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1356A57495C5EF3B21195FA6 /* CustomTextField.swift */; };
 		DF981B5CAF572AC12E25EAC1 /* AuthModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09E66635BF1366130E2BCAD4 /* AuthModels.swift */; };
+		E091BC15F9C0B42AC6D467BF /* FavoritesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F930A10B68AEFA2C00F6A7 /* FavoritesService.swift */; };
 		E289F31EA01F6CD2C41A430E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C960B2BCCF82E8CF37176B01 /* SettingsView.swift */; };
-		AA0001010000000100000001 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000100000001 /* Colors.swift */; };
-		AA0001010000000200000001 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000200000001 /* Typography.swift */; };
-		AA0001010000000300000001 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000300000001 /* Spacing.swift */; };
-		AA0001010000000400000001 /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000400000001 /* GlassCard.swift */; };
-		AA0001010000000500000001 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000500000001 /* GradientButton.swift */; };
-		AA0001010000000600000001 /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000600000001 /* StatusBadge.swift */; };
-		AA0001010000000700000001 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000700000001 /* CustomTextField.swift */; };
-		AA0001010000000800000001 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0001020000000800000001 /* CustomTabBar.swift */; };
-		AA0001070000000100000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0001030000000100000001 /* Assets.xcassets */; };
-		BB0002010000000100000001 /* PowerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000100000001 /* PowerButton.swift */; };
-		BB0002010000000200000001 /* ServerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000200000001 /* ServerCard.swift */; };
-		BB0002010000000300000001 /* QuickStatsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000300000001 /* QuickStatsRow.swift */; };
-		BB0002010000000400000001 /* IPAddressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000400000001 /* IPAddressCard.swift */; };
-		BB0002010000000500000001 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0002020000000500000001 /* HomeView.swift */; };
-		CC0003010000000100000001 /* ServerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000100000001 /* ServerRow.swift */; };
-		CC0003010000000200000001 /* FavoritesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000200000001 /* FavoritesService.swift */; };
-		CC0003010000000300000001 /* ServerSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000300000001 /* ServerSelectionSheet.swift */; };
-		CC0003010000000400000001 /* ServersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0003020000000400000001 /* ServersView.swift */; };
-		DD0004010000000100000001 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0004020000000100000001 /* MainTabView.swift */; };
-		EE0005010000000100000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0005020000000100000001 /* OnboardingView.swift */; };
-		FF0006010000000100000001 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0006020000000100000001 /* SkeletonView.swift */; };
+		F5351163E942799F9232455B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554A71263A85AC5BC642013E /* MainTabView.swift */; };
+		F60BF42B7974FABC72FD16E0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441630D27D59B281E26B291 /* OnboardingView.swift */; };
+		FECE0613FF47C2C3BC3DA723 /* ServerSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470BD1F9ACE84A929A09B0CA /* ServerSelectionSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,53 +75,53 @@
 
 /* Begin PBXFileReference section */
 		0083E159B330B8B508FE039B /* ServerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListView.swift; sourceTree = "<group>"; };
+		04522C250BA2399F8CCF0457 /* PowerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerButton.swift; sourceTree = "<group>"; };
 		09E66635BF1366130E2BCAD4 /* AuthModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModels.swift; sourceTree = "<group>"; };
+		12891530B7BC30168B0EB154 /* QuickStatsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatsRow.swift; sourceTree = "<group>"; };
+		1356A57495C5EF3B21195FA6 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		172BC76DF9B808133FC235B3 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		1A22EE50EF2F3A7DE50A5B5D /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		1D8B6FDF471B82FADA450E59 /* ServerListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListViewModel.swift; sourceTree = "<group>"; };
+		30F930A10B68AEFA2C00F6A7 /* FavoritesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesService.swift; sourceTree = "<group>"; };
 		361B8B3A2BE1B5C2713B5537 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		36365DD09DDCB5D8B95DA08E /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		36F5CF36D3C21B0C91FC2383 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		3813D598DC18ECD1C489957B /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		43981D610D4A40B1B7FA37A3 /* WireGuardConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireGuardConfig.swift; sourceTree = "<group>"; };
+		46986FA72D7A2FFB95B38F3C /* ServersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersView.swift; sourceTree = "<group>"; };
+		470BD1F9ACE84A929A09B0CA /* ServerSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionSheet.swift; sourceTree = "<group>"; };
+		4C216BF2FC4E10EB47331CA6 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		4D789473EFFCF6DCB6FA4CB2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		554A71263A85AC5BC642013E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		62D0C6D6EFA2578BFB01FAD5 /* ServerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerRow.swift; sourceTree = "<group>"; };
+		66F32D79A095C2D4003A6F06 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		66F9BE4C8AF1C7633D4682F4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		68B7E000A64B4FF7C22FB5A0 /* IPAddressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressCard.swift; sourceTree = "<group>"; };
 		6E0E4DE364E7C9F5ADC87092 /* PacketTunnel.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PacketTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		70C63579F5DDB880E5E816E4 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		75E557789A36C33DF9FD6B1C /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		7C58ACEDDC5243D65D54DF35 /* VPNGod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VPNGod.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80FFF58CE74B8E730685B059 /* PacketTunnel.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = PacketTunnel.xcconfig; sourceTree = "<group>"; };
+		8387EB815422158E9C026295 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
 		90304B537A149B7B2766769F /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
 		974BF143F87615280A366A95 /* VPNGodApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNGodApp.swift; sourceTree = "<group>"; };
 		975806E95EB96747B89D941C /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		99E913E13A559187D389210A /* PacketTunnelProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PacketTunnelProvider.swift; sourceTree = "<group>"; };
 		A355366D8D0B466ED437561C /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		A4E19E8AB3EF29EEEA32D36E /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
+		A9BD72D6E9381B7C2E229126 /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
 		ADD733ACFAE13B90743AAA37 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B3AF97C0DC9C66AFFE092B50 /* VPNManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPNManager.swift; sourceTree = "<group>"; };
 		C155DE43C5EB3256781248FC /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		C8C0C8EF0010956B620E6130 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C960B2BCCF82E8CF37176B01 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CCD85D35E30D407DBAF6C8C7 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
+		CEFC21B8616FE8E8EB455958 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D04C43D26D6A7E4C7CAF6029 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D441630D27D59B281E26B291 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		DCA040B594CB2708E3FF4529 /* PacketTunnel.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PacketTunnel.entitlements; sourceTree = "<group>"; };
 		E9029145B671B3029C3A214D /* wireguard-apple */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "wireguard-apple"; path = "../wireguard-apple"; sourceTree = SOURCE_ROOT; };
 		FDB48CA65D3BCA11E2CE111B /* VPNGod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VPNGod.entitlements; sourceTree = "<group>"; };
-		AA0001020000000100000001 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		AA0001020000000200000001 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		AA0001020000000300000001 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
-		AA0001020000000400000001 /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
-		AA0001020000000500000001 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
-		AA0001020000000600000001 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
-		AA0001020000000700000001 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
-		AA0001020000000800000001 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
-		AA0001030000000100000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BB0002020000000100000001 /* PowerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerButton.swift; sourceTree = "<group>"; };
-		BB0002020000000200000001 /* ServerCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerCard.swift; sourceTree = "<group>"; };
-		BB0002020000000300000001 /* QuickStatsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatsRow.swift; sourceTree = "<group>"; };
-		BB0002020000000400000001 /* IPAddressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressCard.swift; sourceTree = "<group>"; };
-		BB0002020000000500000001 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		CC0003020000000100000001 /* ServerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerRow.swift; sourceTree = "<group>"; };
-		CC0003020000000200000001 /* FavoritesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesService.swift; sourceTree = "<group>"; };
-		CC0003020000000300000001 /* ServerSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSelectionSheet.swift; sourceTree = "<group>"; };
-		CC0003020000000400000001 /* ServersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServersView.swift; sourceTree = "<group>"; };
-		DD0004020000000100000001 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		EE0005020000000100000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		FF0006020000000100000001 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,47 +136,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		049E25B2D3F95B4821CC56A5 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				D441630D27D59B281E26B291 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		141BEC82EA664EDC0F92A86C /* VPNGod */ = {
 			isa = PBXGroup;
 			children = (
+				CEFC21B8616FE8E8EB455958 /* Assets.xcassets */,
 				8C84C3C9458979EB88D3FA04 /* App */,
-				AA0001040000000100000001 /* DesignSystem */,
+				F235E1346089D2EBB7652796 /* DesignSystem */,
 				4150A7666DF825DF4ABB6674 /* Models */,
 				66E7E86F45B16B48BDD3FE07 /* Services */,
 				9D1AEFF542401DB5BC6C5EDE /* ViewModels */,
 				FF00DB92CCB7C7E41A418485 /* Views */,
-				AA0001030000000100000001 /* Assets.xcassets */,
 			);
 			path = VPNGod;
-			sourceTree = "<group>";
-		};
-		AA0001040000000100000001 /* DesignSystem */ = {
-			isa = PBXGroup;
-			children = (
-				AA0001020000000100000001 /* Colors.swift */,
-				AA0001020000000200000001 /* Typography.swift */,
-				AA0001020000000300000001 /* Spacing.swift */,
-				AA0001050000000100000001 /* Components */,
-			);
-			path = DesignSystem;
-			sourceTree = "<group>";
-		};
-		AA0001050000000100000001 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				AA0001020000000400000001 /* GlassCard.swift */,
-				AA0001020000000500000001 /* GradientButton.swift */,
-				AA0001020000000600000001 /* StatusBadge.swift */,
-				AA0001020000000700000001 /* CustomTextField.swift */,
-				AA0001020000000800000001 /* CustomTabBar.swift */,
-				BB0002020000000100000001 /* PowerButton.swift */,
-				BB0002020000000200000001 /* ServerCard.swift */,
-				BB0002020000000300000001 /* QuickStatsRow.swift */,
-				BB0002020000000400000001 /* IPAddressCard.swift */,
-				CC0003020000000100000001 /* ServerRow.swift */,
-				FF0006020000000100000001 /* SkeletonView.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		4150A7666DF825DF4ABB6674 /* Models */ = {
@@ -203,9 +182,9 @@
 			children = (
 				36365DD09DDCB5D8B95DA08E /* APIClient.swift */,
 				36F5CF36D3C21B0C91FC2383 /* AuthService.swift */,
+				30F930A10B68AEFA2C00F6A7 /* FavoritesService.swift */,
 				A355366D8D0B466ED437561C /* KeychainService.swift */,
 				B3AF97C0DC9C66AFFE092B50 /* VPNManager.swift */,
-				CC0003020000000200000001 /* FavoritesService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -241,6 +220,33 @@
 			path = PacketTunnel;
 			sourceTree = "<group>";
 		};
+		A7C189D8A186D50C6DC8E06D /* Servers */ = {
+			isa = PBXGroup;
+			children = (
+				470BD1F9ACE84A929A09B0CA /* ServerSelectionSheet.swift */,
+				46986FA72D7A2FFB95B38F3C /* ServersView.swift */,
+			);
+			path = Servers;
+			sourceTree = "<group>";
+		};
+		B8156AA6099C0084394869AC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				66F32D79A095C2D4003A6F06 /* CustomTabBar.swift */,
+				1356A57495C5EF3B21195FA6 /* CustomTextField.swift */,
+				A9BD72D6E9381B7C2E229126 /* GlassCard.swift */,
+				75E557789A36C33DF9FD6B1C /* GradientButton.swift */,
+				68B7E000A64B4FF7C22FB5A0 /* IPAddressCard.swift */,
+				04522C250BA2399F8CCF0457 /* PowerButton.swift */,
+				12891530B7BC30168B0EB154 /* QuickStatsRow.swift */,
+				A4E19E8AB3EF29EEEA32D36E /* ServerCard.swift */,
+				62D0C6D6EFA2578BFB01FAD5 /* ServerRow.swift */,
+				CCD85D35E30D407DBAF6C8C7 /* SkeletonView.swift */,
+				8387EB815422158E9C026295 /* StatusBadge.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		BFAEB6DDC26D491B688AA9A3 /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,6 +265,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F07EB9E714866A2BB7A4BFA5 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4C216BF2FC4E10EB47331CA6 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		F235E1346089D2EBB7652796 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				C8C0C8EF0010956B620E6130 /* Colors.swift */,
+				172BC76DF9B808133FC235B3 /* Spacing.swift */,
+				3813D598DC18ECD1C489957B /* Typography.swift */,
+				B8156AA6099C0084394869AC /* Components */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
 		F42DE37B1D41C4A89DE01D7E = {
 			isa = PBXGroup;
 			children = (
@@ -275,39 +300,14 @@
 			children = (
 				66F9BE4C8AF1C7633D4682F4 /* AuthView.swift */,
 				90304B537A149B7B2766769F /* ConnectionView.swift */,
-				BB0002030000000100000001 /* Home */,
-				DD0004020000000100000001 /* MainTabView.swift */,
-				EE0005030000000100000001 /* Onboarding */,
-				CC0003030000000100000001 /* Servers */,
+				554A71263A85AC5BC642013E /* MainTabView.swift */,
 				0083E159B330B8B508FE039B /* ServerListView.swift */,
 				C960B2BCCF82E8CF37176B01 /* SettingsView.swift */,
+				F07EB9E714866A2BB7A4BFA5 /* Home */,
+				049E25B2D3F95B4821CC56A5 /* Onboarding */,
+				A7C189D8A186D50C6DC8E06D /* Servers */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		CC0003030000000100000001 /* Servers */ = {
-			isa = PBXGroup;
-			children = (
-				CC0003020000000300000001 /* ServerSelectionSheet.swift */,
-				CC0003020000000400000001 /* ServersView.swift */,
-			);
-			path = Servers;
-			sourceTree = "<group>";
-		};
-		EE0005030000000100000001 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				EE0005020000000100000001 /* OnboardingView.swift */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		BB0002030000000100000001 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				BB0002020000000500000001 /* HomeView.swift */,
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,7 +337,7 @@
 			buildConfigurationList = 5A8400749CC1D9E6F545D839 /* Build configuration list for PBXNativeTarget "VPNGod" */;
 			buildPhases = (
 				3340A61F7A625E44895AC35C /* Sources */,
-				AA0001060000000100000001 /* Resources */,
+				FECE233F1CD55ECA01F7D375 /* Resources */,
 				E404293801B8C100B24E964C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -359,7 +359,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2630;
 			};
 			buildConfigurationList = 5995E59168903964F96DB97C /* Build configuration list for PBXProject "VPNGod" */;
 			developmentRegion = en;
@@ -384,6 +384,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		FECE233F1CD55ECA01F7D375 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6B1FFBD27546DD531D749C2C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3340A61F7A625E44895AC35C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -394,37 +405,37 @@
 				DF981B5CAF572AC12E25EAC1 /* AuthModels.swift in Sources */,
 				5D1D821197A2439D0ACCDC3D /* AuthService.swift in Sources */,
 				5417CA7F0ADF67824C5E5AFE /* AuthView.swift in Sources */,
+				9D8043D46A57E56BEE8C5EDE /* Colors.swift in Sources */,
 				59B2DD633D62934DB52067AB /* ConnectionView.swift in Sources */,
+				165992E609C8BC1EEE5AD4E8 /* CustomTabBar.swift in Sources */,
+				D65699B5FD0F57C7CB1A4763 /* CustomTextField.swift in Sources */,
+				E091BC15F9C0B42AC6D467BF /* FavoritesService.swift in Sources */,
+				65DBE236E0C0AC34821E56CD /* GlassCard.swift in Sources */,
+				5B0A59C15DBE5DC841C24089 /* GradientButton.swift in Sources */,
+				C3304AAE29EA1F0F3AFFA6C9 /* HomeView.swift in Sources */,
+				AE78A8DCBF37173CC7A3DA6B /* IPAddressCard.swift in Sources */,
 				4204373DD9E4FCD03B35EE14 /* KeychainService.swift in Sources */,
 				319322FB489C9FADFEC7F66C /* LoginViewModel.swift in Sources */,
+				F5351163E942799F9232455B /* MainTabView.swift in Sources */,
+				F60BF42B7974FABC72FD16E0 /* OnboardingView.swift in Sources */,
+				5423A51CE4AED90065EA4CF3 /* PowerButton.swift in Sources */,
+				111BFA2016F0FBE8A5ECFA43 /* QuickStatsRow.swift in Sources */,
 				CB0BF9B04C8E6F19C0B6DD64 /* RegisterViewModel.swift in Sources */,
 				43CF867F747A8CE8C4901639 /* Server.swift in Sources */,
+				6BFAC16C4E86F289A181E507 /* ServerCard.swift in Sources */,
 				0BC6A9074EC3AE6C342561FB /* ServerListView.swift in Sources */,
 				52D5808021C94A275DF1C39F /* ServerListViewModel.swift in Sources */,
+				A71BB6C1B29082426C93B955 /* ServerRow.swift in Sources */,
+				FECE0613FF47C2C3BC3DA723 /* ServerSelectionSheet.swift in Sources */,
+				46C4F6E4AC79878D383BA3AC /* ServersView.swift in Sources */,
 				E289F31EA01F6CD2C41A430E /* SettingsView.swift in Sources */,
+				4F084FAC9F90EA2F1B58416D /* SkeletonView.swift in Sources */,
+				793A833B1F97CA2D5E415DE2 /* Spacing.swift in Sources */,
+				114E97614EC39E200C587F88 /* StatusBadge.swift in Sources */,
+				8F4A5E0B6347B4EE7CE980E1 /* Typography.swift in Sources */,
 				3DB1B228E29D9A72BE6D2D87 /* VPNGodApp.swift in Sources */,
 				519D6CDA2CA5A9C1697E990B /* VPNManager.swift in Sources */,
 				5A754C2DD5189EB01B659EB2 /* WireGuardConfig.swift in Sources */,
-				AA0001010000000100000001 /* Colors.swift in Sources */,
-				AA0001010000000200000001 /* Typography.swift in Sources */,
-				AA0001010000000300000001 /* Spacing.swift in Sources */,
-				AA0001010000000400000001 /* GlassCard.swift in Sources */,
-				AA0001010000000500000001 /* GradientButton.swift in Sources */,
-				AA0001010000000600000001 /* StatusBadge.swift in Sources */,
-				AA0001010000000700000001 /* CustomTextField.swift in Sources */,
-				AA0001010000000800000001 /* CustomTabBar.swift in Sources */,
-				BB0002010000000100000001 /* PowerButton.swift in Sources */,
-				BB0002010000000200000001 /* ServerCard.swift in Sources */,
-				BB0002010000000300000001 /* QuickStatsRow.swift in Sources */,
-				BB0002010000000400000001 /* IPAddressCard.swift in Sources */,
-				BB0002010000000500000001 /* HomeView.swift in Sources */,
-				CC0003010000000100000001 /* ServerRow.swift in Sources */,
-				CC0003010000000200000001 /* FavoritesService.swift in Sources */,
-				CC0003010000000300000001 /* ServerSelectionSheet.swift in Sources */,
-				CC0003010000000400000001 /* ServersView.swift in Sources */,
-				DD0004010000000100000001 /* MainTabView.swift in Sources */,
-				EE0005010000000100000001 /* OnboardingView.swift in Sources */,
-				FF0006010000000100000001 /* SkeletonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,17 +448,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXResourcesBuildPhase section */
-		AA0001060000000100000001 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AA0001070000000100000001 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		57CE9F0B8D197B8AC03A8AF1 /* PBXTargetDependency */ = {
@@ -495,6 +495,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -508,6 +509,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
@@ -537,7 +539,6 @@
 			baseConfigurationReference = 80FFF58CE74B8E730685B059 /* PacketTunnel.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PacketTunnel/PacketTunnel.entitlements;
-				DEVELOPMENT_TEAM = D4DPR2Z5GA;
 				INFOPLIST_FILE = PacketTunnel/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -587,6 +588,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -607,6 +609,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
@@ -621,7 +624,6 @@
 				CODE_SIGN_ENTITLEMENTS = VPNGod/App/VPNGod.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = D4DPR2Z5GA;
 				INFOPLIST_FILE = VPNGod/App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

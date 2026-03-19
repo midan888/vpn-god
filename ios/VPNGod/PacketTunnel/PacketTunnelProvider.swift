@@ -1,8 +1,11 @@
 import NetworkExtension
+import os.log
 
 #if !targetEnvironment(simulator)
 import WireGuardKit
 #endif
+
+private let log = OSLog(subsystem: "com.vpngod.VPNGod.PacketTunnel", category: "tunnel")
 
 class PacketTunnelProvider: NEPacketTunnelProvider {
 
@@ -34,12 +37,23 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
         try await setTunnelNetworkSettings(settings)
         #else
         let tunnelConfig = try config.toTunnelConfiguration()
+        os_log(.default, log: log, "endpoint = %{public}s", config.peerEndpoint)
+        os_log(.default, log: log, "interface address = %{public}s", config.interfaceAddress)
+        os_log(.default, log: log, "allowed IPs = %{public}s", config.peerAllowedIPs)
+        os_log(.default, log: log, "interface addresses count = %{public}d", tunnelConfig.interface.addresses.count)
+        for addr in tunnelConfig.interface.addresses {
+            os_log(.default, log: log, "parsed address = %{public}s", addr.stringRepresentation)
+        }
+        for peer in tunnelConfig.peers {
+            os_log(.default, log: log, "resolved endpoint = %{public}s", peer.endpoint?.stringRepresentation ?? "nil")
+        }
         return try await withCheckedThrowingContinuation { continuation in
             adapter.start(tunnelConfiguration: tunnelConfig) { adapterError in
                 if let adapterError {
-                    NSLog("WireGuard adapter start error: \(adapterError)")
+                    os_log(.error, log: log, "adapter start error: %{public}s", "\(adapterError)")
                     continuation.resume(throwing: adapterError)
                 } else {
+                    os_log(.default, log: log, "adapter started successfully")
                     continuation.resume()
                 }
             }

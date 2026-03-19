@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 
 	"vpn-god/backend/internal/auth"
 	"vpn-god/backend/internal/models"
@@ -99,9 +100,11 @@ func (h *ConnectHandler) Connect(ctx context.Context, input *ConnectInput) (*Con
 	}
 
 	// Build WireGuard config for the client
+	// Strip CIDR suffix from Postgres INET (e.g. "10.0.0.2/32" → "10.0.0.2")
+	ip, _, _ := strings.Cut(peer.AssignedIP, "/")
 	config := models.WireGuardConfig{
 		InterfacePrivateKey: peer.PrivateKey,
-		InterfaceAddress:    fmt.Sprintf("%s/32", peer.AssignedIP),
+		InterfaceAddress:    fmt.Sprintf("%s/32", ip),
 		InterfaceDNS:        "1.1.1.1",
 		PeerPublicKey:       server.PublicKey,
 		PeerEndpoint:        fmt.Sprintf("%s:%d", server.Host, server.Port),
