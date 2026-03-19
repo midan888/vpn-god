@@ -44,13 +44,16 @@ func (h *ConnectHandler) Connect(ctx context.Context, input *ConnectInput) (*Con
 		return nil, err
 	}
 
-	// Check if user already has an active connection
+	// If user already has an active connection, clean it up first
 	existingPeer, err := h.peers.GetPeerByUserID(ctx, userID)
 	if err != nil && !errors.Is(err, store.ErrPeerNotFound) {
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 	if existingPeer != nil {
-		return nil, huma.Error409Conflict("already connected, disconnect first")
+		_ = h.wg.RemovePeer(existingPeer.PublicKey)
+		if err := h.peers.DeletePeerByUserID(ctx, userID); err != nil {
+			return nil, huma.Error500InternalServerError("internal server error")
+		}
 	}
 
 	// Validate server exists and is active
@@ -85,9 +88,6 @@ func (h *ConnectHandler) Connect(ctx context.Context, input *ConnectInput) (*Con
 	// Store peer in database
 	peer, err := h.peers.CreatePeer(ctx, userID, server.ID, keyPair.PrivateKey, keyPair.PublicKey, clientIP)
 	if err != nil {
-		if errors.Is(err, store.ErrPeerExists) {
-			return nil, huma.Error409Conflict("already connected, disconnect first")
-		}
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 
