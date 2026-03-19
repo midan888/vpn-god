@@ -3,3 +3,12 @@ api.vpndan.com {
 
 	tls /etc/caddy/certs/vpndan.com.crt /etc/caddy/certs/vpndan.com.key
 }
+
+db.vpndan.com {
+	basic_auth {
+		midan888 {env.PGWEB_HASH}
+	}
+	reverse_proxy localhost:8081
+
+	tls /etc/caddy/certs/vpndan.com.crt /etc/caddy/certs/vpndan.com.key
+}
