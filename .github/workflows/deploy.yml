@@ -53,6 +53,7 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           script: |
             set -e
+            mkdir -p /root/vpngod
             cd /root/vpngod
 
             # Generate secrets on first deploy
@@ -64,3 +65,16 @@ jobs:
 
             docker compose -f docker-compose.prod.yml pull backend
             docker compose -f docker-compose.prod.yml up -d
+
+      - name: Notify Telegram
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            MESSAGE="✅ *VPN God* deployed successfully%0ACommit: \`${GITHUB_SHA::7}\`%0ABy: ${{ github.actor }}"
+          else
+            MESSAGE="❌ *VPN God* deploy failed%0ACommit: \`${GITHUB_SHA::7}\`%0ABy: ${{ github.actor }}"
+          fi
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d chat_id=${{ vars.TELEGRAM_CHAT_ID }} \
+            -d text="$MESSAGE" \
+            -d parse_mode=Markdown
