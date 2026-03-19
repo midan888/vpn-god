@@ -36,14 +36,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy files to VPS
+      - name: Copy compose file to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: 31.220.4.216
           username: root
           password: ${{ secrets.VPS_PASSWORD }}
-          source: "docker-compose.prod.yml,Caddyfile"
+          source: docker-compose.prod.yml
           target: /root/vpngod/
+          strip_components: 1
+
+      - name: Copy Caddyfile to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 31.220.4.216
+          username: root
+          password: ${{ secrets.VPS_PASSWORD }}
+          source: Caddyfile
+          target: /root/vpngod/
+          strip_components: 1
 
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v1
