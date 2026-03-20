@@ -26,8 +26,7 @@ services:
       - caddy_config:/config
 
   wireguard:
-    build:
-      context: ./wireguard-gateway
+    image: ghcr.io/midan888/vpn-god/wireguard-gateway:latest
     restart: unless-stopped
     network_mode: host
     environment:

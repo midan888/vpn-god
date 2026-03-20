@@ -5,7 +5,8 @@ on:
     branches: [main]
 
 env:
-  IMAGE: ghcr.io/${{ github.repository }}/backend
+  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
+  WIREGUARD_IMAGE: ghcr.io/${{ github.repository }}/wireguard-gateway
 
 jobs:
   build:
@@ -27,8 +28,16 @@ jobs:
           context: ./backend
           push: true
           tags: |
-            ${{ env.IMAGE }}:${{ github.sha }}
-            ${{ env.IMAGE }}:latest
+            ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+            ${{ env.BACKEND_IMAGE }}:latest
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: ./wireguard-gateway
+          push: true
+          tags: |
+            ${{ env.WIREGUARD_IMAGE }}:${{ github.sha }}
+            ${{ env.WIREGUARD_IMAGE }}:latest
 
   deploy:
     needs: build
@@ -63,7 +72,7 @@ jobs:
                 "$(openssl rand -base64 32)" > .env
             fi
 
-            docker compose -f docker-compose.prod.yml pull backend
+            docker compose -f docker-compose.prod.yml pull backend wireguard
             docker compose -f docker-compose.prod.yml up -d
 
       - name: Notify Telegram
