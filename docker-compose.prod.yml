@@ -8,8 +8,6 @@ services:
       POSTGRES_DB: vpngod
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - "127.0.0.1:5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -19,7 +17,10 @@ services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
@@ -28,11 +29,12 @@ services:
   wireguard:
     image: ghcr.io/midan888/vpn-god/wireguard-gateway:latest
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - "51820:51820/udp"
     environment:
       WG_ADDRESS: 10.0.0.1/24
       WG_LISTEN_PORT: "51820"
-      WG_ADMIN_ADDR: 127.0.0.1:9080
+      WG_ADMIN_ADDR: 0.0.0.0:9080
     cap_add:
       - NET_ADMIN
     volumes:
@@ -45,12 +47,13 @@ services:
   backend:
     image: ghcr.io/midan888/vpn-god/backend:latest
     restart: unless-stopped
-    network_mode: host
+    ports:
+      - "127.0.0.1:8080:8080"
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@127.0.0.1:5432/vpngod?sslmode=disable
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/vpngod?sslmode=disable
       JWT_SECRET: ${JWT_SECRET}
       PORT: "8080"
-      WIREGUARD_ADMIN_URL: http://127.0.0.1:9080
+      WIREGUARD_ADMIN_URL: http://wireguard:9080
     depends_on:
       postgres:
         condition: service_healthy
@@ -60,9 +63,10 @@ services:
   pgweb:
     image: sosedoff/pgweb:latest
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:8081:8081"
     environment:
-      PGWEB_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@127.0.0.1:5432/vpngod?sslmode=disable
-    network_mode: host
+      PGWEB_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/vpngod?sslmode=disable
     depends_on:
       postgres:
         condition: service_healthy

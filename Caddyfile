@@ -1,10 +1,10 @@
 api.vpndan.com {
-	reverse_proxy localhost:8080
+	reverse_proxy backend:8080
 }
 
 db.vpndan.com {
 	basic_auth {
 		midan888 $2a$14$A2AMZmSENam/kqOUk84xhOYqiBypnW2FWFSX69fRh15h1T8EyOWo2
 	}
-	reverse_proxy localhost:8081
+	reverse_proxy pgweb:8081
 }
