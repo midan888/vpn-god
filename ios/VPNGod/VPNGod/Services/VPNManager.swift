@@ -17,6 +17,7 @@ final class VPNManager {
 
     private var tunnelManager: NETunnelProviderManager?
     private var statusObserver: NSObjectProtocol?
+    private var isManualOperation = false
 
     static let appGroupID = "group.com.vpngod.VPNGod"
 
@@ -36,6 +37,9 @@ final class VPNManager {
     func connect(server: Server) async throws {
         print("[VPNManager] connect() called — server=\(server.name) id=\(server.id) host=\(server.host)")
 
+        isManualOperation = true
+        status = .connecting
+
         // If already connected, stop the tunnel first so API calls don't route through it
         if tunnelManager?.connection.status == .connected ||
            tunnelManager?.connection.status == .connecting {
@@ -44,8 +48,6 @@ final class VPNManager {
             // Give the OS a moment to tear down the tunnel route
             try await Task.sleep(for: .milliseconds(500))
         }
-
-        status = .connecting
         connectedServer = server
 
         do {
@@ -99,8 +101,13 @@ final class VPNManager {
             }
 
             tunnelManager = manager
+
+            // Wait for the tunnel to reach .connected before releasing control to the observer
+            await waitForConnection(manager: manager)
+            isManualOperation = false
         } catch {
             print("[VPNManager] connect() failed — resetting to disconnected: \(error)")
+            isManualOperation = false
             status = .disconnected
             connectedServer = nil
             throw error
@@ -108,6 +115,7 @@ final class VPNManager {
     }
 
     func disconnect() async throws {
+        isManualOperation = true
         status = .disconnecting
 
         tunnelManager?.connection.stopVPNTunnel()
@@ -123,6 +131,7 @@ final class VPNManager {
 
         connectedServer = nil
         status = .disconnected
+        isManualOperation = false
     }
 
     // MARK: - Status Sync
@@ -241,6 +250,70 @@ final class VPNManager {
         }
     }
 
+    private func waitForConnection(manager: NETunnelProviderManager) async {
+        // Wait for a terminal state using notifications.
+        // After startVPNTunnel(), the OS may briefly report .disconnected before
+        // transitioning to .connecting, so we ignore .disconnected until we've
+        // seen .connecting at least once.
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            var observer: NSObjectProtocol?
+            var resumed = false
+            var sawConnecting = false
+
+            let finish = { [weak self] (connected: Bool) in
+                guard !resumed else { return }
+                resumed = true
+                if let observer { NotificationCenter.default.removeObserver(observer) }
+                Task { @MainActor in
+                    if connected {
+                        self?.status = .connected
+                        self?.connectedDate = Date()
+                        self?.startStatsPolling()
+                        Task { await self?.fetchPublicIP() }
+                    } else {
+                        self?.status = .disconnected
+                        self?.connectedServer = nil
+                    }
+                    continuation.resume()
+                }
+            }
+
+            // Check if already connected before subscribing
+            if manager.connection.status == .connected {
+                finish(true)
+                return
+            }
+
+            observer = NotificationCenter.default.addObserver(
+                forName: .NEVPNStatusDidChange,
+                object: manager.connection,
+                queue: .main
+            ) { notification in
+                guard let connection = notification.object as? NEVPNConnection else { return }
+                switch connection.status {
+                case .connected:
+                    finish(true)
+                case .connecting, .reasserting:
+                    sawConnecting = true
+                case .disconnected, .invalid:
+                    // Only treat as failure after we've seen .connecting.
+                    // The OS briefly fires .disconnected right after startVPNTunnel.
+                    if sawConnecting {
+                        finish(false)
+                    }
+                default:
+                    break
+                }
+            }
+
+            // Timeout after 15 seconds
+            Task {
+                try? await Task.sleep(for: .seconds(15))
+                finish(false)
+            }
+        }
+    }
+
     private func observeVPNStatus() {
         statusObserver = NotificationCenter.default.addObserver(
             forName: .NEVPNStatusDidChange,
@@ -251,6 +324,10 @@ final class VPNManager {
 
             Task { @MainActor in
                 guard let self else { return }
+
+                // During manual connect/disconnect, let the calling method control status
+                if self.isManualOperation { return }
+
                 switch connection.status {
                 case .connected:
                     self.status = .connected
