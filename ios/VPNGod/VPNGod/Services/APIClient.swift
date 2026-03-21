@@ -45,8 +45,11 @@ actor APIClient {
     // MARK: - Connect Endpoints
 
     func connect(serverID: UUID) async throws -> WireGuardConfig {
+        print("[APIClient] POST /connect serverID=\(serverID)")
         let body = ConnectRequest(serverID: serverID)
-        return try await post("/connect", body: body, authenticated: true)
+        let config: WireGuardConfig = try await post("/connect", body: body, authenticated: true)
+        print("[APIClient] /connect success — endpoint=\(config.peerEndpoint) clientIP=\(config.interfaceAddress)")
+        return config
     }
 
     func disconnect() async throws -> DisconnectResponse {
@@ -95,22 +98,34 @@ actor APIClient {
     // MARK: - Execution with Auto-Refresh
 
     private func execute<T: Decodable>(_ request: URLRequest) async throws -> T {
+        let method = request.httpMethod ?? "?"
+        let url = request.url?.absoluteString ?? "?"
+        print("[APIClient] \(method) \(url)")
+
         let data: Data
         let response: URLResponse
 
         do {
             (data, response) = try await session.data(for: request)
         } catch {
+            print("[APIClient] network error for \(method) \(url): \(error)")
             throw APIError.networkError(error)
         }
 
         guard let httpResponse = response as? HTTPURLResponse else {
+            print("[APIClient] non-HTTP response for \(method) \(url)")
             throw APIError.serverError
+        }
+
+        print("[APIClient] \(method) \(url) → \(httpResponse.statusCode)")
+        if let body = String(data: data, encoding: .utf8) {
+            print("[APIClient] response body: \(body)")
         }
 
         // If 401 and this was an authenticated request, try token refresh
         if httpResponse.statusCode == 401,
            request.value(forHTTPHeaderField: "Authorization") != nil {
+            print("[APIClient] 401 — attempting token refresh and retry")
             return try await handleTokenRefreshAndRetry(originalRequest: request)
         }
 

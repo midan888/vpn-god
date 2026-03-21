@@ -28,9 +28,12 @@ final class VPNManager {
     // MARK: - Connection
 
     func connect(server: Server) async throws {
+        print("[VPNManager] connect() called — server=\(server.name) id=\(server.id) host=\(server.host)")
+
         // If already connected, stop the tunnel first so API calls don't route through it
         if tunnelManager?.connection.status == .connected ||
            tunnelManager?.connection.status == .connecting {
+            print("[VPNManager] existing tunnel active — stopping before reconnect")
             tunnelManager?.connection.stopVPNTunnel()
             // Give the OS a moment to tear down the tunnel route
             try await Task.sleep(for: .milliseconds(500))
@@ -41,15 +44,19 @@ final class VPNManager {
 
         do {
             // Get WireGuard config from backend
+            print("[VPNManager] requesting WireGuard config from API for serverID=\(server.id)")
             let config: WireGuardConfig
             do {
                 config = try await APIClient.shared.connect(serverID: server.id)
             } catch let error as APIError {
+                print("[VPNManager] API connect failed: \(error)")
                 throw mapConnectError(error)
             }
+            print("[VPNManager] received config — endpoint=\(config.peerEndpoint) clientIP=\(config.interfaceAddress)")
 
             // Save config to App Group for the tunnel extension
             saveConfigToAppGroup(config)
+            print("[VPNManager] config saved to App Group")
 
             // Configure and start the tunnel
             let manager = try await loadOrCreateTunnelManager()
@@ -62,25 +69,32 @@ final class VPNManager {
             manager.localizedDescription = "VPN God"
             manager.isEnabled = true
 
+            print("[VPNManager] saving tunnel preferences")
             do {
                 try await manager.saveToPreferences()
             } catch {
+                print("[VPNManager] saveToPreferences failed (permission denied?): \(error)")
                 // saveToPreferences fails if user taps "Don't Allow" on the VPN permission prompt
                 throw APIError.vpnPermissionRequired
             }
 
             try await manager.loadFromPreferences()
+            print("[VPNManager] preferences loaded — starting tunnel")
 
             do {
                 try manager.connection.startVPNTunnel()
+                print("[VPNManager] startVPNTunnel() called successfully")
             } catch NEVPNError.configurationDisabled {
+                print("[VPNManager] startVPNTunnel failed: configurationDisabled")
                 throw APIError.vpnPermissionRequired
             } catch {
+                print("[VPNManager] startVPNTunnel failed: \(error)")
                 throw APIError.vpnConnectionFailed
             }
 
             tunnelManager = manager
         } catch {
+            print("[VPNManager] connect() failed — resetting to disconnected: \(error)")
             status = .disconnected
             connectedServer = nil
             throw error

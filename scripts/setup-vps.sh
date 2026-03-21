@@ -2,27 +2,25 @@
 set -euo pipefail
 
 # Host bootstrap for VPN God.
-# This prepares the VPS for the containerized WireGuard gateway.
+# This prepares the VPS for the fully containerized stack.
+# WireGuard runs entirely inside Docker — no host WireGuard packages needed.
 
 echo "==> Applying host sysctl settings..."
 cat > /etc/sysctl.d/99-vpngod.conf <<'EOF'
 net.ipv4.ip_forward=1
 net.ipv4.conf.all.src_valid_mark=1
-net.ipv4.conf.all.rp_filter=0
-net.ipv4.conf.default.rp_filter=0
-net.ipv4.conf.eth0.rp_filter=0
 EOF
 sysctl -p /etc/sysctl.d/99-vpngod.conf
+
+echo "==> Ensuring /dev/net/tun exists..."
+mkdir -p /dev/net
+[ -c /dev/net/tun ] || mknod /dev/net/tun c 10 200
 
 echo "==> Disabling any legacy host WireGuard service..."
 if systemctl list-unit-files | grep -q '^wg-quick@wg0\.service'; then
   systemctl stop wg-quick@wg0 || true
   systemctl disable wg-quick@wg0 || true
 fi
-
-echo "==> Ensuring WireGuard config directory exists..."
-mkdir -p /etc/wireguard
-chmod 700 /etc/wireguard
 
 echo ""
 echo "============================================"
