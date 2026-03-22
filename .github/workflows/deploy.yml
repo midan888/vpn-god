@@ -83,6 +83,9 @@ jobs:
                 "$(openssl rand -base64 32)" > .env
             fi
 
+            # Clean up old images before pulling new ones
+            docker image prune -af
+
             docker compose -f docker-compose.prod.yml pull backend wireguard admin
             docker compose -f docker-compose.prod.yml up -d
 
