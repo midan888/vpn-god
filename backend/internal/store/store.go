@@ -20,11 +20,19 @@ type UserStore interface {
 	CreateUser(ctx context.Context, email, hashedPassword string) (*models.User, error)
 	GetUserByEmail(ctx context.Context, email string) (*models.User, error)
 	GetUserByID(ctx context.Context, id uuid.UUID) (*models.User, error)
+	ListUsers(ctx context.Context) ([]models.User, error)
+	UpdatePassword(ctx context.Context, id uuid.UUID, hashedPassword string) error
+	DeleteUser(ctx context.Context, id uuid.UUID) error
+	SetAdmin(ctx context.Context, id uuid.UUID, isAdmin bool) error
 }
 
 type ServerStore interface {
 	ListActiveServers(ctx context.Context) ([]models.Server, error)
 	GetServerByID(ctx context.Context, id uuid.UUID) (*models.Server, error)
+	ListAllServers(ctx context.Context) ([]models.Server, error)
+	CreateServer(ctx context.Context, s *models.Server) (*models.Server, error)
+	DeleteServer(ctx context.Context, id uuid.UUID) error
+	UpdateServerStatus(ctx context.Context, id uuid.UUID, isActive bool) error
 }
 
 type PeerStore interface {
@@ -32,4 +40,6 @@ type PeerStore interface {
 	GetPeerByUserID(ctx context.Context, userID uuid.UUID) (*models.Peer, error)
 	DeletePeerByUserID(ctx context.Context, userID uuid.UUID) error
 	CountPeersByServerID(ctx context.Context, serverID uuid.UUID) (int, error)
+	ListPeersByServerID(ctx context.Context, serverID uuid.UUID) ([]models.Peer, error)
+	ListAllPeers(ctx context.Context) ([]models.Peer, error)
 }

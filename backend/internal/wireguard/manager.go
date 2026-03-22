@@ -17,6 +17,17 @@ type PeerManager interface {
 	RemovePeer(publicKey string) error
 }
 
+// TransferStatsProvider is optionally implemented by PeerManagers that can report traffic stats.
+type TransferStatsProvider interface {
+	GetTransferStats() ([]TransferStat, error)
+}
+
+type TransferStat struct {
+	PublicKey string
+	RxBytes   int64
+	TxBytes   int64
+}
+
 // LocalPeerManager manages peers by executing wg commands locally.
 type LocalPeerManager struct {
 	iface string
@@ -41,6 +52,34 @@ func (m *LocalPeerManager) RemovePeer(publicKey string) error {
 		return fmt.Errorf("wg remove peer: %w: %s", err, out)
 	}
 	return nil
+}
+
+func (m *LocalPeerManager) GetTransferStats() ([]TransferStat, error) {
+	cmd := exec.Command("wg", "show", m.iface, "transfer")
+	out, err := cmd.Output()
+	if err != nil {
+		return nil, fmt.Errorf("wg show transfer: %w", err)
+	}
+
+	var stats []TransferStat
+	for _, line := range strings.Split(strings.TrimSpace(string(out)), "\n") {
+		if line == "" {
+			continue
+		}
+		parts := strings.Split(line, "\t")
+		if len(parts) != 3 {
+			continue
+		}
+		var rx, tx int64
+		fmt.Sscanf(parts[1], "%d", &rx)
+		fmt.Sscanf(parts[2], "%d", &tx)
+		stats = append(stats, TransferStat{
+			PublicKey: parts[0],
+			RxBytes:   rx,
+			TxBytes:   tx,
+		})
+	}
+	return stats, nil
 }
 
 // HTTPPeerManager manages peers via a WireGuard gateway admin API.
@@ -101,4 +140,27 @@ func (m *HTTPPeerManager) RemovePeer(publicKey string) error {
 		return fmt.Errorf("remove peer failed with status %s", resp.Status)
 	}
 	return nil
+}
+
+func (m *HTTPPeerManager) GetTransferStats() ([]TransferStat, error) {
+	req, err := http.NewRequest(http.MethodGet, m.baseURL+"/transfer", nil)
+	if err != nil {
+		return nil, fmt.Errorf("create transfer stats request: %w", err)
+	}
+
+	resp, err := m.client.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("transfer stats request failed: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 300 {
+		return nil, fmt.Errorf("transfer stats failed with status %s", resp.Status)
+	}
+
+	var stats []TransferStat
+	if err := json.NewDecoder(resp.Body).Decode(&stats); err != nil {
+		return nil, fmt.Errorf("decode transfer stats: %w", err)
+	}
+	return stats, nil
 }

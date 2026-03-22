@@ -60,7 +60,7 @@ func (h *AuthHandler) Register(ctx context.Context, input *RegisterInput) (*Regi
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 
-	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID)
+	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID, false)
 	if err != nil {
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
@@ -84,7 +84,7 @@ func (h *AuthHandler) Login(ctx context.Context, input *LoginInput) (*LoginOutpu
 		return nil, huma.Error401Unauthorized("invalid email or password")
 	}
 
-	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID)
+	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID, user.IsAdmin)
 	if err != nil {
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
@@ -101,11 +101,12 @@ func (h *AuthHandler) Refresh(ctx context.Context, input *RefreshInput) (*Refres
 		return nil, huma.Error401Unauthorized("invalid or expired refresh token")
 	}
 
-	if _, err := h.users.GetUserByID(ctx, userID); err != nil {
+	user, err := h.users.GetUserByID(ctx, userID)
+	if err != nil {
 		return nil, huma.Error401Unauthorized("invalid or expired refresh token")
 	}
 
-	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(userID)
+	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(userID, user.IsAdmin)
 	if err != nil {
 		return nil, huma.Error500InternalServerError("internal server error")
 	}

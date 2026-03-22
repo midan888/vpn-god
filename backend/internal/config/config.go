@@ -12,6 +12,9 @@ type Config struct {
 	JWTSecret         string
 	Port              string
 	WireGuardAdminURL string
+	AdminEmail        string
+	AdminPassword     string
+	CORSOrigin        string
 }
 
 func Load() (*Config, error) {
@@ -37,6 +40,9 @@ func Load() (*Config, error) {
 		JWTSecret:         jwtSecret,
 		Port:              port,
 		WireGuardAdminURL: os.Getenv("WIREGUARD_ADMIN_URL"),
+		AdminEmail:        os.Getenv("ADMIN_EMAIL"),
+		AdminPassword:     os.Getenv("ADMIN_PASSWORD"),
+		CORSOrigin:        os.Getenv("CORS_ORIGIN"),
 	}, nil
 }
 

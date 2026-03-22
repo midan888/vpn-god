@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
+	"golang.org/x/crypto/bcrypt"
 	"vpn-god/backend/internal/api"
 	"vpn-god/backend/internal/auth"
 	"vpn-god/backend/internal/config"
@@ -34,6 +36,10 @@ func main() {
 		log.Fatalf("failed to run migrations: %v", err)
 	}
 
+	if err := bootstrapAdmin(db, cfg); err != nil {
+		log.Fatalf("failed to bootstrap admin: %v", err)
+	}
+
 	userStore := store.NewPostgresUserStore(db)
 	serverStore := store.NewPostgresServerStore(db)
 	peerStore := store.NewPostgresPeerStore(db)
@@ -47,7 +53,7 @@ func main() {
 		wgManager = wireguard.NewLocalPeerManager("wg0")
 	}
 
-	router := api.NewRouter(userStore, serverStore, peerStore, jwtService, wgManager)
+	router := api.NewRouter(userStore, serverStore, peerStore, jwtService, wgManager, cfg.CORSOrigin)
 
 	srv := &http.Server{
 		Addr:         ":" + cfg.Port,
@@ -119,6 +125,7 @@ func runMigrations(db *sqlx.DB) error {
 			ADD COLUMN IF NOT EXISTS awg_h2   BIGINT NOT NULL DEFAULT 3847291056,
 			ADD COLUMN IF NOT EXISTS awg_h3   BIGINT NOT NULL DEFAULT 2938475610,
 			ADD COLUMN IF NOT EXISTS awg_h4   BIGINT NOT NULL DEFAULT 1029384756`,
+		`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT false`,
 	}
 
 	for _, m := range migrations {
@@ -127,5 +134,29 @@ func runMigrations(db *sqlx.DB) error {
 		}
 	}
 
+	return nil
+}
+
+func bootstrapAdmin(db *sqlx.DB, cfg *config.Config) error {
+	if cfg.AdminEmail == "" || cfg.AdminPassword == "" {
+		return nil
+	}
+
+	hashed, err := bcrypt.GenerateFromPassword([]byte(cfg.AdminPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("hash admin password: %w", err)
+	}
+
+	_, err = db.Exec(
+		`INSERT INTO users (id, email, password, is_admin, created_at)
+		 VALUES (uuid_generate_v4(), $1, $2, true, now())
+		 ON CONFLICT (email) DO UPDATE SET is_admin = true`,
+		cfg.AdminEmail, string(hashed),
+	)
+	if err != nil {
+		return fmt.Errorf("bootstrap admin user: %w", err)
+	}
+
+	log.Printf("admin user bootstrapped: %s", cfg.AdminEmail)
 	return nil
 }

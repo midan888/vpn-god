@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -45,4 +46,65 @@ func (s *PostgresServerStore) GetServerByID(ctx context.Context, id uuid.UUID) (
 		return nil, err
 	}
 	return &srv, nil
+}
+
+func (s *PostgresServerStore) ListAllServers(ctx context.Context) ([]models.Server, error) {
+	var servers []models.Server
+	err := s.db.SelectContext(ctx, &servers,
+		`SELECT id, name, country, host, port, public_key, is_active, created_at,
+		        awg_jc, awg_jmin, awg_jmax, awg_s1, awg_s2, awg_h1, awg_h2, awg_h3, awg_h4
+		 FROM servers ORDER BY country, name`,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return servers, nil
+}
+
+func (s *PostgresServerStore) CreateServer(ctx context.Context, srv *models.Server) (*models.Server, error) {
+	srv.ID = uuid.New()
+	srv.CreatedAt = time.Now()
+	if !srv.IsActive {
+		srv.IsActive = true
+	}
+
+	_, err := s.db.ExecContext(ctx,
+		`INSERT INTO servers (id, name, country, host, port, public_key, is_active, created_at)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+		srv.ID, srv.Name, srv.Country, srv.Host, srv.Port, srv.PublicKey, srv.IsActive, srv.CreatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return srv, nil
+}
+
+func (s *PostgresServerStore) DeleteServer(ctx context.Context, id uuid.UUID) error {
+	result, err := s.db.ExecContext(ctx, `DELETE FROM servers WHERE id = $1`, id)
+	if err != nil {
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rows == 0 {
+		return ErrServerNotFound
+	}
+	return nil
+}
+
+func (s *PostgresServerStore) UpdateServerStatus(ctx context.Context, id uuid.UUID, isActive bool) error {
+	result, err := s.db.ExecContext(ctx, `UPDATE servers SET is_active = $1 WHERE id = $2`, isActive, id)
+	if err != nil {
+		return err
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if rows == 0 {
+		return ErrServerNotFound
+	}
+	return nil
 }

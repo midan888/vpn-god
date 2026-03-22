@@ -54,6 +54,44 @@ func (m *mockUserStore) GetUserByID(_ context.Context, id uuid.UUID) (*models.Us
 	return nil, store.ErrUserNotFound
 }
 
+func (m *mockUserStore) ListUsers(_ context.Context) ([]models.User, error) {
+	var users []models.User
+	for _, u := range m.users {
+		users = append(users, *u)
+	}
+	return users, nil
+}
+
+func (m *mockUserStore) UpdatePassword(_ context.Context, id uuid.UUID, hashedPassword string) error {
+	for _, u := range m.users {
+		if u.ID == id {
+			u.Password = hashedPassword
+			return nil
+		}
+	}
+	return store.ErrUserNotFound
+}
+
+func (m *mockUserStore) DeleteUser(_ context.Context, id uuid.UUID) error {
+	for email, u := range m.users {
+		if u.ID == id {
+			delete(m.users, email)
+			return nil
+		}
+	}
+	return store.ErrUserNotFound
+}
+
+func (m *mockUserStore) SetAdmin(_ context.Context, id uuid.UUID, isAdmin bool) error {
+	for _, u := range m.users {
+		if u.ID == id {
+			u.IsAdmin = isAdmin
+			return nil
+		}
+	}
+	return store.ErrUserNotFound
+}
+
 type mockServerStore struct{}
 
 func (m *mockServerStore) ListActiveServers(_ context.Context) ([]models.Server, error) {
@@ -62,6 +100,22 @@ func (m *mockServerStore) ListActiveServers(_ context.Context) ([]models.Server,
 
 func (m *mockServerStore) GetServerByID(_ context.Context, _ uuid.UUID) (*models.Server, error) {
 	return nil, store.ErrServerNotFound
+}
+
+func (m *mockServerStore) ListAllServers(_ context.Context) ([]models.Server, error) {
+	return nil, nil
+}
+
+func (m *mockServerStore) CreateServer(_ context.Context, s *models.Server) (*models.Server, error) {
+	return s, nil
+}
+
+func (m *mockServerStore) DeleteServer(_ context.Context, _ uuid.UUID) error {
+	return store.ErrServerNotFound
+}
+
+func (m *mockServerStore) UpdateServerStatus(_ context.Context, _ uuid.UUID, _ bool) error {
+	return store.ErrServerNotFound
 }
 
 type mockPeerManager struct{}
@@ -84,10 +138,18 @@ func (m *mockPeerStore) CountPeersByServerID(_ context.Context, _ uuid.UUID) (in
 	return 0, nil
 }
 
+func (m *mockPeerStore) ListPeersByServerID(_ context.Context, _ uuid.UUID) ([]models.Peer, error) {
+	return nil, nil
+}
+
+func (m *mockPeerStore) ListAllPeers(_ context.Context) ([]models.Peer, error) {
+	return nil, nil
+}
+
 func setupRouter() (http.Handler, *mockUserStore) {
 	ms := newMockUserStore()
 	jwtSvc := auth.NewJWTService("test-secret")
-	router := NewRouter(ms, &mockServerStore{}, &mockPeerStore{}, jwtSvc, &mockPeerManager{})
+	router := NewRouter(ms, &mockServerStore{}, &mockPeerStore{}, jwtSvc, &mockPeerManager{}, "")
 	return router, ms
 }
 
@@ -260,7 +322,7 @@ func TestRefresh_Success(t *testing.T) {
 		Email: "test@example.com",
 	}
 
-	_, refresh, _ := jwtSvc.GenerateTokenPair(userID)
+	_, refresh, _ := jwtSvc.GenerateTokenPair(userID, false)
 
 	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
 		"refresh_token": refresh,
@@ -303,7 +365,7 @@ func TestRefresh_DeletedUser(t *testing.T) {
 	router, _ := setupRouter()
 	jwtSvc := auth.NewJWTService("test-secret")
 
-	_, refresh, _ := jwtSvc.GenerateTokenPair(uuid.New())
+	_, refresh, _ := jwtSvc.GenerateTokenPair(uuid.New(), false)
 
 	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
 		"refresh_token": refresh,
@@ -321,7 +383,7 @@ func TestRefresh_AccessTokenRejected(t *testing.T) {
 	userID := uuid.New()
 	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
 
-	access, _, _ := jwtSvc.GenerateTokenPair(userID)
+	access, _, _ := jwtSvc.GenerateTokenPair(userID, false)
 
 	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
 		"refresh_token": access,

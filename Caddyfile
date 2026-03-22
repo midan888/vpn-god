@@ -2,6 +2,15 @@ api.vpndan.com {
 	reverse_proxy backend:8080
 }
 
+admin.vpndan.com {
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+	handle {
+		reverse_proxy admin:80
+	}
+}
+
 db.vpndan.com {
 	basic_auth {
 		midan888 $2a$14$A2AMZmSENam/kqOUk84xhOYqiBypnW2FWFSX69fRh15h1T8EyOWo2

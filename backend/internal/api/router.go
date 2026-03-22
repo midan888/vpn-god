@@ -11,7 +11,7 @@ import (
 	"github.com/danielgtaylor/huma/v2/adapters/humago"
 )
 
-func NewRouter(users store.UserStore, servers store.ServerStore, peers store.PeerStore, jwtService *auth.JWTService, wg wireguard.PeerManager) http.Handler {
+func NewRouter(users store.UserStore, servers store.ServerStore, peers store.PeerStore, jwtService *auth.JWTService, wg wireguard.PeerManager, corsOrigin string) http.Handler {
 	mux := http.NewServeMux()
 
 	humaAPI := humago.New(mux, huma.DefaultConfig("VPN God API", "1.0.0"))
@@ -84,5 +84,110 @@ func NewRouter(users store.UserStore, servers store.ServerStore, peers store.Pee
 		Security:    []map[string][]string{{"bearer": {}}},
 	}, connectHandler.Disconnect)
 
+	// Admin routes
+	adminHandler := NewAdminHandler(users, servers, peers, jwtService, wg)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodGet,
+		Path:        "/api/v1/admin/users",
+		OperationID: "admin-list-users",
+		Summary:     "List all users with connection status",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.ListUsers)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodGet,
+		Path:        "/api/v1/admin/users/{id}",
+		OperationID: "admin-get-user",
+		Summary:     "Get user details",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.GetUser)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodPost,
+		Path:        "/api/v1/admin/users/{id}/reset-password",
+		OperationID: "admin-reset-password",
+		Summary:     "Reset a user's password",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.ResetPassword)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodDelete,
+		Path:        "/api/v1/admin/users/{id}",
+		OperationID: "admin-delete-user",
+		Summary:     "Delete a user",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.DeleteUser)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodGet,
+		Path:        "/api/v1/admin/servers",
+		OperationID: "admin-list-servers",
+		Summary:     "List all servers with peer counts and traffic",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.ListServers)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodGet,
+		Path:        "/api/v1/admin/servers/{id}",
+		OperationID: "admin-get-server",
+		Summary:     "Get server details with per-peer traffic",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.GetServer)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:        http.MethodPost,
+		Path:          "/api/v1/admin/servers",
+		OperationID:   "admin-create-server",
+		Summary:       "Add a new server",
+		Tags:          []string{"Admin"},
+		Security:      []map[string][]string{{"bearer": {}}},
+		DefaultStatus: http.StatusCreated,
+	}, adminHandler.CreateServer)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodDelete,
+		Path:        "/api/v1/admin/servers/{id}",
+		OperationID: "admin-delete-server",
+		Summary:     "Delete a server",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.DeleteServer)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodPatch,
+		Path:        "/api/v1/admin/servers/{id}",
+		OperationID: "admin-update-server",
+		Summary:     "Update server status",
+		Tags:        []string{"Admin"},
+		Security:    []map[string][]string{{"bearer": {}}},
+	}, adminHandler.UpdateServer)
+
+	// CORS middleware (only active when CORS_ORIGIN is set, i.e. dev)
+	if corsOrigin != "" {
+		return corsMiddleware(mux, corsOrigin)
+	}
+
 	return mux
+}
+
+func corsMiddleware(next http.Handler, origin string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
+
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
 }

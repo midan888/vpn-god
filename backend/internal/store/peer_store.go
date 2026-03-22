@@ -75,3 +75,25 @@ func (s *PostgresPeerStore) CountPeersByServerID(ctx context.Context, serverID u
 	)
 	return count, err
 }
+
+func (s *PostgresPeerStore) ListPeersByServerID(ctx context.Context, serverID uuid.UUID) ([]models.Peer, error) {
+	var peers []models.Peer
+	err := s.db.SelectContext(ctx, &peers,
+		`SELECT id, user_id, server_id, private_key, public_key, assigned_ip::TEXT, created_at FROM peers WHERE server_id = $1`, serverID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return peers, nil
+}
+
+func (s *PostgresPeerStore) ListAllPeers(ctx context.Context) ([]models.Peer, error) {
+	var peers []models.Peer
+	err := s.db.SelectContext(ctx, &peers,
+		`SELECT id, user_id, server_id, private_key, public_key, assigned_ip::TEXT, created_at FROM peers`,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return peers, nil
+}

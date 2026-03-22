@@ -39,11 +39,41 @@ func (m *fullMockServerStore) GetServerByID(_ context.Context, id uuid.UUID) (*m
 	return s, nil
 }
 
+func (m *fullMockServerStore) ListAllServers(_ context.Context) ([]models.Server, error) {
+	var result []models.Server
+	for _, s := range m.servers {
+		result = append(result, *s)
+	}
+	return result, nil
+}
+
+func (m *fullMockServerStore) CreateServer(_ context.Context, s *models.Server) (*models.Server, error) {
+	m.servers[s.ID] = s
+	return s, nil
+}
+
+func (m *fullMockServerStore) DeleteServer(_ context.Context, id uuid.UUID) error {
+	if _, ok := m.servers[id]; !ok {
+		return store.ErrServerNotFound
+	}
+	delete(m.servers, id)
+	return nil
+}
+
+func (m *fullMockServerStore) UpdateServerStatus(_ context.Context, id uuid.UUID, isActive bool) error {
+	s, ok := m.servers[id]
+	if !ok {
+		return store.ErrServerNotFound
+	}
+	s.IsActive = isActive
+	return nil
+}
+
 func setupServerRouter() (http.Handler, *fullMockServerStore, *auth.JWTService) {
 	ms := newMockUserStore()
 	ss := newFullMockServerStore()
 	jwtSvc := auth.NewJWTService("test-secret")
-	router := NewRouter(ms, ss, &mockPeerStore{}, jwtSvc, &mockPeerManager{})
+	router := NewRouter(ms, ss, &mockPeerStore{}, jwtSvc, &mockPeerManager{}, "")
 	return router, ss, jwtSvc
 }
 
@@ -68,7 +98,7 @@ func TestGetServer_Success(t *testing.T) {
 		IsActive: true,
 	}
 
-	access, _, _ := jwtSvc.GenerateTokenPair(uuid.New())
+	access, _, _ := jwtSvc.GenerateTokenPair(uuid.New(), false)
 	w := getWithAuth(router, "/api/v1/servers/"+serverID.String(), access)
 
 	if w.Code != http.StatusOK {
@@ -88,7 +118,7 @@ func TestGetServer_Success(t *testing.T) {
 func TestGetServer_NotFound(t *testing.T) {
 	router, _, jwtSvc := setupServerRouter()
 
-	access, _, _ := jwtSvc.GenerateTokenPair(uuid.New())
+	access, _, _ := jwtSvc.GenerateTokenPair(uuid.New(), false)
 	w := getWithAuth(router, "/api/v1/servers/"+uuid.New().String(), access)
 
 	if w.Code != http.StatusNotFound {
@@ -99,7 +129,7 @@ func TestGetServer_NotFound(t *testing.T) {
 func TestGetServer_InvalidID(t *testing.T) {
 	router, _, jwtSvc := setupServerRouter()
 
-	access, _, _ := jwtSvc.GenerateTokenPair(uuid.New())
+	access, _, _ := jwtSvc.GenerateTokenPair(uuid.New(), false)
 	w := getWithAuth(router, "/api/v1/servers/not-a-uuid", access)
 
 	if w.Code != http.StatusUnprocessableEntity {

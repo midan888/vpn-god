@@ -66,11 +66,19 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       PORT: "8080"
       WIREGUARD_ADMIN_URL: http://wireguard:9080
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
       wireguard:
         condition: service_started
+
+  admin:
+    image: ghcr.io/midan888/vpn-god/admin:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
 
 
 volumes:

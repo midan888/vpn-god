@@ -12,7 +12,7 @@ func TestGenerateTokenPair(t *testing.T) {
 	svc := NewJWTService("test-secret")
 	userID := uuid.New()
 
-	access, refresh, err := svc.GenerateTokenPair(userID)
+	access, refresh, err := svc.GenerateTokenPair(userID, false)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -31,7 +31,7 @@ func TestValidateAccessToken(t *testing.T) {
 	svc := NewJWTService("test-secret")
 	userID := uuid.New()
 
-	access, _, err := svc.GenerateTokenPair(userID)
+	access, _, err := svc.GenerateTokenPair(userID, false)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestValidateRefreshToken(t *testing.T) {
 	svc := NewJWTService("test-secret")
 	userID := uuid.New()
 
-	_, refresh, err := svc.GenerateTokenPair(userID)
+	_, refresh, err := svc.GenerateTokenPair(userID, false)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -65,7 +65,7 @@ func TestValidateRefreshToken(t *testing.T) {
 
 func TestAccessTokenRejectedAsRefresh(t *testing.T) {
 	svc := NewJWTService("test-secret")
-	access, _, _ := svc.GenerateTokenPair(uuid.New())
+	access, _, _ := svc.GenerateTokenPair(uuid.New(), false)
 
 	_, err := svc.ValidateRefreshToken(access)
 	if err == nil {
@@ -75,7 +75,7 @@ func TestAccessTokenRejectedAsRefresh(t *testing.T) {
 
 func TestRefreshTokenRejectedAsAccess(t *testing.T) {
 	svc := NewJWTService("test-secret")
-	_, refresh, _ := svc.GenerateTokenPair(uuid.New())
+	_, refresh, _ := svc.GenerateTokenPair(uuid.New(), false)
 
 	_, err := svc.ValidateAccessToken(refresh)
 	if err == nil {
@@ -87,7 +87,7 @@ func TestWrongSecretRejected(t *testing.T) {
 	svc1 := NewJWTService("secret-one")
 	svc2 := NewJWTService("secret-two")
 
-	access, _, _ := svc1.GenerateTokenPair(uuid.New())
+	access, _, _ := svc1.GenerateTokenPair(uuid.New(), false)
 
 	_, err := svc2.ValidateAccessToken(access)
 	if err == nil {
