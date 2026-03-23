@@ -184,3 +184,43 @@ func bulkInsert(ctx context.Context, db *sqlx.DB, country string, cidrs []string
 	return tx.Commit()
 }
 
+// ipRangeToCIDRs decomposes a start IP + host count into valid CIDR blocks.
+// RIR allocations aren't always power-of-2 aligned, so a single /N won't work.
+func ipRangeToCIDRs(startIP net.IP, count uint32) []string {
+	if startIP == nil || count == 0 {
+		return nil
+	}
+
+	ip := binary.BigEndian.Uint32(startIP)
+	var result []string
+
+	for count > 0 {
+		// Largest block: limited by trailing zeros of the IP (alignment)
+		// and by the remaining host count
+		trailingZeros := bits.TrailingZeros32(ip)
+		if ip == 0 {
+			trailingZeros = 32
+		}
+		maxSize := uint32(1) << trailingZeros
+
+		// Also limited by remaining count — find largest power of 2 <= count
+		size := uint32(1)
+		for size*2 <= count && size*2 <= maxSize {
+			size *= 2
+		}
+
+		prefix := 32 - bits.Len32(size-1)
+		if size == 1 {
+			prefix = 32
+		}
+
+		cidrIP := make(net.IP, 4)
+		binary.BigEndian.PutUint32(cidrIP, ip)
+		result = append(result, fmt.Sprintf("%s/%d", cidrIP.String(), prefix))
+
+		ip += size
+		count -= size
+	}
+
+	return result
+}
