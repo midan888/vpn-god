@@ -9,6 +9,13 @@ on:
       - 'docker-compose.prod.yml'
       - 'Caddyfile'
       - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+    inputs:
+      no_cache:
+        description: 'Build with no Docker cache'
+        required: false
+        type: boolean
+        default: false
 
 env:
   BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
@@ -33,6 +40,7 @@ jobs:
         with:
           context: ./backend
           push: true
+          no-cache: ${{ inputs.no_cache == true }}
           tags: |
             ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
             ${{ env.BACKEND_IMAGE }}:latest
@@ -41,6 +49,7 @@ jobs:
         with:
           context: ./wireguard-gateway
           push: true
+          no-cache: ${{ inputs.no_cache == true }}
           tags: |
             ${{ env.WIREGUARD_IMAGE }}:${{ github.sha }}
             ${{ env.WIREGUARD_IMAGE }}:latest
