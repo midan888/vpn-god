@@ -36,6 +36,7 @@ jobs:
         with:
           context: ./admin
           push: true
+          no-cache: ${{ inputs.no_cache == true }}
           tags: |
             ${{ env.ADMIN_IMAGE }}:${{ github.sha }}
             ${{ env.ADMIN_IMAGE }}:latest
