@@ -29,7 +29,7 @@ services:
       - caddy_config:/config
 
   wireguard:
-    image: ghcr.io/midan888/vpn-dan/wireguard-gateway:latest
+    image: ghcr.io/midan888/vpndan/wireguard-gateway:latest
     restart: unless-stopped
     ports:
       - "51820:51820/udp"
@@ -57,7 +57,7 @@ services:
       net.ipv4.conf.all.src_valid_mark: "1"
 
   backend:
-    image: ghcr.io/midan888/vpn-dan/backend:latest
+    image: ghcr.io/midan888/vpndan/backend:latest
     restart: unless-stopped
     ports:
       - "127.0.0.1:8080:8080"
@@ -75,13 +75,13 @@ services:
         condition: service_started
 
   admin:
-    image: ghcr.io/midan888/vpn-dan/admin:latest
+    image: ghcr.io/midan888/vpndan/admin:latest
     restart: unless-stopped
     depends_on:
       - backend
 
   seed-geoip:
-    image: ghcr.io/midan888/vpn-dan/backend:latest
+    image: ghcr.io/midan888/vpndan/backend:latest
     command: ["seed-geoip"]
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/vpndan?sslmode=disable
