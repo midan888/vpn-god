@@ -20,6 +20,7 @@ final class VPNManager {
     private var isManualOperation = false
 
     static let appGroupID = "group.com.vpndan.VPNDan"
+    private static let lastConnectedServerKey = "last_connected_server"
 
     enum VPNStatus: Equatable {
         case disconnected
@@ -52,6 +53,7 @@ final class VPNManager {
             try await Task.sleep(for: .milliseconds(500))
         }
         connectedServer = server
+        saveLastConnectedServer(server)
 
         do {
             // Get WireGuard config from backend
@@ -113,6 +115,7 @@ final class VPNManager {
             isManualOperation = false
             status = .disconnected
             connectedServer = nil
+            clearLastConnectedServer()
             throw error
         }
     }
@@ -133,6 +136,7 @@ final class VPNManager {
         }
 
         connectedServer = nil
+        clearLastConnectedServer()
         status = .disconnected
         isManualOperation = false
     }
@@ -150,13 +154,18 @@ final class VPNManager {
         switch manager.connection.status {
         case .connected:
             status = .connected
+            connectedServer = loadLastConnectedServer()
+            connectedDate = connectedDate ?? Date()
+            startStatsPolling()
         case .connecting, .reasserting:
             status = .connecting
+            connectedServer = loadLastConnectedServer()
         case .disconnecting:
             status = .disconnecting
         default:
             status = .disconnected
             connectedServer = nil
+            clearLastConnectedServer()
         }
     }
 
@@ -235,6 +244,23 @@ final class VPNManager {
         guard let defaults = UserDefaults(suiteName: Self.appGroupID) else { return }
         let data = try? JSONEncoder().encode(config)
         defaults.set(data, forKey: "wg_config")
+    }
+
+    private func saveLastConnectedServer(_ server: Server) {
+        guard let defaults = UserDefaults(suiteName: Self.appGroupID) else { return }
+        let data = try? JSONEncoder().encode(server)
+        defaults.set(data, forKey: Self.lastConnectedServerKey)
+    }
+
+    private func loadLastConnectedServer() -> Server? {
+        guard let defaults = UserDefaults(suiteName: Self.appGroupID),
+              let data = defaults.data(forKey: Self.lastConnectedServerKey) else { return nil }
+        return try? JSONDecoder().decode(Server.self, from: data)
+    }
+
+    private func clearLastConnectedServer() {
+        guard let defaults = UserDefaults(suiteName: Self.appGroupID) else { return }
+        defaults.removeObject(forKey: Self.lastConnectedServerKey)
     }
 
     private func mapConnectError(_ error: APIError) -> APIError {
@@ -344,6 +370,7 @@ final class VPNManager {
                 case .disconnected, .invalid:
                     self.status = .disconnected
                     self.connectedServer = nil
+                    self.clearLastConnectedServer()
                     self.connectedDate = nil
                     self.stopStatsPolling()
                     Task { await self.fetchPublicIP() }
