@@ -45,12 +45,21 @@ echo "amneziawg" > /etc/modules-load.d/amneziawg.conf
 
 echo "==> AmneziaWG module loaded: $(lsmod | grep amneziawg)"
 
-# ── 4. /dev/net/tun ──────────────────────────────────────────────────────────
+# ── 4. Sysctls (host networking — container can't set these) ─────────────────
+echo "==> Configuring sysctls..."
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.ipv4.conf.all.src_valid_mark=1
+cat > /etc/sysctl.d/99-vpndan.conf <<'SYSCTL'
+net.ipv4.ip_forward=1
+net.ipv4.conf.all.src_valid_mark=1
+SYSCTL
+
+# ── 5. /dev/net/tun ──────────────────────────────────────────────────────────
 echo "==> Ensuring /dev/net/tun exists..."
 mkdir -p /dev/net
 [ -c /dev/net/tun ] || mknod /dev/net/tun c 10 200
 
-# ── 5. Stop any legacy host WireGuard ────────────────────────────────────────
+# ── 6. Stop any legacy host WireGuard ────────────────────────────────────────
 if systemctl list-unit-files | grep -q '^wg-quick@wg0\.service'; then
   echo "==> Disabling legacy host WireGuard service..."
   systemctl stop wg-quick@wg0 || true
