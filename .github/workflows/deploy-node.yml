@@ -1,4 +1,4 @@
-name: Build Node Image
+name: Deploy Node
 
 on:
   push:
@@ -40,3 +40,38 @@ jobs:
           tags: |
             ${{ env.NODE_IMAGE }}:${{ github.sha }}
             ${{ env.NODE_IMAGE }}:latest
+
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       host: ${{ fromJson(vars.NODE_HOSTS) }}
+  #     fail-fast: false
+  #   steps:
+  #     - name: Deploy to ${{ matrix.host }}
+  #       uses: appleboy/ssh-action@v1
+  #       with:
+  #         host: ${{ matrix.host }}
+  #         username: root
+  #         password: ${{ secrets.NODE_SSH_PASSWORD }}
+  #         script: |
+  #           set -e
+  #           cd /root/vpndan
+
+  #           docker image prune -af
+  #           docker compose pull gateway
+  #           docker compose up -d gateway
+
+  #     - name: Notify Telegram
+  #       if: always()
+  #       run: |
+  #         if [ "${{ job.status }}" = "success" ]; then
+  #           MESSAGE="✅ *Node ${{ matrix.host }}* updated%0ACommit: \`${GITHUB_SHA::7}\`%0ABy: ${{ github.actor }}"
+  #         else
+  #           MESSAGE="❌ *Node ${{ matrix.host }}* deploy failed%0ACommit: \`${GITHUB_SHA::7}\`%0ABy: ${{ github.actor }}"
+  #         fi
+  #         curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+  #           -d chat_id=${{ vars.TELEGRAM_CHAT_ID }} \
+  #           -d text="$MESSAGE" \
+  #           -d parse_mode=Markdown

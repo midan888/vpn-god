@@ -34,10 +34,10 @@ systemctl enable --now docker
 # The container has userspace tools (awg, awg-quick), but the kernel module
 # must be on the host — containers share the host kernel.
 echo "==> Installing AmneziaWG kernel module..."
-apt-get install -y software-properties-common
+apt-get install -y software-properties-common linux-headers-$(uname -r)
 add-apt-repository -y ppa:amnezia/ppa
 apt-get update -y
-apt-get install -y amneziawg
+apt-get install -y amneziawg amneziawg-dkms
 
 # Load now and on every boot
 modprobe amneziawg

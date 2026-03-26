@@ -9,13 +9,13 @@ services:
   gateway:
     image: ghcr.io/midan888/vpndan/node:latest
     restart: unless-stopped
-    ports:
-      - "51820:51820/udp"
-      - "9080:9080"
+    network_mode: host
     environment:
       # WireGuard
       WG_ADDRESS: 10.0.0.1/24
-      WG_LISTEN_PORT: "51820"
+      # WG_LISTEN_PORT is intentionally omitted — the gateway picks a random
+      # port on first run and persists it to /config/listen_port.
+      # Override with WG_LISTEN_PORT in .env if you need a fixed port.
       WG_ADMIN_ADDR: 0.0.0.0:9080
       # AWG obfuscation
       AWG_JC: ${AWG_JC:-4}

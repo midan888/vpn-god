@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"os"
@@ -25,10 +26,13 @@ const (
 	configDir         = "/config"
 	privateKeyPath    = configDir + "/server_private.key"
 	publicKeyPath     = configDir + "/server_public.key"
+	listenPortPath    = configDir + "/listen_port"
 	wireGuardConfPath = "/etc/amnezia/amneziawg/wg0.conf"
 	defaultAddress    = "10.0.0.1/24"
-	defaultListenPort = "51820"
 	defaultAdminAddr  = "127.0.0.1:9080"
+	// Random port range when WG_LISTEN_PORT is not set
+	randomPortMin = 20000
+	randomPortMax = 50000
 )
 
 type gatewayConfig struct {
@@ -273,9 +277,14 @@ func loadConfig() (*gatewayConfig, error) {
 		return nil, fmt.Errorf("WG_UPLINK_IFACE is required when uplink auto-detection fails")
 	}
 
+	listenPort, err := resolveListenPort()
+	if err != nil {
+		return nil, fmt.Errorf("resolve listen port: %w", err)
+	}
+
 	cfg := &gatewayConfig{
 		Address:    envOrDefault("WG_ADDRESS", defaultAddress),
-		ListenPort: envOrDefault("WG_LISTEN_PORT", defaultListenPort),
+		ListenPort: listenPort,
 		AdminAddr:  envOrDefault("WG_ADMIN_ADDR", defaultAdminAddr),
 		UplinkIF:   uplink,
 		Jc:         envInt("AWG_JC", 4),
@@ -420,6 +429,39 @@ func (s *server) handlePeerByKey(w http.ResponseWriter, r *http.Request) {
 }
 
 // --- Helpers ---
+
+// resolveListenPort returns the WireGuard listen port.
+// Priority: WG_LISTEN_PORT env > persisted port file > generate random.
+// The chosen port is persisted to /config/listen_port so restarts reuse it.
+func resolveListenPort() (string, error) {
+	// 1. Explicit env var wins
+	if v := os.Getenv("WG_LISTEN_PORT"); v != "" {
+		return v, nil
+	}
+
+	// 2. Reuse previously generated port
+	if data, err := os.ReadFile(listenPortPath); err == nil {
+		port := strings.TrimSpace(string(data))
+		if port != "" {
+			log.Printf("reusing persisted listen port %s", port)
+			return port, nil
+		}
+	}
+
+	// 3. Generate a random port and persist it
+	port := randomPortMin + rand.Intn(randomPortMax-randomPortMin+1)
+	portStr := strconv.Itoa(port)
+
+	if err := os.MkdirAll(configDir, 0o700); err != nil {
+		return "", fmt.Errorf("create config dir: %w", err)
+	}
+	if err := os.WriteFile(listenPortPath, []byte(portStr), 0o600); err != nil {
+		return "", fmt.Errorf("persist listen port: %w", err)
+	}
+
+	log.Printf("generated random listen port %s", portStr)
+	return portStr, nil
+}
 
 func envOrDefault(key, fallback string) string {
 	if value := os.Getenv(key); value != "" {
