@@ -1,3 +1,15 @@
+# Local development stack.
+# Starts postgres + backend + a mock WireGuard admin API.
+#
+# The mock-gateway fakes the WG admin endpoints so you can test
+# the full flow (node registration, heartbeat, connect/disconnect)
+# without needing the AmneziaWG kernel module.
+#
+# Usage:
+#   docker compose up -d
+#   # Backend available at http://localhost:8080
+#   # Mock gateway admin at http://localhost:9080
+
 services:
   postgres:
     image: postgres:17
@@ -9,5 +21,73 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 3s
+      timeout: 2s
+      retries: 5
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/vpndan?sslmode=disable
+      JWT_SECRET: dev-secret-not-for-production
+      PORT: "8080"
+      WIREGUARD_ADMIN_URL: http://mock-gateway:9080
+      ADMIN_EMAIL: admin@vpndan.com
+      ADMIN_PASSWORD: admin
+      NODE_SECRET: dev-node-secret
+      CORS_ORIGIN: http://localhost:5173
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Lightweight fake that accepts all WG admin API calls.
+  # Returns a dummy public key on /healthz, accepts POST /peers and DELETE /peers/*.
+  mock-gateway:
+    image: python:3.13-alpine
+    entrypoint: ["python3", "-c"]
+    command:
+      - |
+        from http.server import HTTPServer, BaseHTTPRequestHandler
+        import json
+
+        PUBKEY = "mock+dev+public+key+not+real+base64AA="
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                if self.path == "/healthz":
+                    self._json(200, {"status": "ok", "public_key": PUBKEY})
+                elif self.path == "/transfer":
+                    self._json(200, [])
+                else:
+                    self.send_error(404)
+
+            def do_POST(self):
+                length = int(self.headers.get("Content-Length", 0))
+                self.rfile.read(length)
+                self._json(201, {"status": "ok"})
+
+            def do_DELETE(self):
+                self._json(204, None)
+
+            def _json(self, code, body):
+                self.send_response(code)
+                if body is not None:
+                    payload = json.dumps(body).encode()
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(payload)))
+                    self.end_headers()
+                    self.wfile.write(payload)
+                else:
+                    self.end_headers()
+
+        print(f"mock-gateway listening on :9080 (public_key={PUBKEY})")
+        HTTPServer(("0.0.0.0", 9080), Handler).serve_forever()
+    ports:
+      - "9080:9080"
+
 volumes:
   pgdata:
