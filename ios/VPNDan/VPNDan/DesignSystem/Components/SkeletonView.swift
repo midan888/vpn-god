@@ -117,6 +117,21 @@ struct SkeletonIPCard: View {
     }
 }
 
+struct SkeletonConnectionDetails: View {
+    var body: some View {
+        GlassCard(padding: 0) {
+            HStack {
+                SkeletonRect(width: 12, height: 12)
+                SkeletonRect(width: 120, height: 12)
+                Spacer()
+                SkeletonRect(width: 40, height: 12)
+            }
+            .padding(.horizontal, VPNSpacing.md)
+            .padding(.vertical, VPNSpacing.sm + VPNSpacing.xs)
+        }
+    }
+}
+
 struct SkeletonServerRow: View {
     var body: some View {
         HStack(spacing: VPNSpacing.md) {

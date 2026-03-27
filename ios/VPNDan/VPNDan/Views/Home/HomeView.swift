@@ -24,8 +24,7 @@ struct HomeView: View {
                         .disabled(true)
                         .opacity(0.5)
                     Spacer().frame(height: VPNSpacing.sm)
-                    SkeletonStatsRow()
-                    SkeletonIPCard()
+                    SkeletonConnectionDetails()
                 } else if viewModel.servers.isEmpty && viewModel.error != nil {
                     // Error state
                     Spacer().frame(height: VPNSpacing.xxl)
@@ -47,15 +46,6 @@ struct HomeView: View {
                             .vpnTextStyle(.body, color: .vpnTextSecondary)
                     }
 
-                    // Latency gauge (visible when connected)
-                    if vpn.status == .connected {
-                        LatencyGauge(latencyMs: latency.connectedLatency())
-                            .transition(.asymmetric(
-                                insertion: .scale(scale: 0.8).combined(with: .opacity),
-                                removal: .scale(scale: 0.8).combined(with: .opacity)
-                            ))
-                    }
-
                     Spacer()
                         .frame(height: VPNSpacing.xs)
 
@@ -66,18 +56,15 @@ struct HomeView: View {
                         onChangeTapped: { showServerSheet = true }
                     )
 
-                    // Quick stats
-                    QuickStatsRow(
+                    // Connection details (expandable)
+                    ConnectionDetailsCard(
                         isConnected: vpn.status == .connected,
                         connectedDate: vpn.connectedDate,
                         bytesReceived: vpn.bytesReceived,
-                        bytesSent: vpn.bytesSent
-                    )
-
-                    // IP card
-                    IPAddressCard(
+                        bytesSent: vpn.bytesSent,
                         ip: vpn.publicIP,
-                        location: vpn.status == .connected ? serverLocationString : nil
+                        location: vpn.status == .connected ? serverLocationString : nil,
+                        latencyMs: latency.connectedLatency()
                     )
                 }
 
