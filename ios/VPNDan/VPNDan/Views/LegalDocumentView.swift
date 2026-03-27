@@ -83,7 +83,7 @@ struct LegalDocumentView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button(L10n.Common.done) { dismiss() }
                         .foregroundStyle(Color.vpnPrimary)
                 }
             }

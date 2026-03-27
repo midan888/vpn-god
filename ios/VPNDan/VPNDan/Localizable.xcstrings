@@ -1,0 +1,1998 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "-- ms" : {
+
+    },
+    "%@ — %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ — %2$@"
+          }
+        }
+      }
+    },
+    "%@ ms" : {
+
+    },
+    "•" : {
+
+    },
+    "auth.appName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN GOD"
+          }
+        }
+      }
+    },
+    "auth.confirmPassword" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подтвердите пароль"
+          }
+        }
+      }
+    },
+    "auth.createAccount" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создать аккаунт"
+          }
+        }
+      }
+    },
+    "auth.email" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        }
+      }
+    },
+    "auth.forgotPassword" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Забыли пароль?"
+          }
+        }
+      }
+    },
+    "auth.password" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль"
+          }
+        }
+      }
+    },
+    "auth.passwordHint" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль (мин. 8 символов)"
+          }
+        }
+      }
+    },
+    "auth.passwordsDontMatch" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароли не совпадают"
+          }
+        }
+      }
+    },
+    "auth.signIn" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Войти"
+          }
+        }
+      }
+    },
+    "common.add" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить"
+          }
+        }
+      }
+    },
+    "common.cancel" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
+          }
+        }
+      }
+    },
+    "common.comingSoon" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скоро"
+          }
+        }
+      }
+    },
+    "common.done" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "common.notAvailable" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Недоступно"
+          }
+        }
+      }
+    },
+    "common.off" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выкл"
+          }
+        }
+      }
+    },
+    "common.ok" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ОК"
+          }
+        }
+      }
+    },
+    "common.on" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вкл"
+          }
+        }
+      }
+    },
+    "common.or" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "или"
+          }
+        }
+      }
+    },
+    "common.tryAgain" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторить"
+          }
+        }
+      }
+    },
+    "Connection Quality" : {
+
+    },
+    "connectionDetails.connectionQuality" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Качество соединения"
+          }
+        }
+      }
+    },
+    "connectionDetails.download" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузка"
+          }
+        }
+      }
+    },
+    "connectionDetails.duration" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Время"
+          }
+        }
+      }
+    },
+    "connectionDetails.notConnected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не подключено"
+          }
+        }
+      }
+    },
+    "connectionDetails.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Детали подключения"
+          }
+        }
+      }
+    },
+    "connectionDetails.upload" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отдача"
+          }
+        }
+      }
+    },
+    "connectionDetails.yourIP" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш IP"
+          }
+        }
+      }
+    },
+    "errors.decodingError" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неожиданный ответ от сервера."
+          }
+        }
+      }
+    },
+    "errors.invalidURL" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный URL"
+          }
+        }
+      }
+    },
+    "errors.networkError" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет подключения. Проверьте интернет-соединение."
+          }
+        }
+      }
+    },
+    "errors.serverAtCapacity" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер перегружен. Попробуйте другой."
+          }
+        }
+      }
+    },
+    "errors.serverError" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что-то пошло не так. Попробуйте снова."
+          }
+        }
+      }
+    },
+    "errors.serverUnavailable" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер недоступен. Выберите другой."
+          }
+        }
+      }
+    },
+    "errors.sessionExpired" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сессия истекла. Войдите снова."
+          }
+        }
+      }
+    },
+    "errors.unauthorized" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный email или пароль"
+          }
+        }
+      }
+    },
+    "errors.vpnConnectionFailed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось подключиться. Попробуйте снова."
+          }
+        }
+      }
+    },
+    "errors.vpnPermissionRequired" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для подключения требуется разрешение VPN. Включите в Настройках > Основные > VPN и управление устройством."
+          }
+        }
+      }
+    },
+    "helpCenter.catAccount" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккаунт"
+          }
+        }
+      }
+    },
+    "helpCenter.catConnection" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение"
+          }
+        }
+      }
+    },
+    "helpCenter.catGettingStarted" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начало работы"
+          }
+        }
+      }
+    },
+    "helpCenter.catPrivacy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приватность и безопасность"
+          }
+        }
+      }
+    },
+    "helpCenter.contactPrompt" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Свяжитесь с нами, и мы ответим как можно скорее."
+          }
+        }
+      }
+    },
+    "helpCenter.contactSupport" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Связаться с поддержкой"
+          }
+        }
+      }
+    },
+    "helpCenter.helpAccountA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Да, для использования VPN Dan необходим аккаунт. Он позволяет безопасно управлять VPN-подключением без хранения данных о вашей активности."
+          }
+        }
+      }
+    },
+    "helpCenter.helpAccountQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нужен ли аккаунт?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpBypassA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обход VPN позволяет определённым приложениям, сайтам или IP-адресам подключаться напрямую, минуя VPN-туннель. Это полезно для сервисов, блокирующих VPN (банковские приложения), или для доступа к локальной сети."
+          }
+        }
+      }
+    },
+    "helpCenter.helpBypassQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что такое обход VPN (раздельное туннелирование)?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpChooseServerA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для лучшей скорости выбирайте сервер ближе к вашему расположению — ориентируйтесь на наименьшую задержку (мс). Для доступа к контенту определённого региона выберите сервер в нужной стране."
+          }
+        }
+      }
+    },
+    "helpCenter.helpChooseServerQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Какой сервер выбрать?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpConnectA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите кнопку питания на главном экране, чтобы подключиться к выбранному серверу. Сервер можно сменить, нажав «Изменить» на карточке сервера или перейдя во вкладку «Серверы»."
+          }
+        }
+      }
+    },
+    "helpCenter.helpConnectQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как подключиться к VPN-серверу?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpDeleteA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Для удаления аккаунта и всех связанных данных свяжитесь с нами по адресу support@vpndan.com. Мы обработаем запрос и подтвердим удаление."
+          }
+        }
+      }
+    },
+    "helpCenter.helpDeleteQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как удалить аккаунт?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpDisconnectA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Убедитесь, что у вас стабильное интернет-соединение. Попробуйте другой сервер. Если проблема не исчезает, выйдите из аккаунта и войдите снова для обновления сессии."
+          }
+        }
+      }
+    },
+    "helpCenter.helpDisconnectQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN постоянно отключается. Что делать?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpEncryptedA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Да. Весь трафик между вашим устройством и VPN-сервером шифруется с помощью современной криптографии протокола WireGuard: ChaCha20 для шифрования и Curve25519 для обмена ключами."
+          }
+        }
+      }
+    },
+    "helpCenter.helpEncryptedQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои данные зашифрованы?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpLatencyA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задержка (в миллисекундах) — время передачи данных между вашим устройством и сервером. Чем меньше — тем лучше: до 50 мс — отлично, 50–100 мс — хорошо, более 100 мс — может ощущаться медленнее."
+          }
+        }
+      }
+    },
+    "helpCenter.helpLatencyQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что означает задержка?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpLogsA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет. VPN Dan не ведёт логи вашей активности, DNS-запросов или трафика. Мы храним только минимум информации, необходимой для работы аккаунта и подключения."
+          }
+        }
+      }
+    },
+    "helpCenter.helpLogsQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN Dan ведёт логи активности?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpMultiDeviceA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сейчас VPN Dan поддерживает одно активное подключение на аккаунт. При подключении с нового устройства предыдущее будет отключено."
+          }
+        }
+      }
+    },
+    "helpCenter.helpMultiDeviceQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можно ли использовать аккаунт на нескольких устройствах?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpPasswordA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Смена пароля пока недоступна в приложении. Эта функция появится скоро. Если вам срочно нужно сбросить пароль, обратитесь в поддержку."
+          }
+        }
+      }
+    },
+    "helpCenter.helpPasswordQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как изменить пароль?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpProtocolA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN Dan использует WireGuard — современный VPN-протокол, известный скоростью, простотой и надёжным шифрованием. Он быстрее и безопаснее устаревших протоколов OpenVPN и IPSec."
+          }
+        }
+      }
+    },
+    "helpCenter.helpProtocolQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Какой VPN-протокол использует VPN Dan?"
+          }
+        }
+      }
+    },
+    "helpCenter.helpSlowA" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попробуйте переключиться на ближайший сервер для меньшей задержки. Нагрузка на сервер тоже влияет на скорость — если задержка высокая, попробуйте другой сервер в том же регионе."
+          }
+        }
+      }
+    },
+    "helpCenter.helpSlowQ" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Почему соединение медленное?"
+          }
+        }
+      }
+    },
+    "helpCenter.noResults" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ничего не найдено"
+          }
+        }
+      }
+    },
+    "helpCenter.noResultsHint" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попробуйте другой запрос или просмотрите категории ниже."
+          }
+        }
+      }
+    },
+    "helpCenter.searchPlaceholder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск по статьям..."
+          }
+        }
+      }
+    },
+    "helpCenter.stillNeedHelp" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нужна помощь?"
+          }
+        }
+      }
+    },
+    "helpCenter.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Центр помощи"
+          }
+        }
+      }
+    },
+    "home.connectionError" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка подключения"
+          }
+        }
+      }
+    },
+    "home.connectionFailed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось подключиться. Попробуйте снова."
+          }
+        }
+      }
+    },
+    "home.statusConnected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы невидимы."
+          }
+        }
+      }
+    },
+    "home.statusConnecting" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключаемся..."
+          }
+        }
+      }
+    },
+    "home.statusDisconnected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы на виду."
+          }
+        }
+      }
+    },
+    "home.statusDisconnecting" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переподключение..."
+          }
+        }
+      }
+    },
+    "home.unableToLoadServers" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить серверы.\nПроверьте подключение."
+          }
+        }
+      }
+    },
+    "Last updated: %@" : {
+
+    },
+    "latency.excellent" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отлично"
+          }
+        }
+      }
+    },
+    "latency.fair" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Средне"
+          }
+        }
+      }
+    },
+    "latency.good" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Хорошо"
+          }
+        }
+      }
+    },
+    "latency.poor" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Плохо"
+          }
+        }
+      }
+    },
+    "No servers available at the moment." : {
+
+    },
+    "onboarding.featureEncryption" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шифрование военного уровня"
+          }
+        }
+      }
+    },
+    "onboarding.featureNoLogs" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Без логирования активности"
+          }
+        }
+      }
+    },
+    "onboarding.featureProtocol" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Протокол WireGuard"
+          }
+        }
+      }
+    },
+    "onboarding.getStarted" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начать"
+          }
+        }
+      }
+    },
+    "onboarding.next" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
+          }
+        }
+      }
+    },
+    "onboarding.permissionSubtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN Dan нужно разрешение для создания защищённого туннеля. Ваши данные никогда не покидают устройство в незашифрованном виде."
+          }
+        }
+      }
+    },
+    "onboarding.permissionTitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разрешение VPN"
+          }
+        }
+      }
+    },
+    "onboarding.priorityAccess" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ"
+          }
+        }
+      }
+    },
+    "onboarding.priorityAccessSub" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открыть контент по всему миру"
+          }
+        }
+      }
+    },
+    "onboarding.priorityPrivacy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Приватность"
+          }
+        }
+      }
+    },
+    "onboarding.priorityPrivacySub" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрыть мою личность"
+          }
+        }
+      }
+    },
+    "onboarding.prioritySpeed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скорость"
+          }
+        }
+      }
+    },
+    "onboarding.prioritySpeedSub" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Максимально быстрое соединение"
+          }
+        }
+      }
+    },
+    "onboarding.prioritySubtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мы настроим работу под ваши приоритеты."
+          }
+        }
+      }
+    },
+    "onboarding.priorityTitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что для вас\nважнее?"
+          }
+        }
+      }
+    },
+    "onboarding.skip" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пропустить"
+          }
+        }
+      }
+    },
+    "onboarding.welcomeSubtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN Dan шифрует ваше соединение\nи скрывает вашу личность от всех."
+          }
+        }
+      }
+    },
+    "onboarding.welcomeTitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полная приватность.\nОдно нажатие."
+          }
+        }
+      }
+    },
+    "serverCard.change" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить"
+          }
+        }
+      }
+    },
+    "serverCard.noServerSelected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер не выбран"
+          }
+        }
+      }
+    },
+    "serverCard.tapToChoose" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите, чтобы выбрать сервер"
+          }
+        }
+      }
+    },
+    "serverRow.connected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключено"
+          }
+        }
+      }
+    },
+    "servers.allServers" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все серверы"
+          }
+        }
+      }
+    },
+    "servers.favorites" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранное"
+          }
+        }
+      }
+    },
+    "servers.noServersFound" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Серверы не найдены"
+          }
+        }
+      }
+    },
+    "servers.region.all" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все"
+          }
+        }
+      }
+    },
+    "servers.region.americas" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Америка"
+          }
+        }
+      }
+    },
+    "servers.region.asia" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Азия"
+          }
+        }
+      }
+    },
+    "servers.region.europe" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Европа"
+          }
+        }
+      }
+    },
+    "servers.region.oceania" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Океания"
+          }
+        }
+      }
+    },
+    "servers.results" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Результаты"
+          }
+        }
+      }
+    },
+    "servers.searchPlaceholder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск серверов..."
+          }
+        }
+      }
+    },
+    "servers.selectServer" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать сервер"
+          }
+        }
+      }
+    },
+    "servers.serverCount %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld сервера"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld серверов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld сервер"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld серверов"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "servers.sort.latency" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задержка"
+          }
+        }
+      }
+    },
+    "servers.sort.name" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
+        }
+      }
+    },
+    "servers.sort.status" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статус"
+          }
+        }
+      }
+    },
+    "servers.sortLabel %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сорт.: %@"
+          }
+        }
+      }
+    },
+    "servers.tryDifferentSearch" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попробуйте другой запрос или регион"
+          }
+        }
+      }
+    },
+    "settings.account" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккаунт"
+          }
+        }
+      }
+    },
+    "settings.appearance" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оформление"
+          }
+        }
+      }
+    },
+    "settings.appVersion %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VPN Dan v%@"
+          }
+        }
+      }
+    },
+    "settings.autoConnect" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоподключение"
+          }
+        }
+      }
+    },
+    "settings.autoConnectSubtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключаться при запуске"
+          }
+        }
+      }
+    },
+    "settings.bypassVPN" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обход VPN"
+          }
+        }
+      }
+    },
+    "settings.connection" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение"
+          }
+        }
+      }
+    },
+    "settings.helpCenter" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Центр помощи"
+          }
+        }
+      }
+    },
+    "settings.killSwitch" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kill Switch"
+          }
+        }
+      }
+    },
+    "settings.killSwitchSubtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Блокировать трафик при разрыве VPN"
+          }
+        }
+      }
+    },
+    "settings.plan" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тариф"
+          }
+        }
+      }
+    },
+    "settings.planFree" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бесплатный"
+          }
+        }
+      }
+    },
+    "settings.privacyPolicy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Политика конфиденциальности"
+          }
+        }
+      }
+    },
+    "settings.signOut" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выйти"
+          }
+        }
+      }
+    },
+    "settings.signOutConfirm" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите выйти?"
+          }
+        }
+      }
+    },
+    "settings.signOutConfirmConnected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы сейчас подключены. При выходе VPN будет отключен."
+          }
+        }
+      }
+    },
+    "settings.support" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поддержка"
+          }
+        }
+      }
+    },
+    "settings.termsOfService" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Условия использования"
+          }
+        }
+      }
+    },
+    "settings.theme" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тема"
+          }
+        }
+      }
+    },
+    "splitTunnel.addCountry" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить страну"
+          }
+        }
+      }
+    },
+    "splitTunnel.addDomainOrIP" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить домен или IP"
+          }
+        }
+      }
+    },
+    "splitTunnel.bypassByCountry" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обход по стране"
+          }
+        }
+      }
+    },
+    "splitTunnel.changesOnReconnect" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменения вступят в силу при следующем подключении."
+          }
+        }
+      }
+    },
+    "splitTunnel.domain" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Домен"
+          }
+        }
+      }
+    },
+    "splitTunnel.excludedDomainsIPs" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исключённые домены и IP"
+          }
+        }
+      }
+    },
+    "splitTunnel.excludeHint" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите доменное имя (например google.com) или диапазон IP в формате CIDR (например 10.0.0.0/8)."
+          }
+        }
+      }
+    },
+    "splitTunnel.excludePlaceholder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "например google.com или 192.168.1.0/24"
+          }
+        }
+      }
+    },
+    "splitTunnel.excludeTitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Исключить домен или IP"
+          }
+        }
+      }
+    },
+    "splitTunnel.infoText" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обходные сайты и адреса будут использовать обычное интернет-соединение вместо VPN."
+          }
+        }
+      }
+    },
+    "splitTunnel.ipRange" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диапазон IP"
+          }
+        }
+      }
+    },
+    "splitTunnel.ipRangesCount %lld" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld диапазона IP"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld диапазонов IP"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld диапазон IP"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld диапазонов IP"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "splitTunnel.lanServices" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Устройства LAN"
+          }
+        }
+      }
+    },
+    "splitTunnel.lanServicesSub" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступ к принтерам, AirPlay, Chromecast"
+          }
+        }
+      }
+    },
+    "splitTunnel.localNetwork" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Локальная сеть"
+          }
+        }
+      }
+    },
+    "splitTunnel.localNetworkSub" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обход VPN для локального трафика"
+          }
+        }
+      }
+    },
+    "splitTunnel.noCountries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Страны не выбраны"
+          }
+        }
+      }
+    },
+    "splitTunnel.noExclusions" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет исключений"
+          }
+        }
+      }
+    },
+    "splitTunnel.presets" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шаблоны"
+          }
+        }
+      }
+    },
+    "splitTunnel.searchCountries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поиск стран"
+          }
+        }
+      }
+    },
+    "splitTunnel.selectCountries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать страны"
+          }
+        }
+      }
+    },
+    "splitTunnel.subtitle" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Некоторые приложения и сайты будут обходить VPN"
+          }
+        }
+      }
+    },
+    "splitTunnel.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обход VPN"
+          }
+        }
+      }
+    },
+    "tabs.home" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Главная"
+          }
+        }
+      }
+    },
+    "tabs.servers" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Серверы"
+          }
+        }
+      }
+    },
+    "tabs.settings" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настройки"
+          }
+        }
+      }
+    },
+    "vpnStatus.accessibility %@" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Статус VPN: %@"
+          }
+        }
+      }
+    },
+    "vpnStatus.connecting" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение"
+          }
+        }
+      }
+    },
+    "vpnStatus.disconnecting" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отключение"
+          }
+        }
+      }
+    },
+    "vpnStatus.notProtected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не защищено"
+          }
+        }
+      }
+    },
+    "vpnStatus.protected" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Защищено"
+          }
+        }
+      }
+    },
+    "You are connected to %@. Disconnect and connect to %@?" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You are connected to %1$@. Disconnect and connect to %2$@?"
+          }
+        }
+      }
+    },
+    "Your IP" : {
+
+    }
+  },
+  "version" : "1.0"
+}

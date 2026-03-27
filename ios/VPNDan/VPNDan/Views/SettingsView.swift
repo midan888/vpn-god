@@ -34,7 +34,7 @@ struct SettingsView: View {
                     signOutButton
 
                     // Version
-                    Text("VPN Dan v\(appVersion)")
+                    Text(L10n.Settings.appVersion(appVersion))
                         .vpnTextStyle(.caption, color: .vpnTextTertiary)
                         .padding(.top, VPNSpacing.sm)
                 }
@@ -44,8 +44,8 @@ struct SettingsView: View {
             }
             .scrollIndicators(.hidden)
         }
-        .confirmationDialog("Sign Out", isPresented: $showLogoutConfirmation) {
-            Button("Sign Out", role: .destructive) {
+        .confirmationDialog(L10n.Settings.signOut, isPresented: $showLogoutConfirmation) {
+            Button(L10n.Settings.signOut, role: .destructive) {
                 Task {
                     if vpn.status == .connected {
                         try? await vpn.disconnect()
@@ -55,9 +55,9 @@ struct SettingsView: View {
             }
         } message: {
             if vpn.status == .connected {
-                Text("You are currently connected. Signing out will disconnect you.")
+                Text(L10n.Settings.signOutConfirmConnected)
             } else {
-                Text("Are you sure you want to sign out?")
+                Text(L10n.Settings.signOutConfirm)
             }
         }
     }
@@ -65,20 +65,20 @@ struct SettingsView: View {
     // MARK: - Account Section
 
     private var accountSection: some View {
-        settingsSection(title: "Account", icon: "person.fill") {
+        settingsSection(title: L10n.Settings.account, icon: "person.fill") {
             VStack(spacing: 0) {
                 settingsRow(
                     icon: "envelope.fill",
-                    title: "Email",
-                    value: auth.userEmail ?? "Not available"
+                    title: L10n.Auth.email,
+                    value: auth.userEmail ?? L10n.Common.notAvailable
                 )
 
                 sectionDivider
 
                 settingsRow(
                     icon: "crown.fill",
-                    title: "Plan",
-                    value: "Free",
+                    title: L10n.Settings.plan,
+                    value: L10n.Settings.planFree,
                     trailing: {
                         AnyView(comingSoonBadge)
                     }
@@ -90,20 +90,20 @@ struct SettingsView: View {
     // MARK: - Connection Section
 
     private var connectionSection: some View {
-        settingsSection(title: "Connection", icon: "network") {
+        settingsSection(title: L10n.Settings.connection, icon: "network") {
             VStack(spacing: 0) {
                 settingsDisabledToggleRow(
                     icon: "arrow.triangle.2.circlepath",
-                    title: "Auto-Connect",
-                    subtitle: "Connect on app launch"
+                    title: L10n.Settings.autoConnect,
+                    subtitle: L10n.Settings.autoConnectSubtitle
                 )
 
                 sectionDivider
 
                 settingsDisabledToggleRow(
                     icon: "xmark.shield.fill",
-                    title: "Kill Switch",
-                    subtitle: "Block traffic if VPN drops"
+                    title: L10n.Settings.killSwitch,
+                    subtitle: L10n.Settings.killSwitchSubtitle
                 )
 
                 sectionDivider
@@ -113,8 +113,8 @@ struct SettingsView: View {
                 } label: {
                     settingsRow(
                         icon: "arrow.triangle.branch",
-                        title: "Bypass VPN",
-                        value: splitTunnel.config.isEnabled ? "On" : "Off",
+                        title: L10n.Settings.bypassVPN,
+                        value: splitTunnel.config.isEnabled ? L10n.Common.on : L10n.Common.off,
                         trailing: {
                             AnyView(
                                 Image(systemName: "chevron.right")
@@ -134,13 +134,13 @@ struct SettingsView: View {
     // MARK: - Appearance Section
 
     private var appearanceSection: some View {
-        settingsSection(title: "Appearance", icon: "paintbrush.fill") {
+        settingsSection(title: L10n.Settings.appearance, icon: "paintbrush.fill") {
             Button {
                 showThemePicker = true
             } label: {
                 settingsRow(
                     icon: themeService.current.icon,
-                    title: "Theme",
+                    title: L10n.Settings.theme,
                     value: themeService.current.displayName,
                     trailing: {
                         AnyView(
@@ -160,12 +160,12 @@ struct SettingsView: View {
     // MARK: - Support Section
 
     private var supportSection: some View {
-        settingsSection(title: "Support", icon: "questionmark.circle.fill") {
+        settingsSection(title: L10n.Settings.support, icon: "questionmark.circle.fill") {
             VStack(spacing: 0) {
                 Button {
                     showHelpCenter = true
                 } label: {
-                    settingsLinkRow(icon: "book.fill", title: "Help Center")
+                    settingsLinkRow(icon: "book.fill", title: L10n.Settings.helpCenter)
                 }
 
                 sectionDivider
@@ -173,7 +173,7 @@ struct SettingsView: View {
                 Button {
                     showPrivacyPolicy = true
                 } label: {
-                    settingsLinkRow(icon: "hand.raised.fill", title: "Privacy Policy")
+                    settingsLinkRow(icon: "hand.raised.fill", title: L10n.Settings.privacyPolicy)
                 }
 
                 sectionDivider
@@ -181,7 +181,7 @@ struct SettingsView: View {
                 Button {
                     showTermsOfService = true
                 } label: {
-                    settingsLinkRow(icon: "doc.text.fill", title: "Terms of Service")
+                    settingsLinkRow(icon: "doc.text.fill", title: L10n.Settings.termsOfService)
                 }
             }
         }
@@ -205,7 +205,7 @@ struct SettingsView: View {
             HStack {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
                     .font(.system(size: 14))
-                Text("Sign Out")
+                Text(L10n.Settings.signOut)
                     .vpnTextStyle(.buttonText)
             }
             .foregroundStyle(Color.vpnDisconnected)
@@ -312,7 +312,7 @@ struct SettingsView: View {
     }
 
     private var comingSoonBadge: some View {
-        Text("Coming soon")
+        Text(L10n.Common.comingSoon)
             .vpnTextStyle(.statusBadge, color: .vpnTextTertiary)
             .padding(.horizontal, VPNSpacing.sm + VPNSpacing.xs)
             .padding(.vertical, VPNSpacing.xs + 2)

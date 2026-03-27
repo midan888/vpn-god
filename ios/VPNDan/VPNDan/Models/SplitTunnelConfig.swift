@@ -82,15 +82,15 @@ enum SplitTunnelPreset: String, Codable, CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .localNetwork: return "Local Network"
-        case .lanServices: return "LAN Services"
+        case .localNetwork: return L10n.SplitTunnel.localNetwork
+        case .lanServices: return L10n.SplitTunnel.lanServices
         }
     }
 
     var subtitle: String {
         switch self {
-        case .localNetwork: return "Bypass VPN for local network traffic"
-        case .lanServices: return "Access printers, AirPlay, Chromecast"
+        case .localNetwork: return L10n.SplitTunnel.localNetworkSub
+        case .lanServices: return L10n.SplitTunnel.lanServicesSub
         }
     }
 

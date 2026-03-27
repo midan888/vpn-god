@@ -27,17 +27,17 @@ struct StatusBadge: View {
             Capsule()
                 .stroke(status.color.opacity(0.3), lineWidth: 1)
         )
-        .accessibilityLabel("VPN status: \(status.label)")
+        .accessibilityLabel(L10n.VPNStatus.accessibilityLabel(status.label))
     }
 }
 
 extension VPNManager.VPNStatus {
     var label: String {
         switch self {
-        case .connected: return "Protected"
-        case .connecting: return "Connecting"
-        case .disconnected: return "Not Protected"
-        case .disconnecting: return "Disconnecting"
+        case .connected: return L10n.VPNStatus.protected
+        case .connecting: return L10n.VPNStatus.connecting
+        case .disconnected: return L10n.VPNStatus.notProtected
+        case .disconnecting: return L10n.VPNStatus.disconnecting
         }
     }
 }

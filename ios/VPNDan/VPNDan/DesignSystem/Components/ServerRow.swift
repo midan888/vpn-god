@@ -21,7 +21,7 @@ struct ServerRow: View {
                     .vpnTextStyle(.body, color: server.isActive ? .vpnTextPrimary : .vpnTextTertiary)
 
                 if isConnected {
-                    Text("Connected")
+                    Text(L10n.ServerRow.connected)
                         .vpnTextStyle(.statusBadge, color: .vpnConnected)
                 }
             }

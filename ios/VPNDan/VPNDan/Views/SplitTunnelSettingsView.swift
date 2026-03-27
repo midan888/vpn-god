@@ -33,20 +33,20 @@ struct SplitTunnelSettingsView: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            .navigationTitle("Bypass VPN")
+            .navigationTitle(L10n.SplitTunnel.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button(L10n.Common.done) { dismiss() }
                         .foregroundStyle(Color.vpnPrimary)
                 }
             }
-            .alert("Exclude Domain or IP", isPresented: $showAddEntry) {
-                TextField("e.g. google.com or 192.168.1.0/24", text: $newEntry)
+            .alert(L10n.SplitTunnel.excludeTitle, isPresented: $showAddEntry) {
+                TextField(L10n.SplitTunnel.excludePlaceholder, text: $newEntry)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
-                Button("Cancel", role: .cancel) { newEntry = "" }
-                Button("Add") {
+                Button(L10n.Common.cancel, role: .cancel) { newEntry = "" }
+                Button(L10n.Common.add) {
                     let trimmed = newEntry.trimmingCharacters(in: .whitespaces).lowercased()
                     if let entry = parseEntry(trimmed) {
                         splitTunnel.addEntry(entry)
@@ -54,7 +54,7 @@ struct SplitTunnelSettingsView: View {
                     newEntry = ""
                 }
             } message: {
-                Text("Enter a domain name (e.g. google.com) or IP range in CIDR notation (e.g. 10.0.0.0/8).")
+                Text(L10n.SplitTunnel.excludeHint)
             }
         }
     }
@@ -62,11 +62,11 @@ struct SplitTunnelSettingsView: View {
     // MARK: - Master Toggle
 
     private var masterToggle: some View {
-        settingsSection(title: "Bypass VPN", icon: "arrow.triangle.branch") {
+        settingsSection(title: L10n.SplitTunnel.title, icon: "arrow.triangle.branch") {
             toggleRow(
                 icon: "arrow.triangle.branch",
-                title: "Bypass VPN",
-                subtitle: "Let certain apps and sites skip the VPN",
+                title: L10n.SplitTunnel.title,
+                subtitle: L10n.SplitTunnel.subtitle,
                 isOn: Binding(
                     get: { splitTunnel.config.isEnabled },
                     set: { splitTunnel.setEnabled($0) }
@@ -78,7 +78,7 @@ struct SplitTunnelSettingsView: View {
     // MARK: - Presets
 
     private var presetsSection: some View {
-        settingsSection(title: "Presets", icon: "sparkles") {
+        settingsSection(title: L10n.SplitTunnel.presets, icon: "sparkles") {
             VStack(spacing: 0) {
                 ForEach(Array(SplitTunnelPreset.allCases.enumerated()), id: \.element.id) { index, preset in
                     if index > 0 { sectionDivider }
@@ -99,11 +99,11 @@ struct SplitTunnelSettingsView: View {
     // MARK: - Country Bypass
 
     private var countryBypassSection: some View {
-        settingsSection(title: "Bypass by Country", icon: "globe.americas") {
+        settingsSection(title: L10n.SplitTunnel.bypassByCountry, icon: "globe.americas") {
             VStack(spacing: 0) {
                 if splitTunnel.config.excludedCountries.isEmpty {
                     HStack {
-                        Text("No countries selected")
+                        Text(L10n.SplitTunnel.noCountries)
                             .vpnTextStyle(.body, color: .vpnTextTertiary)
                         Spacer()
                     }
@@ -151,7 +151,7 @@ struct SplitTunnelSettingsView: View {
                             .foregroundStyle(Color.vpnPrimary)
                             .frame(width: 20)
 
-                        Text("Add Country")
+                        Text(L10n.SplitTunnel.addCountry)
                             .vpnTextStyle(.body, color: .vpnPrimary)
 
                         Spacer()
@@ -189,7 +189,7 @@ struct SplitTunnelSettingsView: View {
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text(country.displayName)
                                                 .vpnTextStyle(.body)
-                                            Text("\(country.count) IP ranges")
+                                            Text(L10n.SplitTunnel.ipRangesCount(country.count))
                                                 .vpnTextStyle(.statusBadge, color: .vpnTextTertiary)
                                         }
 
@@ -213,12 +213,12 @@ struct SplitTunnelSettingsView: View {
                     .scrollIndicators(.hidden)
                 }
             }
-            .navigationTitle("Select Countries")
+            .navigationTitle(L10n.SplitTunnel.selectCountries)
             .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $countrySearchText, prompt: "Search countries")
+            .searchable(text: $countrySearchText, prompt: L10n.SplitTunnel.searchCountries)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { showCountryPicker = false }
+                    Button(L10n.Common.done) { showCountryPicker = false }
                         .foregroundStyle(Color.vpnPrimary)
                 }
             }
@@ -262,11 +262,11 @@ struct SplitTunnelSettingsView: View {
     // MARK: - Excluded Entries
 
     private var excludedEntriesSection: some View {
-        settingsSection(title: "Excluded Domains & IPs", icon: "network") {
+        settingsSection(title: L10n.SplitTunnel.excludedDomainsIPs, icon: "network") {
             VStack(spacing: 0) {
                 if splitTunnel.config.excludedEntries.isEmpty {
                     HStack {
-                        Text("No exclusions added")
+                        Text(L10n.SplitTunnel.noExclusions)
                             .vpnTextStyle(.body, color: .vpnTextTertiary)
                         Spacer()
                     }
@@ -284,7 +284,7 @@ struct SplitTunnelSettingsView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(entry.value)
                                     .vpnTextStyle(.body)
-                                Text(entry.type == .domain ? "Domain" : "IP Range")
+                                Text(entry.type == .domain ? L10n.SplitTunnel.domain : L10n.SplitTunnel.ipRange)
                                     .vpnTextStyle(.statusBadge, color: .vpnTextTertiary)
                             }
 
@@ -314,7 +314,7 @@ struct SplitTunnelSettingsView: View {
                             .foregroundStyle(Color.vpnPrimary)
                             .frame(width: 20)
 
-                        Text("Add Domain or IP")
+                        Text(L10n.SplitTunnel.addDomainOrIP)
                             .vpnTextStyle(.body, color: .vpnPrimary)
 
                         Spacer()
@@ -335,7 +335,7 @@ struct SplitTunnelSettingsView: View {
                     .font(.system(size: 12))
                     .foregroundStyle(Color.vpnTextTertiary)
 
-                Text("Bypassed sites and addresses will use your regular internet connection instead of the VPN.")
+                Text(L10n.SplitTunnel.infoText)
                     .vpnTextStyle(.caption, color: .vpnTextTertiary)
             }
 
@@ -345,7 +345,7 @@ struct SplitTunnelSettingsView: View {
                         .font(.system(size: 12))
                         .foregroundStyle(Color.vpnConnecting)
 
-                    Text("Changes will take effect on next connection.")
+                    Text(L10n.SplitTunnel.changesOnReconnect)
                         .vpnTextStyle(.caption, color: .vpnConnecting)
                 }
             }

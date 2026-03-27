@@ -24,9 +24,9 @@ enum APIError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidURL:
-            return "Invalid URL"
+            return L10n.Errors.invalidURL
         case .unauthorized:
-            return "Invalid email or password"
+            return L10n.Errors.unauthorized
         case .conflict(let message):
             return message
         case .notFound(let message):
@@ -34,21 +34,21 @@ enum APIError: LocalizedError {
         case .badRequest(let message):
             return message
         case .serverUnavailable:
-            return "Server unavailable. Please select another."
+            return L10n.Errors.serverUnavailable
         case .serverAtCapacity:
-            return "Server is at capacity. Try another server."
+            return L10n.Errors.serverAtCapacity
         case .serverError:
-            return "Something went wrong. Please try again."
+            return L10n.Errors.serverError
         case .networkError:
-            return "Unable to connect. Check your internet connection."
+            return L10n.Errors.networkError
         case .decodingError:
-            return "Unexpected response from server."
+            return L10n.Errors.decodingError
         case .sessionExpired:
-            return "Session expired. Please log in again."
+            return L10n.Errors.sessionExpired
         case .vpnPermissionRequired:
-            return "VPN permission is required to connect. You can enable it in Settings > General > VPN & Device Management."
+            return L10n.Errors.vpnPermissionRequired
         case .vpnConnectionFailed:
-            return "Connection failed. Please try again."
+            return L10n.Errors.vpnConnectionFailed
         }
     }
 }

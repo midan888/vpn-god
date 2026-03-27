@@ -20,7 +20,7 @@ struct ServerSelectionSheet: View {
 
                     // Favorites section
                     if !favoriteServers.isEmpty && searchText.isEmpty {
-                        serverSection(title: "Favorites", icon: "star.fill", servers: favoriteServers)
+                        serverSection(title: L10n.Servers.favorites, icon: "star.fill", servers: favoriteServers)
                     }
 
                     // All servers (or filtered)
@@ -28,7 +28,7 @@ struct ServerSelectionSheet: View {
                         emptyState
                     } else {
                         serverSection(
-                            title: searchText.isEmpty ? "All Servers" : "Results",
+                            title: searchText.isEmpty ? L10n.Servers.allServers : L10n.Servers.results,
                             icon: "globe",
                             servers: filteredServers
                         )
@@ -39,11 +39,11 @@ struct ServerSelectionSheet: View {
             }
             .scrollIndicators(.hidden)
             .background(Color.vpnBackground)
-            .navigationTitle("Select Server")
+            .navigationTitle(L10n.Servers.selectServer)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done", action: onDismiss)
+                    Button(L10n.Common.done, action: onDismiss)
                         .foregroundStyle(Color.vpnPrimary)
                 }
             }
@@ -62,7 +62,7 @@ struct ServerSelectionSheet: View {
                 .font(.system(size: 14))
                 .foregroundStyle(Color.vpnTextTertiary)
 
-            TextField("", text: $searchText, prompt: Text("Search servers...").foregroundStyle(Color.vpnTextTertiary))
+            TextField("", text: $searchText, prompt: Text(L10n.Servers.searchPlaceholder).foregroundStyle(Color.vpnTextTertiary))
                 .font(.system(size: 15))
                 .foregroundStyle(Color.vpnTextPrimary)
                 .autocorrectionDisabled()
@@ -150,7 +150,7 @@ struct ServerSelectionSheet: View {
                 .font(.system(size: 32))
                 .foregroundStyle(Color.vpnTextTertiary)
 
-            Text("No servers found")
+            Text(L10n.Servers.noServersFound)
                 .vpnTextStyle(.body, color: .vpnTextSecondary)
         }
         .frame(maxWidth: .infinity)

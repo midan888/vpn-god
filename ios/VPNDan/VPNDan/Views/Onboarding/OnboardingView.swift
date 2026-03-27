@@ -51,13 +51,13 @@ struct OnboardingView: View {
                     Button {
                         finishOnboarding()
                     } label: {
-                        Text("Skip")
+                        Text(L10n.Onboarding.skip)
                             .vpnTextStyle(.buttonText, color: .vpnTextTertiary)
                             .frame(maxWidth: .infinity)
                             .frame(height: 52)
                     }
 
-                    GradientButton(title: "Next") {
+                    GradientButton(title: L10n.Onboarding.next) {
                         withAnimation {
                             currentPage += 1
                         }
@@ -101,11 +101,11 @@ private struct WelcomePage: View {
             }
 
             VStack(spacing: VPNSpacing.md) {
-                Text("Total Privacy.\nOne Tap.")
+                Text(L10n.Onboarding.welcomeTitle)
                     .vpnTextStyle(.screenTitle)
                     .multilineTextAlignment(.center)
 
-                Text("VPN Dan encrypts your connection\nand hides your identity from everyone.")
+                Text(L10n.Onboarding.welcomeSubtitle)
                     .vpnTextStyle(.body, color: .vpnTextSecondary)
                     .multilineTextAlignment(.center)
             }
@@ -145,20 +145,20 @@ private struct PermissionPage: View {
             }
 
             VStack(spacing: VPNSpacing.md) {
-                Text("VPN Permission")
+                Text(L10n.Onboarding.permissionTitle)
                     .vpnTextStyle(.screenTitle)
                     .multilineTextAlignment(.center)
 
-                Text("VPN Dan needs permission to create a secure tunnel. Your data never leaves your device unencrypted.")
+                Text(L10n.Onboarding.permissionSubtitle)
                     .vpnTextStyle(.body, color: .vpnTextSecondary)
                     .multilineTextAlignment(.center)
             }
 
             // Feature list
             VStack(alignment: .leading, spacing: VPNSpacing.md) {
-                featureRow(icon: "checkmark.shield.fill", text: "Military-grade encryption")
-                featureRow(icon: "eye.slash.fill", text: "No activity logging")
-                featureRow(icon: "bolt.shield.fill", text: "WireGuard protocol")
+                featureRow(icon: "checkmark.shield.fill", text: L10n.Onboarding.featureEncryption)
+                featureRow(icon: "eye.slash.fill", text: L10n.Onboarding.featureNoLogs)
+                featureRow(icon: "bolt.shield.fill", text: L10n.Onboarding.featureProtocol)
             }
             .padding(.top, VPNSpacing.md)
 
@@ -187,10 +187,18 @@ private struct PersonalizationPage: View {
     @State private var selectedPriority: Priority?
     let onComplete: () -> Void
 
-    enum Priority: String, CaseIterable {
-        case privacy = "Privacy"
-        case access = "Access"
-        case speed = "Speed"
+    enum Priority: CaseIterable {
+        case privacy
+        case access
+        case speed
+
+        var displayName: String {
+            switch self {
+            case .privacy: return L10n.Onboarding.priorityPrivacy
+            case .access: return L10n.Onboarding.priorityAccess
+            case .speed: return L10n.Onboarding.prioritySpeed
+            }
+        }
 
         var icon: String {
             switch self {
@@ -202,9 +210,9 @@ private struct PersonalizationPage: View {
 
         var subtitle: String {
             switch self {
-            case .privacy: return "Hide my identity"
-            case .access: return "Unlock content worldwide"
-            case .speed: return "Fastest connection possible"
+            case .privacy: return L10n.Onboarding.priorityPrivacySub
+            case .access: return L10n.Onboarding.priorityAccessSub
+            case .speed: return L10n.Onboarding.prioritySpeedSub
             }
         }
 
@@ -222,11 +230,11 @@ private struct PersonalizationPage: View {
             Spacer()
 
             VStack(spacing: VPNSpacing.md) {
-                Text("What's Your\nPriority?")
+                Text(L10n.Onboarding.priorityTitle)
                     .vpnTextStyle(.screenTitle)
                     .multilineTextAlignment(.center)
 
-                Text("We'll optimize your experience accordingly.")
+                Text(L10n.Onboarding.prioritySubtitle)
                     .vpnTextStyle(.body, color: .vpnTextSecondary)
                     .multilineTextAlignment(.center)
             }
@@ -241,7 +249,7 @@ private struct PersonalizationPage: View {
             Spacer()
 
             // Get Started button
-            GradientButton(title: "Get Started") {
+            GradientButton(title: L10n.Onboarding.getStarted) {
                 onComplete()
             }
             .padding(.horizontal, VPNSpacing.xl)
@@ -266,7 +274,7 @@ private struct PersonalizationPage: View {
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: VPNSpacing.xs) {
-                    Text(priority.rawValue)
+                    Text(priority.displayName)
                         .vpnTextStyle(.sectionHeader, color: isSelected ? .vpnTextPrimary : .vpnTextSecondary)
                     Text(priority.subtitle)
                         .vpnTextStyle(.caption, color: .vpnTextTertiary)

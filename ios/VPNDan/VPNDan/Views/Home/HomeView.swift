@@ -29,7 +29,7 @@ struct HomeView: View {
                     // Error state
                     Spacer().frame(height: VPNSpacing.xxl)
                     ErrorStateView(
-                        message: "Unable to load servers.\nCheck your connection.",
+                        message: L10n.Home.unableToLoadServers,
                         retryAction: { Task { await viewModel.loadServers() } }
                     )
                 } else {
@@ -86,8 +86,8 @@ struct HomeView: View {
                 onDismiss: { showServerSheet = false }
             )
         }
-        .alert("Connection Error", isPresented: $showError) {
-            Button("OK") {}
+        .alert(L10n.Home.connectionError, isPresented: $showError) {
+            Button(L10n.Common.ok) {}
         } message: {
             Text(error ?? "")
         }
@@ -134,10 +134,10 @@ struct HomeView: View {
 
     private var statusMessage: String {
         switch vpn.status {
-        case .connected: return "You're invisible."
-        case .connecting: return "Going dark..."
-        case .disconnected: return "You're exposed."
-        case .disconnecting: return "Reconnecting..."
+        case .connected: return L10n.Home.statusConnected
+        case .connecting: return L10n.Home.statusConnecting
+        case .disconnected: return L10n.Home.statusDisconnected
+        case .disconnecting: return L10n.Home.statusDisconnecting
         }
     }
 
@@ -164,7 +164,7 @@ struct HomeView: View {
                 error = apiError.errorDescription
                 showError = true
             } catch {
-                self.error = "Connection failed. Please try again."
+                self.error = L10n.Home.connectionFailed
                 showError = true
             }
         }
@@ -183,7 +183,7 @@ struct HomeView: View {
                     error = apiError.errorDescription
                     showError = true
                 } catch {
-                    self.error = "Connection failed. Please try again."
+                    self.error = L10n.Home.connectionFailed
                     showError = true
                 }
             }
@@ -197,7 +197,7 @@ struct HomeView: View {
                     error = apiError.errorDescription
                     showError = true
                 } catch {
-                    self.error = "Connection failed. Please try again."
+                    self.error = L10n.Home.connectionFailed
                     showError = true
                 }
             }

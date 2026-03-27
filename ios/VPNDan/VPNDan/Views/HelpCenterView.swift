@@ -62,11 +62,11 @@ struct HelpCenterView: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            .navigationTitle("Help Center")
+            .navigationTitle(L10n.HelpCenter.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button(L10n.Common.done) { dismiss() }
                         .foregroundStyle(Color.vpnPrimary)
                 }
             }
@@ -81,7 +81,7 @@ struct HelpCenterView: View {
                 .font(.system(size: 14))
                 .foregroundStyle(Color.vpnTextTertiary)
 
-            TextField("Search help articles...", text: $searchText)
+            TextField(L10n.HelpCenter.searchPlaceholder, text: $searchText)
                 .vpnTextStyle(.body)
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
@@ -190,10 +190,10 @@ struct HelpCenterView: View {
                 .font(.system(size: 32))
                 .foregroundStyle(Color.vpnTextTertiary)
 
-            Text("No results found")
+            Text(L10n.HelpCenter.noResults)
                 .vpnTextStyle(.sectionHeader)
 
-            Text("Try a different search term or browse the categories below.")
+            Text(L10n.HelpCenter.noResultsHint)
                 .vpnTextStyle(.body, color: .vpnTextSecondary)
                 .multilineTextAlignment(.center)
         }
@@ -204,10 +204,10 @@ struct HelpCenterView: View {
 
     private var contactSupport: some View {
         VStack(spacing: VPNSpacing.sm) {
-            Text("Still need help?")
+            Text(L10n.HelpCenter.stillNeedHelp)
                 .vpnTextStyle(.sectionHeader)
 
-            Text("Reach out to us and we'll get back to you as soon as possible.")
+            Text(L10n.HelpCenter.contactPrompt)
                 .vpnTextStyle(.body, color: .vpnTextSecondary)
                 .multilineTextAlignment(.center)
 
@@ -219,7 +219,7 @@ struct HelpCenterView: View {
                 HStack(spacing: VPNSpacing.sm) {
                     Image(systemName: "envelope.fill")
                         .font(.system(size: 14))
-                    Text("Contact Support")
+                    Text(L10n.HelpCenter.contactSupport)
                         .vpnTextStyle(.buttonText, color: .white)
                 }
                 .frame(maxWidth: .infinity)
@@ -238,78 +238,39 @@ extension HelpCategory {
     static let all: [HelpCategory] = [
         HelpCategory(
             icon: "bolt.fill",
-            title: "Getting Started",
+            title: L10n.HelpCenter.catGettingStarted,
             articles: [
-                HelpArticle(
-                    question: "How do I connect to a VPN server?",
-                    answer: "Tap the power button on the home screen to connect to the selected server. You can change servers by tapping \"Change\" on the server card or visiting the Servers tab."
-                ),
-                HelpArticle(
-                    question: "Which server should I choose?",
-                    answer: "For the best speed, choose a server close to your physical location — look for the lowest latency (ms) value. For accessing content from a specific region, pick a server in that country."
-                ),
-                HelpArticle(
-                    question: "Do I need to create an account?",
-                    answer: "Yes, an account is required to use VPN Dan. Your account lets us manage your VPN connection securely without storing any browsing activity."
-                ),
+                HelpArticle(question: L10n.HelpCenter.helpConnectQ, answer: L10n.HelpCenter.helpConnectA),
+                HelpArticle(question: L10n.HelpCenter.helpChooseServerQ, answer: L10n.HelpCenter.helpChooseServerA),
+                HelpArticle(question: L10n.HelpCenter.helpAccountQ, answer: L10n.HelpCenter.helpAccountA),
             ]
         ),
         HelpCategory(
             icon: "network",
-            title: "Connection",
+            title: L10n.HelpCenter.catConnection,
             articles: [
-                HelpArticle(
-                    question: "Why is my connection slow?",
-                    answer: "Try switching to a server closer to your location for lower latency. Server load can also affect speed — if a server shows high latency, try another one in the same region."
-                ),
-                HelpArticle(
-                    question: "What does the latency number mean?",
-                    answer: "Latency (measured in milliseconds) is the time it takes for data to travel between your device and the server. Lower is better — under 50ms is excellent, 50–100ms is good, and over 100ms may feel slower."
-                ),
-                HelpArticle(
-                    question: "What is Bypass VPN (Split Tunneling)?",
-                    answer: "Bypass VPN lets certain apps, websites, or IP addresses skip the VPN tunnel and connect directly. This is useful for services that block VPN traffic, like banking apps, or for local network access."
-                ),
-                HelpArticle(
-                    question: "The VPN keeps disconnecting. What should I do?",
-                    answer: "Make sure you have a stable internet connection. Try switching to a different server. If the issue persists, sign out and sign back in to refresh your session."
-                ),
+                HelpArticle(question: L10n.HelpCenter.helpSlowQ, answer: L10n.HelpCenter.helpSlowA),
+                HelpArticle(question: L10n.HelpCenter.helpLatencyQ, answer: L10n.HelpCenter.helpLatencyA),
+                HelpArticle(question: L10n.HelpCenter.helpBypassQ, answer: L10n.HelpCenter.helpBypassA),
+                HelpArticle(question: L10n.HelpCenter.helpDisconnectQ, answer: L10n.HelpCenter.helpDisconnectA),
             ]
         ),
         HelpCategory(
             icon: "lock.shield.fill",
-            title: "Privacy & Security",
+            title: L10n.HelpCenter.catPrivacy,
             articles: [
-                HelpArticle(
-                    question: "Does VPN Dan log my activity?",
-                    answer: "No. VPN Dan does not log your browsing activity, DNS queries, or traffic data. We only store the minimum information needed to maintain your account and connection."
-                ),
-                HelpArticle(
-                    question: "What VPN protocol does VPN Dan use?",
-                    answer: "VPN Dan uses WireGuard, a modern VPN protocol known for its speed, simplicity, and strong cryptography. It's faster and more secure than older protocols like OpenVPN or IPSec."
-                ),
-                HelpArticle(
-                    question: "Is my data encrypted?",
-                    answer: "Yes. All traffic between your device and the VPN server is encrypted using state-of-the-art cryptography provided by the WireGuard protocol, including ChaCha20 for encryption and Curve25519 for key exchange."
-                ),
+                HelpArticle(question: L10n.HelpCenter.helpLogsQ, answer: L10n.HelpCenter.helpLogsA),
+                HelpArticle(question: L10n.HelpCenter.helpProtocolQ, answer: L10n.HelpCenter.helpProtocolA),
+                HelpArticle(question: L10n.HelpCenter.helpEncryptedQ, answer: L10n.HelpCenter.helpEncryptedA),
             ]
         ),
         HelpCategory(
             icon: "person.fill",
-            title: "Account",
+            title: L10n.HelpCenter.catAccount,
             articles: [
-                HelpArticle(
-                    question: "How do I change my password?",
-                    answer: "Password changes are not yet available in the app. This feature is coming soon. If you need to reset your password urgently, please contact support."
-                ),
-                HelpArticle(
-                    question: "Can I use my account on multiple devices?",
-                    answer: "Currently, VPN Dan supports one active connection per account. Connecting from a new device will disconnect the previous one."
-                ),
-                HelpArticle(
-                    question: "How do I delete my account?",
-                    answer: "To delete your account and all associated data, please contact us at support@vpndan.com. We will process your request and confirm once complete."
-                ),
+                HelpArticle(question: L10n.HelpCenter.helpPasswordQ, answer: L10n.HelpCenter.helpPasswordA),
+                HelpArticle(question: L10n.HelpCenter.helpMultiDeviceQ, answer: L10n.HelpCenter.helpMultiDeviceA),
+                HelpArticle(question: L10n.HelpCenter.helpDeleteQ, answer: L10n.HelpCenter.helpDeleteA),
             ]
         ),
     ]

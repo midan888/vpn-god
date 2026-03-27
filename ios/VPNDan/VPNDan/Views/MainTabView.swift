@@ -6,18 +6,18 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Home", systemImage: "shield.fill", value: .home) {
+            Tab(L10n.Tabs.home, systemImage: "shield.fill", value: .home) {
                 HomeView()
             }
 
-            Tab("Servers", systemImage: "globe", value: .servers) {
+            Tab(L10n.Tabs.servers, systemImage: "globe", value: .servers) {
                 ServersView(onServerSelected: { server in
                     connectToServer(server)
                     selectedTab = .home
                 })
             }
 
-            Tab("Settings", systemImage: "gearshape", value: .settings) {
+            Tab(L10n.Tabs.settings, systemImage: "gearshape", value: .settings) {
                 SettingsView()
             }
         }

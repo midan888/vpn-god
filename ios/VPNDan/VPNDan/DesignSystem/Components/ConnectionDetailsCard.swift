@@ -76,7 +76,7 @@ struct ConnectionDetailsCard: View {
                 Text(quality.label)
                     .vpnTextStyle(.caption, color: quality.color)
             } else {
-                Text("Connection details")
+                Text(L10n.ConnectionDetails.title)
                     .vpnTextStyle(.caption, color: .vpnTextSecondary)
             }
 
@@ -107,7 +107,7 @@ struct ConnectionDetailsCard: View {
                         .font(.system(size: 18, weight: .bold, design: .monospaced))
                         .foregroundStyle(Color.vpnTextTertiary)
                 }
-                Text("Connection Quality")
+                Text(L10n.ConnectionDetails.connectionQuality)
                     .vpnTextStyle(.caption, color: .vpnTextTertiary)
             }
             .contentTransition(.numericText())
@@ -129,7 +129,7 @@ struct ConnectionDetailsCard: View {
             statItem(
                 icon: "arrow.down",
                 value: isConnected ? formatBytes(bytesReceived) : "--",
-                label: "Download"
+                label: L10n.ConnectionDetails.download
             )
 
             statDivider
@@ -137,7 +137,7 @@ struct ConnectionDetailsCard: View {
             statItem(
                 icon: "arrow.up",
                 value: isConnected ? formatBytes(bytesSent) : "--",
-                label: "Upload"
+                label: L10n.ConnectionDetails.upload
             )
 
             statDivider
@@ -146,7 +146,7 @@ struct ConnectionDetailsCard: View {
                 statItem(
                     icon: "clock",
                     value: isConnected ? uptimeString(at: context.date) : "--:--",
-                    label: "Duration"
+                    label: L10n.ConnectionDetails.duration
                 )
             }
         }
@@ -180,10 +180,10 @@ struct ConnectionDetailsCard: View {
     private var ipRow: some View {
         HStack {
             VStack(alignment: .leading, spacing: VPNSpacing.xs) {
-                Text("Your IP")
+                Text(L10n.ConnectionDetails.yourIP)
                     .vpnTextStyle(.caption, color: .vpnTextTertiary)
 
-                Text(ip ?? "Not connected")
+                Text(ip ?? L10n.ConnectionDetails.notConnected)
                     .vpnTextStyle(.sectionHeader, color: ip != nil ? .vpnTextPrimary : .vpnTextTertiary)
 
                 if let location {

@@ -26,7 +26,7 @@ struct AuthView: View {
                             .font(.system(size: 48))
                             .foregroundStyle(Color.vpnPrimaryGradient)
 
-                        Text("VPN GOD")
+                        Text(L10n.Auth.appName)
                             .font(.system(size: 32, weight: .bold, design: .default))
                             .foregroundStyle(Color.vpnTextPrimary)
                     }
@@ -59,7 +59,7 @@ struct AuthView: View {
 
 struct CustomSegmentedControl: View {
     @Binding var selectedTab: Int
-    private let tabs = ["Sign In", "Create Account"]
+    private let tabs = [L10n.Auth.signIn, L10n.Auth.createAccount]
 
     var body: some View {
         HStack(spacing: 0) {
@@ -108,14 +108,14 @@ struct LoginFormView: View {
 
             // Fields
             VPNTextField(
-                placeholder: "Email",
+                placeholder: L10n.Auth.email,
                 text: $viewModel.email,
                 textContentType: .emailAddress,
                 keyboardType: .emailAddress
             )
 
             VPNTextField(
-                placeholder: "Password",
+                placeholder: L10n.Auth.password,
                 text: $viewModel.password,
                 isSecure: true,
                 textContentType: .password
@@ -123,7 +123,7 @@ struct LoginFormView: View {
 
             // Login button
             GradientButton(
-                title: "Sign In",
+                title: L10n.Auth.signIn,
                 isLoading: auth.isLoading,
                 isDisabled: !viewModel.isValid
             ) {
@@ -141,7 +141,7 @@ struct LoginFormView: View {
             Button {
                 // No backend support yet
             } label: {
-                Text("Forgot password?")
+                Text(L10n.Auth.forgotPassword)
                     .vpnTextStyle(.caption, color: .vpnPrimary)
             }
             .padding(.top, VPNSpacing.sm)
@@ -173,21 +173,21 @@ struct RegisterFormView: View {
 
             // Fields
             VPNTextField(
-                placeholder: "Email",
+                placeholder: L10n.Auth.email,
                 text: $viewModel.email,
                 textContentType: .emailAddress,
                 keyboardType: .emailAddress
             )
 
             VPNTextField(
-                placeholder: "Password (min. 8 characters)",
+                placeholder: L10n.Auth.passwordHint,
                 text: $viewModel.password,
                 isSecure: true,
                 textContentType: .newPassword
             )
 
             VPNTextField(
-                placeholder: "Confirm Password",
+                placeholder: L10n.Auth.confirmPassword,
                 text: $viewModel.confirmPassword,
                 isSecure: true,
                 textContentType: .newPassword
@@ -198,7 +198,7 @@ struct RegisterFormView: View {
                 HStack(spacing: VPNSpacing.xs) {
                     Image(systemName: "exclamationmark.circle.fill")
                         .font(.system(size: 12))
-                    Text("Passwords don't match")
+                    Text(L10n.Auth.passwordsDontMatch)
                         .vpnTextStyle(.statusBadge)
                 }
                 .foregroundStyle(Color.vpnDisconnected)
@@ -208,7 +208,7 @@ struct RegisterFormView: View {
 
             // Register button
             GradientButton(
-                title: "Create Account",
+                title: L10n.Auth.createAccount,
                 isLoading: auth.isLoading,
                 isDisabled: !viewModel.isValid
             ) {
@@ -265,7 +265,7 @@ private var dividerRow: some View {
         Rectangle()
             .fill(Color.vpnBorder)
             .frame(height: 1)
-        Text("or")
+        Text(L10n.Common.or)
             .vpnTextStyle(.caption, color: .vpnTextTertiary)
         Rectangle()
             .fill(Color.vpnBorder)

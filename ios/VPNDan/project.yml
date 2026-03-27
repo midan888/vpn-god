@@ -4,10 +4,13 @@ options:
   deploymentTarget:
     iOS: "26.0"
   xcodeVersion: "26.0"
+  developmentLanguage: en
 
 settings:
   base:
     SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: 9NA5KSNXGN
+    CODE_SIGN_STYLE: Automatic
 
 packages:
   WireGuardKit:
@@ -17,6 +20,9 @@ targets:
   VPNDan:
     type: application
     platform: iOS
+    attributes:
+      DevelopmentTeam: 9NA5KSNXGN
+      ProvisioningStyle: Automatic
     sources:
       - VPNDan
     configFiles:
@@ -58,6 +64,9 @@ targets:
   PacketTunnel:
     type: app-extension
     platform: iOS
+    attributes:
+      DevelopmentTeam: 9NA5KSNXGN
+      ProvisioningStyle: Automatic
     sources:
       - PacketTunnel
     configFiles:

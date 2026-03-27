@@ -176,10 +176,10 @@ enum LatencyQuality {
 
     var label: String {
         switch self {
-        case .excellent: "Excellent"
-        case .good: "Good"
-        case .fair: "Fair"
-        case .poor: "Poor"
+        case .excellent: L10n.Latency.excellent
+        case .good: L10n.Latency.good
+        case .fair: L10n.Latency.fair
+        case .poor: L10n.Latency.poor
         }
     }
 

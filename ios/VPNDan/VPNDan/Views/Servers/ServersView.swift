@@ -14,12 +14,22 @@ struct ServersView: View {
 
     // MARK: - Region Filter
 
-    enum Region: String, CaseIterable {
-        case all = "All"
-        case americas = "Americas"
-        case europe = "Europe"
-        case asia = "Asia"
-        case oceania = "Oceania"
+    enum Region: CaseIterable {
+        case all
+        case americas
+        case europe
+        case asia
+        case oceania
+
+        var displayName: String {
+            switch self {
+            case .all: return L10n.Servers.regionAll
+            case .americas: return L10n.Servers.regionAmericas
+            case .europe: return L10n.Servers.regionEurope
+            case .asia: return L10n.Servers.regionAsia
+            case .oceania: return L10n.Servers.regionOceania
+            }
+        }
 
         static let regionMap: [String: Region] = [
             "US": .americas, "CA": .americas, "BR": .americas, "MX": .americas, "AR": .americas, "CL": .americas, "CO": .americas,
@@ -39,10 +49,18 @@ struct ServersView: View {
 
     // MARK: - Sort
 
-    enum SortOption: String, CaseIterable {
-        case name = "Name"
-        case status = "Status"
-        case latency = "Latency"
+    enum SortOption: CaseIterable {
+        case name
+        case status
+        case latency
+
+        var displayName: String {
+            switch self {
+            case .name: return L10n.Servers.sortName
+            case .status: return L10n.Servers.sortStatus
+            case .latency: return L10n.Servers.sortLatency
+            }
+        }
     }
 
     var body: some View {
@@ -78,7 +96,7 @@ struct ServersView: View {
                 } else if viewModel.servers.isEmpty && viewModel.error != nil {
                     Spacer()
                     ErrorStateView(
-                        message: "Unable to load servers.\nCheck your connection.",
+                        message: L10n.Home.unableToLoadServers,
                         retryAction: { Task { await viewModel.loadServers() } }
                     )
                     Spacer()
@@ -104,7 +122,7 @@ struct ServersView: View {
                 .font(.system(size: 14))
                 .foregroundStyle(Color.vpnTextTertiary)
 
-            TextField("", text: $searchText, prompt: Text("Search servers...").foregroundStyle(Color.vpnTextTertiary))
+            TextField("", text: $searchText, prompt: Text(L10n.Servers.searchPlaceholder).foregroundStyle(Color.vpnTextTertiary))
                 .font(.system(size: 15))
                 .foregroundStyle(Color.vpnTextPrimary)
                 .autocorrectionDisabled()
@@ -152,7 +170,7 @@ struct ServersView: View {
                 selectedRegion = region
             }
         } label: {
-            Text(region.rawValue)
+            Text(region.displayName)
                 .vpnTextStyle(.statusBadge, color: isSelected ? .vpnTextPrimary : .vpnTextSecondary)
                 .padding(.horizontal, VPNSpacing.md)
                 .padding(.vertical, VPNSpacing.sm)
@@ -171,7 +189,7 @@ struct ServersView: View {
 
     private var sortBar: some View {
         HStack {
-            Text("\(displayedServers.count) servers")
+            Text(L10n.Servers.serverCount(displayedServers.count))
                 .vpnTextStyle(.caption, color: .vpnTextTertiary)
 
             Spacer()
@@ -182,7 +200,7 @@ struct ServersView: View {
                         sortOption = option
                     } label: {
                         HStack {
-                            Text(option.rawValue)
+                            Text(option.displayName)
                             if sortOption == option {
                                 Image(systemName: "checkmark")
                             }
@@ -191,7 +209,7 @@ struct ServersView: View {
                 }
             } label: {
                 HStack(spacing: VPNSpacing.xs) {
-                    Text("Sort: \(sortOption.rawValue)")
+                    Text(L10n.Servers.sortLabel(sortOption.displayName))
                         .vpnTextStyle(.statusBadge, color: .vpnTextSecondary)
                     Image(systemName: "chevron.down")
                         .font(.system(size: 10, weight: .semibold))
@@ -208,7 +226,7 @@ struct ServersView: View {
             LazyVStack(spacing: 0) {
                 // Favorites section
                 if !favoriteServers.isEmpty && searchText.isEmpty && selectedRegion == .all {
-                    sectionHeader(title: "Favorites", icon: "star.fill")
+                    sectionHeader(title: L10n.Servers.favorites, icon: "star.fill")
                         .padding(.horizontal, VPNSpacing.md)
                         .padding(.top, VPNSpacing.md)
 
@@ -219,7 +237,7 @@ struct ServersView: View {
 
                 // All servers
                 sectionHeader(
-                    title: searchText.isEmpty ? "All Servers" : "Results",
+                    title: searchText.isEmpty ? L10n.Servers.allServers : L10n.Servers.results,
                     icon: "globe"
                 )
                 .padding(.horizontal, VPNSpacing.md)
@@ -293,10 +311,10 @@ struct ServersView: View {
                 .font(.system(size: 40))
                 .foregroundStyle(Color.vpnTextTertiary)
 
-            Text("No servers found")
+            Text(L10n.Servers.noServersFound)
                 .vpnTextStyle(.sectionHeader, color: .vpnTextSecondary)
 
-            Text("Try a different search or region filter")
+            Text(L10n.Servers.tryDifferentSearch)
                 .vpnTextStyle(.caption, color: .vpnTextTertiary)
         }
     }

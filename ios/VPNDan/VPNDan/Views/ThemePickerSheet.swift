@@ -27,11 +27,11 @@ struct ThemePickerSheet: View {
                 }
                 .scrollIndicators(.hidden)
             }
-            .navigationTitle("Theme")
+            .navigationTitle(L10n.Settings.theme)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button(L10n.Common.done) { dismiss() }
                         .foregroundStyle(Color.vpnPrimary)
                 }
             }

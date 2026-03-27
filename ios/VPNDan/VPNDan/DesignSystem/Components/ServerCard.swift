@@ -30,9 +30,9 @@ struct ServerCard: View {
                         .foregroundStyle(Color.vpnTextTertiary)
 
                     VStack(alignment: .leading, spacing: VPNSpacing.xs) {
-                        Text("No Server Selected")
+                        Text(L10n.ServerCard.noServerSelected)
                             .vpnTextStyle(.sectionHeader)
-                        Text("Tap to choose a server")
+                        Text(L10n.ServerCard.tapToChoose)
                             .vpnTextStyle(.caption, color: .vpnTextSecondary)
                     }
                 }
@@ -40,7 +40,7 @@ struct ServerCard: View {
                 Spacer()
 
                 Button(action: onChangeTapped) {
-                    Text("Change")
+                    Text(L10n.ServerCard.change)
                         .vpnTextStyle(.caption, color: .vpnPrimary)
                         .padding(.horizontal, VPNSpacing.sm + VPNSpacing.xs)
                         .padding(.vertical, VPNSpacing.xs + 2)

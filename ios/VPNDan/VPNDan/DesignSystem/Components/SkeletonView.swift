@@ -193,7 +193,7 @@ struct ErrorStateView: View {
                     HStack(spacing: VPNSpacing.sm) {
                         Image(systemName: "arrow.clockwise")
                             .font(.system(size: 14, weight: .semibold))
-                        Text("Try Again")
+                        Text(L10n.Common.tryAgain)
                             .vpnTextStyle(.buttonText)
                     }
                     .foregroundStyle(Color.vpnPrimary)
