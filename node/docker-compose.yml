@@ -16,6 +16,7 @@ services:
       # WG_LISTEN_PORT is intentionally omitted — the gateway picks a random
       # port on first run and persists it to /config/listen_port.
       # Override with WG_LISTEN_PORT in .env if you need a fixed port.
+      PING_ADDR: 0.0.0.0:${PING_PORT:-8080}
       WG_ADMIN_ADDR: 0.0.0.0:9080
       # AWG obfuscation
       AWG_JC: ${AWG_JC:-4}

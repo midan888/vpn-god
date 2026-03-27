@@ -20,6 +20,6 @@ RUN apt-get update && \
 
 COPY --from=builder /wireguard-gateway /usr/local/bin/wireguard-gateway
 
-EXPOSE 9080
+EXPOSE 8080 9080
 
 CMD ["wireguard-gateway"]

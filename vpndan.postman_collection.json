@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "vpndan-api-collection",
+		"name": "VPN Dan API",
+		"description": "VPN Dan — WireGuard-based VPN service API.\n\nSetup:\n1. Register or login to get tokens\n2. Tokens are auto-saved to collection variables\n3. Protected endpoints use the access_token automatically\n\nBase URL defaults to http://localhost:8080",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin_access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "node_secret",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "node_host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "server_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('access_token', json.access_token);",
+									"    pm.collectionVariables.set('refresh_token', json.refresh_token);",
+									"    console.log('Tokens saved to collection variables');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "register"]
+						},
+						"description": "Register a new user. Tokens are automatically saved to collection variables."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('access_token', json.access_token);",
+									"    pm.collectionVariables.set('refresh_token', json.refresh_token);",
+									"    console.log('Tokens saved to collection variables');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "login"]
+						},
+						"description": "Login with email and password. Tokens are automatically saved to collection variables."
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('admin_access_token', json.access_token);",
+									"    pm.collectionVariables.set('refresh_token', json.refresh_token);",
+									"    console.log('Admin tokens saved to collection variables');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@vpndan.com\",\n  \"password\": \"adminpassword\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "login"]
+						},
+						"description": "Login as admin. Admin token is saved separately to admin_access_token variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    pm.collectionVariables.set('access_token', json.access_token);",
+									"    pm.collectionVariables.set('refresh_token', json.refresh_token);",
+									"    console.log('Tokens refreshed and saved');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/auth/refresh",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "auth", "refresh"]
+						},
+						"description": "Refresh expired access token using the stored refresh token."
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints — register, login, and token refresh."
+		},
+		{
+			"name": "Servers",
+			"item": [
+				{
+					"name": "List Servers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/servers",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "servers"]
+						},
+						"description": "List all available VPN servers."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Server",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/servers/{{server_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "servers", "{{server_id}}"]
+						},
+						"description": "Get a specific server by ID. Set the server_id variable first."
+					},
+					"response": []
+				}
+			],
+			"description": "Server listing endpoints (user-facing)."
+		},
+		{
+			"name": "VPN Connection",
+			"item": [
+				{
+					"name": "Connect",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"server_id\": \"{{server_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/connect",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "connect"]
+						},
+						"description": "Connect to a VPN server. Creates a WireGuard peer and returns the tunnel configuration including AmneziaWG obfuscation parameters."
+					},
+					"response": []
+				},
+				{
+					"name": "Disconnect",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/connect",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "connect"]
+						},
+						"description": "Disconnect from the current VPN server. Removes the WireGuard peer."
+					},
+					"response": []
+				}
+			],
+			"description": "VPN connect/disconnect endpoints."
+		},
+		{
+			"name": "GeoIP",
+			"item": [
+				{
+					"name": "List Countries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/geoip/countries",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "geoip", "countries"]
+						},
+						"description": "List countries with available CIDR data."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Country CIDRs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/geoip/US",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "geoip", "US"]
+						},
+						"description": "Get CIDR ranges for a specific country. Change the country code in the URL (2-letter ISO code)."
+					},
+					"response": []
+				}
+			],
+			"description": "GeoIP CIDR lookup endpoints."
+		},
+		{
+			"name": "Admin — Users",
+			"item": [
+				{
+					"name": "List Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "users"]
+						},
+						"description": "List all users with their connection status."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/users/{{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "users", "{{user_id}}"]
+						},
+						"description": "Get details for a specific user."
+					},
+					"response": []
+				},
+				{
+					"name": "Reset User Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"new_password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/users/{{user_id}}/reset-password",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "users", "{{user_id}}", "reset-password"]
+						},
+						"description": "Reset a user's password (admin only)."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/users/{{user_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "users", "{{user_id}}"]
+						},
+						"description": "Delete a user and their WireGuard peer."
+					},
+					"response": []
+				}
+			],
+			"description": "Admin user management endpoints. Requires admin JWT token."
+		},
+		{
+			"name": "Admin — Servers",
+			"item": [
+				{
+					"name": "List Servers (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/servers",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "servers"]
+						},
+						"description": "List all servers with peer counts and traffic stats."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Server (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/servers/{{server_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "servers", "{{server_id}}"]
+						},
+						"description": "Get server details with per-peer traffic breakdown."
+					},
+					"response": []
+				},
+				{
+					"name": "Add Server",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"US West\",\n  \"country\": \"US\",\n  \"host\": \"vpn-west.example.com\",\n  \"port\": 51820,\n  \"public_key\": \"examplePublicKeyBase64==\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/servers",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "servers"]
+						},
+						"description": "Add a new VPN server."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Server Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"is_active\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/servers/{{server_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "servers", "{{server_id}}"]
+						},
+						"description": "Toggle server active/inactive status."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Server",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/admin/servers/{{server_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "admin", "servers", "{{server_id}}"]
+						},
+						"description": "Delete a server and all its connected peers."
+					},
+					"response": []
+				}
+			],
+			"description": "Admin server management endpoints. Requires admin JWT token."
+		},
+		{
+			"name": "Node Agent",
+			"item": [
+				{
+					"name": "Register Node",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{node_secret}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"US East 1\",\n  \"country\": \"US\",\n  \"host\": \"1.2.3.4\",\n  \"port\": 51820,\n  \"ping_port\": 8080,\n  \"public_key\": \"serverPublicKeyBase64==\",\n  \"wg_admin_url\": \"http://internal-gateway:8081\",\n  \"awg_jc\": 4,\n  \"awg_jmin\": 40,\n  \"awg_jmax\": 70,\n  \"awg_s1\": 0,\n  \"awg_s2\": 0,\n  \"awg_h1\": 1928394756,\n  \"awg_h2\": 3847291056,\n  \"awg_h3\": 2938475610,\n  \"awg_h4\": 1029384756\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nodes/register",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nodes", "register"]
+						},
+						"description": "Register or update a VPN node. Uses shared NODE_SECRET for authentication (not JWT)."
+					},
+					"response": []
+				},
+				{
+					"name": "Heartbeat",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{node_secret}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"host\": \"1.2.3.4\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nodes/heartbeat",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nodes", "heartbeat"]
+						},
+						"description": "Send node heartbeat. Servers without a heartbeat for 90s are marked inactive."
+					},
+					"response": []
+				}
+			],
+			"description": "Node agent self-registration and heartbeat. Uses NODE_SECRET (shared secret), not JWT."
+		},
+		{
+			"name": "VPN Node",
+			"item": [
+				{
+					"name": "Ping",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{node_host}}/ping",
+							"host": ["{{node_host}}"],
+							"path": ["ping"]
+						},
+						"description": "Ping a VPN node to measure latency. No auth required. Returns 'pong' as plain text. Set node_host to the node's host:ping_port (e.g. http://1.2.3.4:8080)."
+					},
+					"response": []
+				}
+			],
+			"description": "Direct VPN node endpoints (hit the node, not the backend). Set node_host variable to the node address."
+		}
+	]
+}

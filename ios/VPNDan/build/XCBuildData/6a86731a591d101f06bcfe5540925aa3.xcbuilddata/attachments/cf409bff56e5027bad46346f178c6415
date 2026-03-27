@@ -1,0 +1,13 @@
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/Array+ConcurrentMap.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/DNSResolver.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/DNSServer.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/Endpoint.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/HandshakeFreshnessEvaluator.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/IPAddress+AddrInfo.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/IPAddressRange.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/InterfaceConfiguration.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/PacketTunnelSettingsGenerator.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/PeerConfiguration.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/PrivateKey.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/TunnelConfiguration.swift
+/Users/mikayeldanielyan/Projects/vpndan/ios/amneziawg-apple/Sources/WireGuardKit/WireGuardAdapter.swift
