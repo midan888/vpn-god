@@ -10,6 +10,14 @@ import type {
 
 const API_URL = import.meta.env.VITE_API_URL ?? '';
 
+let onAuthFailure: (() => void) | null = null;
+
+export function setOnAuthFailure(callback: () => void) {
+  onAuthFailure = callback;
+}
+
+let refreshPromise: Promise<AuthResponse | null> | null = null;
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const token = localStorage.getItem('access_token');
   const res = await fetch(`${API_URL}${path}`, {
@@ -24,35 +32,50 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   if (res.status === 401) {
     const refreshToken = localStorage.getItem('refresh_token');
     if (refreshToken) {
-      try {
-        const refreshRes = await fetch(`${API_URL}/api/v1/auth/refresh`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refresh_token: refreshToken }),
+      // Deduplicate concurrent refresh calls
+      if (!refreshPromise) {
+        refreshPromise = (async () => {
+          try {
+            const refreshRes = await fetch(`${API_URL}/api/v1/auth/refresh`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ refresh_token: refreshToken }),
+            });
+            if (refreshRes.ok) {
+              const tokens: AuthResponse = await refreshRes.json();
+              localStorage.setItem('access_token', tokens.access_token);
+              localStorage.setItem('refresh_token', tokens.refresh_token);
+              return tokens;
+            }
+            return null;
+          } catch {
+            return null;
+          } finally {
+            refreshPromise = null;
+          }
+        })();
+      }
+      const tokens = await refreshPromise;
+      if (tokens) {
+        const retryRes = await fetch(`${API_URL}${path}`, {
+          ...options,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${tokens.access_token}`,
+            ...options?.headers,
+          },
         });
-        if (refreshRes.ok) {
-          const tokens: AuthResponse = await refreshRes.json();
-          localStorage.setItem('access_token', tokens.access_token);
-          localStorage.setItem('refresh_token', tokens.refresh_token);
-          // Retry original request with new token
-          const retryRes = await fetch(`${API_URL}${path}`, {
-            ...options,
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${tokens.access_token}`,
-              ...options?.headers,
-            },
-          });
-          if (!retryRes.ok) throw new Error(await retryRes.text());
-          return retryRes.json();
-        }
-      } catch {
-        // Refresh failed
+        if (!retryRes.ok) throw new Error(await retryRes.text());
+        return retryRes.json();
       }
     }
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    window.location.href = '/login';
+    if (onAuthFailure) {
+      onAuthFailure();
+    } else {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      window.location.href = '/login';
+    }
     throw new Error('Unauthorized');
   }
 

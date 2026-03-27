@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
-import { api } from '../api/client';
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import { api, setOnAuthFailure } from '../api/client';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -14,6 +14,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => !!localStorage.getItem('access_token')
   );
 
+  const logout = useCallback(() => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    setIsAuthenticated(false);
+  }, []);
+
+  useEffect(() => {
+    setOnAuthFailure(logout);
+    return () => setOnAuthFailure(() => {});
+  }, [logout]);
+
   const login = useCallback(async (email: string, password: string) => {
     const tokens = await api.login(email, password);
 
@@ -26,12 +37,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('access_token', tokens.access_token);
     localStorage.setItem('refresh_token', tokens.refresh_token);
     setIsAuthenticated(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    setIsAuthenticated(false);
   }, []);
 
   return (
