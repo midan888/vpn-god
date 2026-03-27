@@ -2,7 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(VPNManager.self) private var vpn
-    @State private var viewModel = ServerListViewModel()
+    @State private var viewModel = ServerListViewModel.shared
     @State private var latency = LatencyService.shared
     @State private var showServerSheet = false
     @State private var selectedServer: Server?

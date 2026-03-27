@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ServerListView: View {
-    @State private var viewModel = ServerListViewModel()
+    @State private var viewModel = ServerListViewModel.shared
     @State private var latency = LatencyService.shared
     @Environment(VPNManager.self) private var vpn
 

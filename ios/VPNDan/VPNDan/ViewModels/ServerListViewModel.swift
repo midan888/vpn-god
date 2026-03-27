@@ -3,6 +3,8 @@ import Foundation
 @MainActor
 @Observable
 final class ServerListViewModel {
+    static let shared = ServerListViewModel()
+
     private(set) var servers: [Server] = []
     private(set) var isLoading = false
     private(set) var refreshError: String?
