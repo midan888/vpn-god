@@ -9,6 +9,7 @@ struct ServerSelectionSheet: View {
 
     @State private var searchText = ""
     @State private var favorites = FavoritesService.shared
+    @State private var latency = LatencyService.shared
 
     var body: some View {
         NavigationStack {
@@ -115,6 +116,7 @@ struct ServerSelectionSheet: View {
                             isConnected: connectedServerID == server.id,
                             isSelected: selectedServerID == server.id,
                             isFavorite: favorites.isFavorite(server.id),
+                            latencyMs: latency.latency(for: server.id),
                             onFavoriteToggle: { favorites.toggle(server.id) }
                         )
                     }

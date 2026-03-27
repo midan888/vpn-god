@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(VPNManager.self) private var vpn
     @State private var viewModel = ServerListViewModel()
+    @State private var latency = LatencyService.shared
     @State private var showServerSheet = false
     @State private var selectedServer: Server?
     @State private var error: String?
@@ -52,6 +53,7 @@ struct HomeView: View {
                     // Server card
                     ServerCard(
                         server: displayServer,
+                        latencyMs: displayServer.flatMap { latency.latency(for: $0.id) },
                         onChangeTapped: { showServerSheet = true }
                     )
 

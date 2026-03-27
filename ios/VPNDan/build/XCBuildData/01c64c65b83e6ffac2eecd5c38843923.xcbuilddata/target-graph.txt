@@ -1,0 +1,14 @@
+Target dependency graph (6 targets)
+Target 'VPNDan' in project 'VPNDan'
+➜ Explicit dependency on target 'PacketTunnel' in project 'VPNDan'
+Target 'PacketTunnel' in project 'VPNDan'
+➜ Explicit dependency on target 'WireGuardKit' in project 'WireGuardKit'
+Target 'WireGuardKit' in project 'WireGuardKit'
+➜ Explicit dependency on target 'WireGuardKit' in project 'WireGuardKit'
+➜ Explicit dependency on target 'WireGuardKitGo' in project 'WireGuardKit'
+➜ Explicit dependency on target 'WireGuardKitC' in project 'WireGuardKit'
+Target 'WireGuardKit' in project 'WireGuardKit'
+➜ Explicit dependency on target 'WireGuardKitGo' in project 'WireGuardKit'
+➜ Explicit dependency on target 'WireGuardKitC' in project 'WireGuardKit'
+Target 'WireGuardKitC' in project 'WireGuardKit' (no dependencies)
+Target 'WireGuardKitGo' in project 'WireGuardKit' (no dependencies)

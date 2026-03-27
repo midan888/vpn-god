@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ServerListView: View {
     @State private var viewModel = ServerListViewModel()
+    @State private var latency = LatencyService.shared
     @Environment(VPNManager.self) private var vpn
 
     var body: some View {
@@ -51,7 +52,7 @@ struct ServerListView: View {
     private var serverList: some View {
         List(viewModel.servers) { server in
             NavigationLink(destination: ConnectionView(server: server)) {
-                ServerRow(server: server, isConnected: vpn.connectedServer?.id == server.id && vpn.status == .connected)
+                ServerRow(server: server, isConnected: vpn.connectedServer?.id == server.id && vpn.status == .connected, latencyMs: latency.latency(for: server.id))
             }
             .disabled(!server.isActive)
         }

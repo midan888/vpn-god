@@ -3,6 +3,7 @@ import SwiftUI
 struct ServersView: View {
     @State private var viewModel = ServerListViewModel()
     @State private var favorites = FavoritesService.shared
+    @State private var latency = LatencyService.shared
     @Environment(VPNManager.self) private var vpn
 
     @State private var searchText = ""
@@ -41,6 +42,7 @@ struct ServersView: View {
     enum SortOption: String, CaseIterable {
         case name = "Name"
         case status = "Status"
+        case latency = "Latency"
     }
 
     var body: some View {
@@ -258,6 +260,7 @@ struct ServersView: View {
                         server: server,
                         isConnected: vpn.connectedServer?.id == server.id && vpn.status == .connected,
                         isFavorite: favorites.isFavorite(server.id),
+                        latencyMs: latency.latency(for: server.id),
                         onFavoriteToggle: { favorites.toggle(server.id) }
                     )
                 }
@@ -326,6 +329,12 @@ struct ServersView: View {
             result.sort { $0.name < $1.name }
         case .status:
             result.sort { ($0.isActive ? 0 : 1) < ($1.isActive ? 0 : 1) }
+        case .latency:
+            result.sort {
+                let a = latency.latency(for: $0.id) ?? Int.max
+                let b = latency.latency(for: $1.id) ?? Int.max
+                return a < b
+            }
         }
 
         return result

@@ -78,6 +78,7 @@ type NodeRegisterRequest struct {
 	Country    string `json:"country" minLength:"2" maxLength:"2" doc:"ISO 3166-1 alpha-2 country code"`
 	Host       string `json:"host" minLength:"1" doc:"Server public IP or hostname"`
 	Port       int    `json:"port" minimum:"1" maximum:"65535" doc:"WireGuard listen port"`
+	PingPort   int    `json:"ping_port" doc:"Public HTTP port for client latency pings"`
 	PublicKey  string `json:"public_key" minLength:"1" doc:"Server WireGuard public key"`
 	WGAdminURL string `json:"wg_admin_url" minLength:"1" doc:"WireGuard gateway admin URL reachable from backend"`
 	// AWG obfuscation params

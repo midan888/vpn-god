@@ -140,6 +140,7 @@ func runMigrations(db *sqlx.DB) error {
 			created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 		)`,
 		`CREATE INDEX IF NOT EXISTS idx_country_ips_country ON country_ips(country)`,
+		`ALTER TABLE servers ADD COLUMN IF NOT EXISTS ping_port INT NOT NULL DEFAULT 8080`,
 	}
 
 	for _, m := range migrations {

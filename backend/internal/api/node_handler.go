@@ -50,6 +50,7 @@ func (h *NodeHandler) Register(ctx context.Context, input *NodeRegisterInput) (*
 		Country:    input.Body.Country,
 		Host:       input.Body.Host,
 		Port:       input.Body.Port,
+		PingPort:   input.Body.PingPort,
 		PublicKey:  input.Body.PublicKey,
 		WGAdminURL: input.Body.WGAdminURL,
 		AWGJc:     input.Body.AWGJc,

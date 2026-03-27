@@ -46,6 +46,7 @@ func (h *ServerHandler) ListServers(ctx context.Context, input *ListServersInput
 			Name:     s.Name,
 			Country:  s.Country,
 			Host:     s.Host,
+			PingPort: s.PingPort,
 			IsActive: s.IsActive,
 		}
 	}
@@ -75,7 +76,7 @@ func (h *ServerHandler) GetServer(ctx context.Context, input *GetServerInput) (*
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 
-	res := models.ServerResponse{ID: server.ID, Name: server.Name, Country: server.Country, Host: server.Host, IsActive: server.IsActive}
+	res := models.ServerResponse{ID: server.ID, Name: server.Name, Country: server.Country, Host: server.Host, PingPort: server.PingPort, IsActive: server.IsActive}
 
 	return &GetServerOutput{Body: res}, nil
 }

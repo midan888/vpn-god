@@ -16,6 +16,7 @@ final class ServerListViewModel {
 
         do {
             servers = try await APIClient.shared.getServers()
+            LatencyService.shared.startPeriodicRefresh(servers: servers)
         } catch let apiError as APIError {
             if servers.isEmpty {
                 // No cached data — show full error

@@ -30,6 +30,7 @@ const (
 	wireGuardConfPath = "/etc/amnezia/amneziawg/wg0.conf"
 	defaultAddress    = "10.0.0.1/24"
 	defaultAdminAddr  = "127.0.0.1:9080"
+	defaultPingAddr   = "0.0.0.0:8080"
 	// Random port range when WG_LISTEN_PORT is not set
 	randomPortMin = 20000
 	randomPortMax = 50000
@@ -39,6 +40,7 @@ type gatewayConfig struct {
 	Address    string
 	ListenPort string
 	AdminAddr  string
+	PingAddr   string
 	UplinkIF   string
 	// Amnezia WireGuard obfuscation params
 	Jc   int
@@ -127,6 +129,25 @@ func main() {
 		}
 	}()
 
+	// Start public ping server (for client latency measurements)
+	pingMux := http.NewServeMux()
+	pingMux.HandleFunc("/ping", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+		w.Header().Set("Content-Length", "4")
+		_, _ = w.Write([]byte("pong"))
+	})
+	pingServer := &http.Server{
+		Addr:              cfg.PingAddr,
+		Handler:           pingMux,
+		ReadHeaderTimeout: 2 * time.Second,
+	}
+	go func() {
+		log.Printf("ping server listening on %s", cfg.PingAddr)
+		if err := pingServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("ping server failed: %v", err)
+		}
+	}()
+
 	// Node registration + heartbeat (only if API_URL is configured)
 	nodeCfg := loadNodeConfig()
 	ctx, cancel := context.WithCancel(context.Background())
@@ -145,6 +166,7 @@ func main() {
 	cancel()
 	shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer shutdownCancel()
+	_ = pingServer.Shutdown(shutdownCtx)
 	_ = httpServer.Shutdown(shutdownCtx)
 	_ = execWGQuick("down")
 }
@@ -194,11 +216,19 @@ func runNodeAgent(ctx context.Context, ncfg nodeConfig, gcfg *gatewayConfig, pub
 
 func registerNode(ncfg nodeConfig, gcfg *gatewayConfig, publicKey string) error {
 	port, _ := strconv.Atoi(gcfg.ListenPort)
+	// Extract ping port number from the address (e.g. "0.0.0.0:8080" -> 8080)
+	pingPort := 8080
+	if parts := strings.Split(gcfg.PingAddr, ":"); len(parts) == 2 {
+		if p, err := strconv.Atoi(parts[1]); err == nil {
+			pingPort = p
+		}
+	}
 	body, err := json.Marshal(map[string]any{
 		"name":         ncfg.NodeName,
 		"country":      ncfg.Country,
 		"host":         ncfg.Host,
 		"port":         port,
+		"ping_port":    pingPort,
 		"public_key":   publicKey,
 		"wg_admin_url": ncfg.WGAdminURL,
 		"awg_jc":       gcfg.Jc,
@@ -286,6 +316,7 @@ func loadConfig() (*gatewayConfig, error) {
 		Address:    envOrDefault("WG_ADDRESS", defaultAddress),
 		ListenPort: listenPort,
 		AdminAddr:  envOrDefault("WG_ADMIN_ADDR", defaultAdminAddr),
+		PingAddr:   envOrDefault("PING_ADDR", defaultPingAddr),
 		UplinkIF:   uplink,
 		Jc:         envInt("AWG_JC", 4),
 		Jmin:       envInt("AWG_JMIN", 40),

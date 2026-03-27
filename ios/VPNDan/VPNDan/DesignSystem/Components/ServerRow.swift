@@ -5,6 +5,7 @@ struct ServerRow: View {
     var isConnected: Bool = false
     var isSelected: Bool = false
     var isFavorite: Bool = false
+    var latencyMs: Int?
     var onFavoriteToggle: (() -> Void)?
 
     var body: some View {
@@ -25,6 +26,11 @@ struct ServerRow: View {
             }
 
             Spacer()
+
+            // Latency
+            if let ms = latencyMs {
+                latencyBadge(ms: ms)
+            }
 
             // Favorite star
             if let onFavoriteToggle {
@@ -56,7 +62,30 @@ struct ServerRow: View {
         .padding(.horizontal, VPNSpacing.md)
         .opacity(server.isActive ? 1 : 0.5)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(server.name), \(server.country)\(isConnected ? ", connected" : "")\(isFavorite ? ", favorite" : "")\(server.isActive ? "" : ", unavailable")")
+        .accessibilityLabel("\(server.name), \(server.country)\(isConnected ? ", connected" : "")\(isFavorite ? ", favorite" : "")\(server.isActive ? "" : ", unavailable")\(latencyMs.map { ", \($0) milliseconds" } ?? "")")
+    }
+
+    // MARK: - Latency Badge
+
+    private func latencyBadge(ms: Int) -> some View {
+        let quality = LatencyQuality(ms: ms)
+        return Text("\(ms) ms")
+            .font(.system(size: 11, weight: .medium, design: .monospaced))
+            .foregroundStyle(latencyColor(quality))
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(
+                Capsule()
+                    .fill(latencyColor(quality).opacity(0.12))
+            )
+    }
+
+    private func latencyColor(_ quality: LatencyQuality) -> Color {
+        switch quality {
+        case .excellent, .good: .vpnConnected
+        case .fair: .vpnConnecting
+        case .poor: .vpnDisconnected
+        }
     }
 
     // MARK: - Flag Helper
@@ -78,18 +107,18 @@ struct ServerRow: View {
 
         VStack(spacing: 0) {
             ServerRow(
-                server: Server(id: UUID(), name: "New York", country: "US", host: "10.0.0.1", isActive: true),
+                server: Server(id: UUID(), name: "New York", country: "US", host: "10.0.0.1", pingPort: 8080, isActive: true),
                 isConnected: true,
                 isFavorite: true,
                 onFavoriteToggle: {}
             )
             ServerRow(
-                server: Server(id: UUID(), name: "London", country: "GB", host: "10.0.0.2", isActive: true),
+                server: Server(id: UUID(), name: "London", country: "GB", host: "10.0.0.2", pingPort: 8080, isActive: true),
                 isSelected: true,
                 onFavoriteToggle: {}
             )
             ServerRow(
-                server: Server(id: UUID(), name: "Tokyo", country: "JP", host: "10.0.0.3", isActive: false),
+                server: Server(id: UUID(), name: "Tokyo", country: "JP", host: "10.0.0.3", pingPort: 8080, isActive: false),
                 onFavoriteToggle: {}
             )
         }

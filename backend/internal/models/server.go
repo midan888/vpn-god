@@ -12,6 +12,7 @@ type Server struct {
 	Country         string     `json:"country" db:"country"`
 	Host            string     `json:"host" db:"host"`
 	Port            int        `json:"-" db:"port"`
+	PingPort        int        `json:"-" db:"ping_port"`
 	PublicKey       string     `json:"-" db:"public_key"`
 	IsActive        bool       `json:"is_active" db:"is_active"`
 	CreatedAt       time.Time  `json:"created_at" db:"created_at"`
@@ -34,5 +35,6 @@ type ServerResponse struct {
 	Name     string    `json:"name" doc:"Server display name"`
 	Country  string    `json:"country" doc:"ISO 3166-1 alpha-2 country code"`
 	Host     string    `json:"host" doc:"Server IP or hostname"`
+	PingPort int       `json:"ping_port" doc:"Port for latency ping endpoint"`
 	IsActive bool      `json:"is_active" doc:"Whether the server is currently available"`
 }

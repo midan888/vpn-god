@@ -23,7 +23,7 @@ func NewPostgresServerStore(db *sqlx.DB) *PostgresServerStore {
 func (s *PostgresServerStore) ListActiveServers(ctx context.Context) ([]models.Server, error) {
 	var servers []models.Server
 	err := s.db.SelectContext(ctx, &servers,
-		`SELECT id, name, country, host, port, public_key, is_active, created_at,
+		`SELECT id, name, country, host, port, ping_port, public_key, is_active, created_at,
 		        last_heartbeat_at, wg_admin_url,
 		        awg_jc, awg_jmin, awg_jmax, awg_s1, awg_s2, awg_h1, awg_h2, awg_h3, awg_h4
 		 FROM servers WHERE is_active = true ORDER BY country, name`,
@@ -37,7 +37,7 @@ func (s *PostgresServerStore) ListActiveServers(ctx context.Context) ([]models.S
 func (s *PostgresServerStore) GetServerByID(ctx context.Context, id uuid.UUID) (*models.Server, error) {
 	var srv models.Server
 	err := s.db.GetContext(ctx, &srv,
-		`SELECT id, name, country, host, port, public_key, is_active, created_at,
+		`SELECT id, name, country, host, port, ping_port, public_key, is_active, created_at,
 		        last_heartbeat_at, wg_admin_url,
 		        awg_jc, awg_jmin, awg_jmax, awg_s1, awg_s2, awg_h1, awg_h2, awg_h3, awg_h4
 		 FROM servers WHERE id = $1`, id,
@@ -54,7 +54,7 @@ func (s *PostgresServerStore) GetServerByID(ctx context.Context, id uuid.UUID) (
 func (s *PostgresServerStore) ListAllServers(ctx context.Context) ([]models.Server, error) {
 	var servers []models.Server
 	err := s.db.SelectContext(ctx, &servers,
-		`SELECT id, name, country, host, port, public_key, is_active, created_at,
+		`SELECT id, name, country, host, port, ping_port, public_key, is_active, created_at,
 		        last_heartbeat_at, wg_admin_url,
 		        awg_jc, awg_jmin, awg_jmax, awg_s1, awg_s2, awg_h1, awg_h2, awg_h3, awg_h4
 		 FROM servers ORDER BY country, name`,
@@ -122,16 +122,17 @@ func (s *PostgresServerStore) UpsertServerByHost(ctx context.Context, srv *model
 
 	var result models.Server
 	err := s.db.QueryRowxContext(ctx,
-		`INSERT INTO servers (id, name, country, host, port, public_key, is_active, created_at,
+		`INSERT INTO servers (id, name, country, host, port, ping_port, public_key, is_active, created_at,
 		                      last_heartbeat_at, wg_admin_url,
 		                      awg_jc, awg_jmin, awg_jmax, awg_s1, awg_s2,
 		                      awg_h1, awg_h2, awg_h3, awg_h4)
-		 VALUES ($1, $2, $3, $4, $5, $6, true, $7, $7, $8,
-		         $9, $10, $11, $12, $13, $14, $15, $16, $17)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, true, $8, $8, $9,
+		         $10, $11, $12, $13, $14, $15, $16, $17, $18)
 		 ON CONFLICT (host) DO UPDATE SET
 		   name = EXCLUDED.name,
 		   country = EXCLUDED.country,
 		   port = EXCLUDED.port,
+		   ping_port = EXCLUDED.ping_port,
 		   public_key = EXCLUDED.public_key,
 		   is_active = true,
 		   last_heartbeat_at = now(),
@@ -145,10 +146,10 @@ func (s *PostgresServerStore) UpsertServerByHost(ctx context.Context, srv *model
 		   awg_h2 = EXCLUDED.awg_h2,
 		   awg_h3 = EXCLUDED.awg_h3,
 		   awg_h4 = EXCLUDED.awg_h4
-		 RETURNING id, name, country, host, port, public_key, is_active, created_at,
+		 RETURNING id, name, country, host, port, ping_port, public_key, is_active, created_at,
 		           last_heartbeat_at, wg_admin_url,
 		           awg_jc, awg_jmin, awg_jmax, awg_s1, awg_s2, awg_h1, awg_h2, awg_h3, awg_h4`,
-		srv.ID, srv.Name, srv.Country, srv.Host, srv.Port, srv.PublicKey, now, srv.WGAdminURL,
+		srv.ID, srv.Name, srv.Country, srv.Host, srv.Port, srv.PingPort, srv.PublicKey, now, srv.WGAdminURL,
 		srv.AWGJc, srv.AWGJmin, srv.AWGJmax, srv.AWGS1, srv.AWGS2,
 		srv.AWGH1, srv.AWGH2, srv.AWGH3, srv.AWGH4,
 	).StructScan(&result)
