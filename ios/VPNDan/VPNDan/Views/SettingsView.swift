@@ -8,6 +8,9 @@ struct SettingsView: View {
     @State private var showLogoutConfirmation = false
     @State private var showThemePicker = false
     @State private var showSplitTunnel = false
+    @State private var showHelpCenter = false
+    @State private var showPrivacyPolicy = false
+    @State private var showTermsOfService = false
 
     var body: some View {
         ZStack {
@@ -159,16 +162,37 @@ struct SettingsView: View {
     private var supportSection: some View {
         settingsSection(title: "Support", icon: "questionmark.circle.fill") {
             VStack(spacing: 0) {
-                settingsDisabledLinkRow(icon: "book.fill", title: "Help Center")
+                Button {
+                    showHelpCenter = true
+                } label: {
+                    settingsLinkRow(icon: "book.fill", title: "Help Center")
+                }
 
                 sectionDivider
 
-                settingsDisabledLinkRow(icon: "hand.raised.fill", title: "Privacy Policy")
+                Button {
+                    showPrivacyPolicy = true
+                } label: {
+                    settingsLinkRow(icon: "hand.raised.fill", title: "Privacy Policy")
+                }
 
                 sectionDivider
 
-                settingsDisabledLinkRow(icon: "doc.text.fill", title: "Terms of Service")
+                Button {
+                    showTermsOfService = true
+                } label: {
+                    settingsLinkRow(icon: "doc.text.fill", title: "Terms of Service")
+                }
             }
+        }
+        .sheet(isPresented: $showHelpCenter) {
+            HelpCenterView()
+        }
+        .sheet(isPresented: $showPrivacyPolicy) {
+            LegalDocumentView(document: .privacyPolicy)
+        }
+        .sheet(isPresented: $showTermsOfService) {
+            LegalDocumentView(document: .termsOfUse)
         }
     }
 

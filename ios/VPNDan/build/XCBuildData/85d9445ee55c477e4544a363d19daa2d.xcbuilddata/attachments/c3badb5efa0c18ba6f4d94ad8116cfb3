@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>application-identifier</key>
+	<string>D4DPR2Z5GA.com.vpndan.VPNDan.PacketTunnel</string>
+	<key>com.apple.developer.networking.networkextension</key>
+	<array>
+		<string>packet-tunnel-provider</string>
+	</array>
+	<key>com.apple.developer.team-identifier</key>
+	<string>D4DPR2Z5GA</string>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.vpndan.VPNDan</string>
+	</array>
+	<key>get-task-allow</key>
+	<true/>
+</dict>
+</plist>

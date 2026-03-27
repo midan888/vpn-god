@@ -121,238 +121,238 @@
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/CFNetwork.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/CFNetwork-92VG77CCVYRS7FY2LRU3PJDPC.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/CFNetwork-9CTANX3K3TQYONOJVHTV7GROE.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "CFNetwork"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/CoreFoundation.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/CoreFoundation-EKECF2H0WN4T1M82R2TUZ1908.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/CoreFoundation-6F4MKRU3SVF4XRRRX8SDGBOW.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "CoreFoundation"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/Darwin.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Darwin-8P171YPYI69IMH0TQU1W3IXDM.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Darwin-2VU5IJT6C6NNR8W3CLFJU40AS.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Darwin"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/dispatch.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Dispatch-CWLR76AKXAZIF3OK0ZYYX4HQ6.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Dispatch-5O42PMAPUXNBQ3NCUULU1SE63.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Dispatch"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/ExtensionFoundation.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ExtensionFoundation-85A4NR9BTEPK1RT382QV671CX.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ExtensionFoundation-EPZZPGZISPN1M3Z726J0PVYEY.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ExtensionFoundation"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/Foundation.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Foundation-A6F6JNLHHR1T4QI5Z814AIIH8.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Foundation-6FSYHT14YRCULE8YWNWCH6HWY.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Foundation"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/DarwinBasic.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/MachO-6M4POGOQFJIX7JNL8CHOQ6NL6.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/MachO-1LDD7QSIUS0GUYOCJP7TGN6RP.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "MachO"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/Network.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Network-9OEU0TX8FXCSBPXPER5HK5FFK.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Network-2UQI9Z3MTEIG5H7BVBM6JLCKZ.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Network"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/NetworkExtension.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/NetworkExtension-D7Q30S65GGMXGYGNDMX5HJ89W.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/NetworkExtension-84ZD39JQ2UI14S5GIHO47TSEX.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "NetworkExtension"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/OSLog.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/OSLog-84YIFZFM75G1QROUE852FOMUJ.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/OSLog-11X4HXIMO579UMIVVTBHJ9MZX.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "OSLog"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/ObjectiveC.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ObjectiveC-2BH92014DT1QW2DKK52QO6W1S.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ObjectiveC-APY60IF333ADFDIUQA7M5TNHI.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ObjectiveC"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/System\/Library\/Frameworks\/Security.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Security-1L281NMYZEKVW4NNDMDPZUC4Y.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/Security-CT6PZFKVCJ1M1TR8E1HKWUPH8.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Security"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/SwiftShims-OSOWVZPNXO9QFUFVZE2X497S.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/SwiftShims-DUFB1E6P1U07FFTNRQWAQLQ99.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "SwiftShims"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/xpc.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/XPC-7VJ92VHNL2AMJIPI8NRXH8FS2.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/XPC-5XE3EIZB92WKS1RHJYH20ISQT.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "XPC"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/DarwinFoundation1.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_AvailabilityInternal-1XQ90TL1M6HRLHZWR4CXGVI36.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_AvailabilityInternal-23NJ2QB8DLRG0M3L7I13WFAJE.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_AvailabilityInternal"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_float-2MH5IO3IG8DVISOZLL65CN74A.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_float-4BDGKQUBTUFWBVHJ4PJME12MK.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_float"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_inttypes-88HIVY0DV0LLR7JYOFRRL11IO.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_inttypes-1B52OHY62BT7RQR5TJ83C7JPS.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_inttypes"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_limits-21VOQK4E1SX9VHBRL367HUTRD.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_limits-CX1ADOV8U3XMVTPHRKM8G3OYF.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_limits"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdarg-3160LIZSCQZC96378SZDACN5M.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdarg-E5BPMHHP956KOFR8SYY4ZRUQ.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdarg"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdatomic-CJLAYRUMCPL9EAIB6OSK8OMXB.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdatomic-4B4M8AS06NW8ZV4V6DCMIVPM1.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdatomic"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdbool-5M7R5QJF30XGY5Q8QH6B95OU3.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdbool-DX5JENO9CTHQMHGIHBQBXI69Z.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdbool"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stddef-3OUIN26AA7O379QBOC88596U1.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stddef-6Z6XWZQ9NHJGOO9WFL8CQSEHY.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stddef"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdint-E7AM86Z30V1Y7OS6X9DWLYK70.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_Builtin_stdint-C67GUG2KMVG4FM0P370B2U4C7.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdint"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/DarwinFoundation1.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation1-BKVTVRXEV58E2IKQH4ID8PLAE.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation1-35DMM41LZK8XJ61J22GBQNGON.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_DarwinFoundation1"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/DarwinFoundation2.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation2-75H5K6VMPJ8VLNJUJK5W2MNSU.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation2-8YTQS4UN9V1C63Y5GRS5Z3VY0.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_DarwinFoundation2"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/DarwinFoundation3.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation3-1K7UC5FNDS4BS0XZSN5M27PBU.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_DarwinFoundation3-DIUM2MAC703S2X250TOGWDRJE.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_DarwinFoundation3"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_SwiftConcurrencyShims-DYUQ935U1AX62YFPM7VC665R5.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/_SwiftConcurrencyShims-48SJB90BMSIH3UECWNBZOQYN6.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_SwiftConcurrencyShims"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/dnssd.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/dnssd-16H3HXHOUNZRGRXGZ6QYIVFCE.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/dnssd-22PPHFMRWD49CLR9DW6Z2WNA5.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "dnssd"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/os.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/os-2GQIWW23BMVSM6ZK58MG63KXS.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/os-DS0Q6N0V7580WT6F046NZPCZI.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "os"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/os.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/os_object-4QMTYKC05LGHEYDJLGZMDL1TC.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/os_object-O8SFAA6XHFFAQDQO23XG9VUN.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "os_object"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/os.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/os_workgroup-C1X7534NQBCKBDQXTRPTNO5N.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/os_workgroup-5M91LIO2U1QOKQS6G2HPJ0X9K.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "os_workgroup"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ptrauth-C51CW0CFVPI5HWTZPMOU8TM7B.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ptrauth-BKKPMWQV2QGR84XAPHBFWH53.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ptrauth"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ptrcheck-9A1T0MICWEC4NR2Z6OFH7ZH8W.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/ptrcheck-BJT9TP7XLEWXG5CZX0CT8W1EA.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ptrcheck"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/iPhoneOS.platform\/Developer\/SDKs\/iPhoneOS.sdk\/usr\/include\/DarwinFoundation2.modulemap",
-    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/sys_types-76ZE9IHBFO3HVBGUQV8F7L522.pcm",
+    "clangModulePath" : "\/Users\/mikayeldanielyan\/Projects\/vpndan\/ios\/VPNDan\/build\/SwiftExplicitPrecompiledModules\/sys_types-8XZL54DKYTUKC99H1X268537R.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "sys_types"
