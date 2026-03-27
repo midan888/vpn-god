@@ -3,6 +3,7 @@ import SwiftUI
 struct ServerCard: View {
     let server: Server?
     var latencyMs: Int?
+    var vpnActive: Bool = false
     let onChangeTapped: () -> Void
 
     var body: some View {
@@ -27,6 +28,16 @@ struct ServerCard: View {
                                     .background(
                                         Capsule()
                                             .fill(latencyColor(ms: ms).opacity(0.12))
+                                    )
+                            } else if vpnActive {
+                                Text("N/A")
+                                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                                    .foregroundStyle(Color.vpnTextTertiary)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(
+                                        Capsule()
+                                            .fill(Color.vpnTextTertiary.opacity(0.12))
                                     )
                             }
                         }

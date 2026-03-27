@@ -6,6 +6,7 @@ struct ServerRow: View {
     var isSelected: Bool = false
     var isFavorite: Bool = false
     var latencyMs: Int?
+    var vpnActive: Bool = false
     var onFavoriteToggle: (() -> Void)?
 
     var body: some View {
@@ -30,6 +31,8 @@ struct ServerRow: View {
             // Latency
             if let ms = latencyMs {
                 latencyBadge(ms: ms)
+            } else if vpnActive {
+                naBadge
             }
 
             // Favorite star
@@ -77,6 +80,18 @@ struct ServerRow: View {
             .background(
                 Capsule()
                     .fill(latencyColor(quality).opacity(0.12))
+            )
+    }
+
+    private var naBadge: some View {
+        Text("N/A")
+            .font(.system(size: 11, weight: .medium, design: .monospaced))
+            .foregroundStyle(Color.vpnTextTertiary)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(
+                Capsule()
+                    .fill(Color.vpnTextTertiary.opacity(0.12))
             )
     }
 

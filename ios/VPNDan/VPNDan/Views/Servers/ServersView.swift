@@ -261,6 +261,7 @@ struct ServersView: View {
                         isConnected: vpn.connectedServer?.id == server.id && vpn.status == .connected,
                         isFavorite: favorites.isFavorite(server.id),
                         latencyMs: latency.latency(for: server.id),
+                        vpnActive: vpn.status == .connected,
                         onFavoriteToggle: { favorites.toggle(server.id) }
                     )
                 }

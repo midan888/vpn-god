@@ -117,6 +117,7 @@ struct ServerSelectionSheet: View {
                             isSelected: selectedServerID == server.id,
                             isFavorite: favorites.isFavorite(server.id),
                             latencyMs: latency.latency(for: server.id),
+                            vpnActive: connectedServerID != nil,
                             onFavoriteToggle: { favorites.toggle(server.id) }
                         )
                     }

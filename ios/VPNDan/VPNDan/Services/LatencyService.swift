@@ -8,8 +8,20 @@ final class LatencyService {
     /// Server ID → latency in milliseconds (nil = not yet measured)
     private(set) var latencies: [UUID: Int] = [:]
 
+    /// When true, pings are paused and latency helpers return nil.
+    var vpnConnected = false {
+        didSet {
+            if vpnConnected {
+                stopPeriodicRefresh()
+            } else if let cachedServers = _servers {
+                startPeriodicRefresh(servers: cachedServers)
+            }
+        }
+    }
+
     private var measureTask: Task<Void, Never>?
     private var refreshTimer: Timer?
+    private var _servers: [Server]?
 
     private static let pingSession: URLSession = {
         let config = URLSessionConfiguration.ephemeral
@@ -53,7 +65,9 @@ final class LatencyService {
 
     /// Start periodic refresh (every 30s).
     func startPeriodicRefresh(servers: [Server]) {
+        _servers = servers
         stopPeriodicRefresh()
+        guard !vpnConnected else { return }
         measureAll(servers)
         refreshTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
             Task { @MainActor in
@@ -98,16 +112,17 @@ final class LatencyService {
     // MARK: - Helpers
 
     func latency(for serverID: UUID) -> Int? {
-        latencies[serverID]
+        guard !vpnConnected else { return nil }
+        return latencies[serverID]
     }
 
     func latencyText(for serverID: UUID) -> String? {
-        guard let ms = latencies[serverID] else { return nil }
+        guard !vpnConnected, let ms = latencies[serverID] else { return nil }
         return "\(ms) ms"
     }
 
     func latencyQuality(for serverID: UUID) -> LatencyQuality? {
-        guard let ms = latencies[serverID] else { return nil }
+        guard !vpnConnected, let ms = latencies[serverID] else { return nil }
         return LatencyQuality(ms: ms)
     }
 }

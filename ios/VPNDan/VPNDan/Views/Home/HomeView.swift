@@ -54,6 +54,7 @@ struct HomeView: View {
                     ServerCard(
                         server: displayServer,
                         latencyMs: displayServer.flatMap { latency.latency(for: $0.id) },
+                        vpnActive: vpn.status == .connected,
                         onChangeTapped: { showServerSheet = true }
                     )
 
@@ -212,6 +213,7 @@ struct HomeView: View {
 
     private func handleStatusChange(from oldStatus: VPNManager.VPNStatus, to newStatus: VPNManager.VPNStatus) {
         triggerHaptic(for: newStatus)
+        latency.vpnConnected = newStatus == .connected
     }
 
     // MARK: - Haptics
