@@ -14,16 +14,6 @@ type User struct {
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
-type RegisterRequest struct {
-	Email    string `json:"email" doc:"User email address" format:"email" minLength:"1"`
-	Password string `json:"password" doc:"User password" minLength:"8"`
-}
-
-type LoginRequest struct {
-	Email    string `json:"email" doc:"User email address" minLength:"1"`
-	Password string `json:"password" doc:"User password" minLength:"1"`
-}
-
 type RefreshRequest struct {
 	RefreshToken string `json:"refresh_token" doc:"Refresh token" minLength:"1"`
 }

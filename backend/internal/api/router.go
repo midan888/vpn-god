@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"vpn-dan/backend/internal/auth"
+	"vpn-dan/backend/internal/email"
 	"vpn-dan/backend/internal/store"
 	"vpn-dan/backend/internal/wireguard"
 
@@ -11,29 +12,28 @@ import (
 	"github.com/danielgtaylor/huma/v2/adapters/humago"
 )
 
-func NewRouter(users store.UserStore, servers store.ServerStore, peers store.PeerStore, geoip store.GeoIPStore, jwtService *auth.JWTService, wg wireguard.PeerManager, corsOrigin string, nodeSecret string) http.Handler {
+func NewRouter(users store.UserStore, servers store.ServerStore, peers store.PeerStore, geoip store.GeoIPStore, authCodes store.AuthCodeStore, jwtService *auth.JWTService, emailSender email.Sender, wg wireguard.PeerManager, corsOrigin string, nodeSecret string) http.Handler {
 	mux := http.NewServeMux()
 
 	humaAPI := humago.New(mux, huma.DefaultConfig("VPN Dan API", "1.0.0"))
 
-	authHandler := NewAuthHandler(users, jwtService)
-
-	huma.Register(humaAPI, huma.Operation{
-		Method:        http.MethodPost,
-		Path:          "/api/v1/auth/register",
-		OperationID:   "register",
-		Summary:       "Register a new user",
-		Tags:          []string{"Auth"},
-		DefaultStatus: http.StatusCreated,
-	}, authHandler.Register)
+	authHandler := NewAuthHandler(users, authCodes, jwtService, emailSender)
 
 	huma.Register(humaAPI, huma.Operation{
 		Method:      http.MethodPost,
-		Path:        "/api/v1/auth/login",
-		OperationID: "login",
-		Summary:     "Log in with email and password",
+		Path:        "/api/v1/auth/send-code",
+		OperationID: "send-code",
+		Summary:     "Send a 6-digit login code to email",
 		Tags:        []string{"Auth"},
-	}, authHandler.Login)
+	}, authHandler.SendCode)
+
+	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodPost,
+		Path:        "/api/v1/auth/verify-code",
+		OperationID: "verify-code",
+		Summary:     "Verify email code and get tokens",
+		Tags:        []string{"Auth"},
+	}, authHandler.VerifyCode)
 
 	huma.Register(humaAPI, huma.Operation{
 		Method:      http.MethodPost,

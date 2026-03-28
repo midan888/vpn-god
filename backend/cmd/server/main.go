@@ -16,6 +16,7 @@ import (
 	"vpn-dan/backend/internal/api"
 	"vpn-dan/backend/internal/auth"
 	"vpn-dan/backend/internal/config"
+	"vpn-dan/backend/internal/email"
 	"vpn-dan/backend/internal/store"
 	"vpn-dan/backend/internal/wireguard"
 )
@@ -44,7 +45,16 @@ func main() {
 	serverStore := store.NewPostgresServerStore(db)
 	peerStore := store.NewPostgresPeerStore(db)
 	geoipStore := store.NewPostgresGeoIPStore(db)
+	authCodeStore := store.NewPostgresAuthCodeStore(db)
 	jwtService := auth.NewJWTService(cfg.JWTSecret)
+	var emailSender email.Sender
+	if cfg.ResendAPIKey != "" {
+		emailSender = email.NewResendSender(cfg.ResendAPIKey, cfg.EmailFrom)
+		log.Printf("email sending enabled via Resend")
+	} else {
+		log.Printf("WARNING: RESEND_API_KEY not set — email sending disabled, codes will be logged")
+		emailSender = nil
+	}
 	var wgManager wireguard.PeerManager
 	if cfg.WireGuardAdminURL != "" {
 		log.Printf("using WireGuard admin API at %s", cfg.WireGuardAdminURL)
@@ -54,7 +64,7 @@ func main() {
 		wgManager = wireguard.NewLocalPeerManager("wg0")
 	}
 
-	router := api.NewRouter(userStore, serverStore, peerStore, geoipStore, jwtService, wgManager, cfg.CORSOrigin, cfg.NodeSecret)
+	router := api.NewRouter(userStore, serverStore, peerStore, geoipStore, authCodeStore, jwtService, emailSender, wgManager, cfg.CORSOrigin, cfg.NodeSecret)
 
 	// Background: mark servers with no heartbeat for 90s as inactive
 	go runStaleServerChecker(serverStore)
@@ -141,6 +151,19 @@ func runMigrations(db *sqlx.DB) error {
 		)`,
 		`CREATE INDEX IF NOT EXISTS idx_country_ips_country ON country_ips(country)`,
 		`ALTER TABLE servers ADD COLUMN IF NOT EXISTS ping_port INT NOT NULL DEFAULT 8080`,
+		// Passwordless auth: make password nullable, add auth_codes table
+		`ALTER TABLE users ALTER COLUMN password DROP NOT NULL`,
+		`ALTER TABLE users ALTER COLUMN password SET DEFAULT ''`,
+		`CREATE TABLE IF NOT EXISTS auth_codes (
+			id         UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+			email      VARCHAR(255) NOT NULL,
+			code       VARCHAR(6) NOT NULL,
+			expires_at TIMESTAMPTZ NOT NULL,
+			used       BOOLEAN NOT NULL DEFAULT false,
+			created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+		)`,
+		`CREATE INDEX IF NOT EXISTS idx_auth_codes_email ON auth_codes(email)`,
+		`CREATE INDEX IF NOT EXISTS idx_auth_codes_expires_at ON auth_codes(expires_at)`,
 	}
 
 	for _, m := range migrations {

@@ -16,6 +16,8 @@ type Config struct {
 	AdminPassword     string
 	CORSOrigin        string
 	NodeSecret        string
+	ResendAPIKey      string
+	EmailFrom         string
 }
 
 func Load() (*Config, error) {
@@ -36,6 +38,11 @@ func Load() (*Config, error) {
 		port = "8080"
 	}
 
+	emailFrom := os.Getenv("EMAIL_FROM")
+	if emailFrom == "" {
+		emailFrom = "VPN Dan <noreply@vpndan.com>"
+	}
+
 	return &Config{
 		DatabaseURL:       dbURL,
 		JWTSecret:         jwtSecret,
@@ -45,6 +52,8 @@ func Load() (*Config, error) {
 		AdminPassword:     os.Getenv("ADMIN_PASSWORD"),
 		CORSOrigin:        os.Getenv("CORS_ORIGIN"),
 		NodeSecret:        os.Getenv("NODE_SECRET"),
+		ResendAPIKey:      os.Getenv("RESEND_API_KEY"),
+		EmailFrom:         emailFrom,
 	}, nil
 }
 

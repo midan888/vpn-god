@@ -1,8 +1,7 @@
 import SwiftUI
-import AuthenticationServices
 
 struct AuthView: View {
-    @State private var selectedTab = 0
+    @Environment(AuthService.self) private var auth
 
     var body: some View {
         ZStack {
@@ -32,20 +31,16 @@ struct AuthView: View {
                     }
                     .padding(.top, 60)
 
-                    // Segmented control
-                    CustomSegmentedControl(selectedTab: $selectedTab)
-                        .padding(.horizontal, VPNSpacing.xl)
-
-                    // Forms
+                    // Form
                     Group {
-                        if selectedTab == 0 {
-                            LoginFormView()
+                        if auth.isCodeSent {
+                            CodeEntryFormView()
                         } else {
-                            RegisterFormView()
+                            EmailFormView()
                         }
                     }
                     .padding(.horizontal, VPNSpacing.xl)
-                    .animation(.easeInOut(duration: 0.25), value: selectedTab)
+                    .animation(.easeInOut(duration: 0.25), value: auth.isCodeSent)
                 }
                 .padding(.bottom, VPNSpacing.xxl)
             }
@@ -55,46 +50,9 @@ struct AuthView: View {
     }
 }
 
-// MARK: - Custom Segmented Control
+// MARK: - Email Form
 
-struct CustomSegmentedControl: View {
-    @Binding var selectedTab: Int
-    private let tabs = [L10n.Auth.signIn, L10n.Auth.createAccount]
-
-    var body: some View {
-        HStack(spacing: 0) {
-            ForEach(Array(tabs.enumerated()), id: \.offset) { index, title in
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        selectedTab = index
-                    }
-                } label: {
-                    Text(title)
-                        .vpnTextStyle(.buttonText, color: selectedTab == index ? .vpnTextPrimary : .vpnTextTertiary)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 44)
-                        .background(
-                            RoundedRectangle(cornerRadius: VPNRadius.small)
-                                .fill(selectedTab == index ? Color.vpnSurfaceLight : Color.clear)
-                        )
-                }
-            }
-        }
-        .padding(VPNSpacing.xs)
-        .background(
-            RoundedRectangle(cornerRadius: VPNRadius.small + VPNSpacing.xs)
-                .fill(Color.vpnSurface)
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: VPNRadius.small + VPNSpacing.xs)
-                .stroke(Color.vpnBorder, lineWidth: 1)
-        )
-    }
-}
-
-// MARK: - Login Form
-
-struct LoginFormView: View {
+struct EmailFormView: View {
     @State private var viewModel = LoginViewModel()
     @Environment(AuthService.self) private var auth
     @State private var shakeError = false
@@ -106,7 +64,10 @@ struct LoginFormView: View {
                 errorBanner(error)
             }
 
-            // Fields
+            Text(L10n.Auth.enterEmail)
+                .vpnTextStyle(.caption, color: .vpnTextSecondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
             VPNTextField(
                 placeholder: L10n.Auth.email,
                 text: $viewModel.email,
@@ -114,35 +75,13 @@ struct LoginFormView: View {
                 keyboardType: .emailAddress
             )
 
-            VPNTextField(
-                placeholder: L10n.Auth.password,
-                text: $viewModel.password,
-                isSecure: true,
-                textContentType: .password
-            )
-
-            // Login button
+            // Continue button
             GradientButton(
-                title: L10n.Auth.signIn,
+                title: L10n.Auth.continueButton,
                 isLoading: auth.isLoading,
-                isDisabled: !viewModel.isValid
+                isDisabled: !viewModel.isEmailValid
             ) {
-                Task { await auth.login(email: viewModel.email, password: viewModel.password) }
-            }
-            .padding(.top, VPNSpacing.sm)
-
-            // Divider
-            dividerRow
-
-            // Apple Sign In
-            appleSignInButton
-
-            // Forgot password
-            Button {
-                // No backend support yet
-            } label: {
-                Text(L10n.Auth.forgotPassword)
-                    .vpnTextStyle(.caption, color: .vpnPrimary)
+                Task { await auth.sendCode(email: viewModel.email) }
             }
             .padding(.top, VPNSpacing.sm)
         }
@@ -157,10 +96,10 @@ struct LoginFormView: View {
     }
 }
 
-// MARK: - Register Form
+// MARK: - Code Entry Form
 
-struct RegisterFormView: View {
-    @State private var viewModel = RegisterViewModel()
+struct CodeEntryFormView: View {
+    @State private var viewModel = LoginViewModel()
     @Environment(AuthService.self) private var auth
     @State private var shakeError = false
 
@@ -171,58 +110,59 @@ struct RegisterFormView: View {
                 errorBanner(error)
             }
 
-            // Fields
-            VPNTextField(
-                placeholder: L10n.Auth.email,
-                text: $viewModel.email,
-                textContentType: .emailAddress,
-                keyboardType: .emailAddress
-            )
+            VStack(spacing: VPNSpacing.xs) {
+                Text(L10n.Auth.checkEmail)
+                    .vpnTextStyle(.caption, color: .vpnTextSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-            VPNTextField(
-                placeholder: L10n.Auth.passwordHint,
-                text: $viewModel.password,
-                isSecure: true,
-                textContentType: .newPassword
-            )
-
-            VPNTextField(
-                placeholder: L10n.Auth.confirmPassword,
-                text: $viewModel.confirmPassword,
-                isSecure: true,
-                textContentType: .newPassword
-            )
-
-            // Password mismatch
-            if !viewModel.passwordsMatch && !viewModel.confirmPassword.isEmpty {
-                HStack(spacing: VPNSpacing.xs) {
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .font(.system(size: 12))
-                    Text(L10n.Auth.passwordsDontMatch)
-                        .vpnTextStyle(.statusBadge)
+                if let email = auth.pendingEmail {
+                    Text(email)
+                        .vpnTextStyle(.caption, color: .vpnTextPrimary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                .foregroundStyle(Color.vpnDisconnected)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .transition(.opacity.combined(with: .move(edge: .top)))
             }
 
-            // Register button
+            VPNTextField(
+                placeholder: L10n.Auth.codePlaceholder,
+                text: $viewModel.code,
+                textContentType: .oneTimeCode,
+                keyboardType: .numberPad
+            )
+
+            // Verify button
             GradientButton(
-                title: L10n.Auth.createAccount,
+                title: L10n.Auth.verifyCode,
                 isLoading: auth.isLoading,
-                isDisabled: !viewModel.isValid
+                isDisabled: !viewModel.isCodeValid
             ) {
-                Task { await auth.register(email: viewModel.email, password: viewModel.password) }
+                Task { await auth.verifyCode(code: viewModel.code) }
             }
             .padding(.top, VPNSpacing.sm)
 
-            // Divider
-            dividerRow
+            // Resend / Back row
+            HStack {
+                Button {
+                    auth.goBackToEmail()
+                } label: {
+                    Text(L10n.Auth.changeEmail)
+                        .vpnTextStyle(.caption, color: .vpnPrimary)
+                }
 
-            // Apple Sign In
-            appleSignInButton
+                Spacer()
+
+                Button {
+                    Task {
+                        if let email = auth.pendingEmail {
+                            await auth.sendCode(email: email)
+                        }
+                    }
+                } label: {
+                    Text(L10n.Auth.resendCode)
+                        .vpnTextStyle(.caption, color: .vpnPrimary)
+                }
+            }
+            .padding(.top, VPNSpacing.sm)
         }
-        .animation(.easeInOut(duration: 0.2), value: viewModel.passwordsMatch)
         .modifier(ShakeModifier(shakes: shakeError ? 2 : 0))
         .onChange(of: auth.error) { _, newError in
             if newError != nil {
@@ -258,30 +198,6 @@ private func errorBanner(_ message: String) -> some View {
             .stroke(Color.vpnDisconnected.opacity(0.3), lineWidth: 1)
     )
     .transition(.opacity.combined(with: .move(edge: .top)))
-}
-
-private var dividerRow: some View {
-    HStack {
-        Rectangle()
-            .fill(Color.vpnBorder)
-            .frame(height: 1)
-        Text(L10n.Common.or)
-            .vpnTextStyle(.caption, color: .vpnTextTertiary)
-        Rectangle()
-            .fill(Color.vpnBorder)
-            .frame(height: 1)
-    }
-}
-
-private var appleSignInButton: some View {
-    SignInWithAppleButton(.signIn) { request in
-        request.requestedScopes = [.email]
-    } onCompletion: { _ in
-        // Apple Sign In handling — requires backend support
-    }
-    .signInWithAppleButtonStyle(.white)
-    .frame(height: 52)
-    .cornerRadius(VPNRadius.button)
 }
 
 // MARK: - Shake Animation Modifier

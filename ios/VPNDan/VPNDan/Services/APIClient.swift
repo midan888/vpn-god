@@ -21,14 +21,14 @@ actor APIClient {
 
     // MARK: - Auth Endpoints
 
-    func register(email: String, password: String) async throws -> AuthResponse {
-        let body = RegisterRequest(email: email, password: password)
-        return try await post("/auth/register", body: body)
+    func sendCode(email: String) async throws -> SendCodeResponse {
+        let body = SendCodeRequest(email: email)
+        return try await post("/auth/send-code", body: body)
     }
 
-    func login(email: String, password: String) async throws -> AuthResponse {
-        let body = LoginRequest(email: email, password: password)
-        return try await post("/auth/login", body: body)
+    func verifyCode(email: String, code: String) async throws -> AuthResponse {
+        let body = VerifyCodeRequest(email: email, code: code)
+        return try await post("/auth/verify-code", body: body)
     }
 
     func refresh(token: String) async throws -> AuthResponse {

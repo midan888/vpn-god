@@ -1,13 +1,16 @@
 import Foundation
 
-struct RegisterRequest: Encodable {
+struct SendCodeRequest: Encodable {
     let email: String
-    let password: String
 }
 
-struct LoginRequest: Encodable {
+struct SendCodeResponse: Decodable {
+    let message: String
+}
+
+struct VerifyCodeRequest: Encodable {
     let email: String
-    let password: String
+    let code: String
 }
 
 struct RefreshRequest: Encodable {

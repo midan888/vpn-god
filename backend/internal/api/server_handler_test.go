@@ -87,8 +87,9 @@ func (m *fullMockServerStore) MarkStaleServersInactive(_ context.Context, _ time
 func setupServerRouter() (http.Handler, *fullMockServerStore, *auth.JWTService) {
 	ms := newMockUserStore()
 	ss := newFullMockServerStore()
+	acs := newMockAuthCodeStore()
 	jwtSvc := auth.NewJWTService("test-secret")
-	router := NewRouter(ms, ss, &mockPeerStore{}, &mockGeoIPStore{}, jwtSvc, &mockPeerManager{}, "", "")
+	router := NewRouter(ms, ss, &mockPeerStore{}, &mockGeoIPStore{}, acs, jwtSvc, nil, &mockPeerManager{}, "", "")
 	return router, ss, jwtSvc
 }
 

@@ -30,14 +30,14 @@ enum L10n {
     // MARK: - Auth
     enum Auth {
         static let appName = String(localized: "auth.appName", defaultValue: "VPN GOD")
-        static let signIn = String(localized: "auth.signIn", defaultValue: "Sign In")
-        static let createAccount = String(localized: "auth.createAccount", defaultValue: "Create Account")
         static let email = String(localized: "auth.email", defaultValue: "Email")
-        static let password = String(localized: "auth.password", defaultValue: "Password")
-        static let passwordHint = String(localized: "auth.passwordHint", defaultValue: "Password (min. 8 characters)")
-        static let confirmPassword = String(localized: "auth.confirmPassword", defaultValue: "Confirm Password")
-        static let forgotPassword = String(localized: "auth.forgotPassword", defaultValue: "Forgot password?")
-        static let passwordsDontMatch = String(localized: "auth.passwordsDontMatch", defaultValue: "Passwords don't match")
+        static let enterEmail = String(localized: "auth.enterEmail", defaultValue: "Enter your email to sign in or create an account")
+        static let continueButton = String(localized: "auth.continue", defaultValue: "Continue")
+        static let checkEmail = String(localized: "auth.checkEmail", defaultValue: "We sent a 6-digit code to")
+        static let codePlaceholder = String(localized: "auth.codePlaceholder", defaultValue: "000000")
+        static let verifyCode = String(localized: "auth.verifyCode", defaultValue: "Verify")
+        static let resendCode = String(localized: "auth.resendCode", defaultValue: "Resend code")
+        static let changeEmail = String(localized: "auth.changeEmail", defaultValue: "Change email")
     }
 
     // MARK: - Home
@@ -231,8 +231,8 @@ enum L10n {
         static let helpEncryptedA = String(localized: "helpCenter.helpEncryptedA", defaultValue: "Yes. All traffic between your device and the VPN server is encrypted using state-of-the-art cryptography provided by the WireGuard protocol, including ChaCha20 for encryption and Curve25519 for key exchange.")
 
         // Account
-        static let helpPasswordQ = String(localized: "helpCenter.helpPasswordQ", defaultValue: "How do I change my password?")
-        static let helpPasswordA = String(localized: "helpCenter.helpPasswordA", defaultValue: "Password changes are not yet available in the app. This feature is coming soon. If you need to reset your password urgently, please contact support.")
+        static let helpPasswordQ = String(localized: "helpCenter.helpPasswordQ", defaultValue: "How do I sign in?")
+        static let helpPasswordA = String(localized: "helpCenter.helpPasswordA", defaultValue: "Enter your email address and we'll send you a 6-digit verification code. No password needed — just check your inbox and enter the code.")
         static let helpMultiDeviceQ = String(localized: "helpCenter.helpMultiDeviceQ", defaultValue: "Can I use my account on multiple devices?")
         static let helpMultiDeviceA = String(localized: "helpCenter.helpMultiDeviceA", defaultValue: "Currently, VPN Dan supports one active connection per account. Connecting from a new device will disconnect the previous one.")
         static let helpDeleteQ = String(localized: "helpCenter.helpDeleteQ", defaultValue: "How do I delete my account?")

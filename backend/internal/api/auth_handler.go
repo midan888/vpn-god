@@ -2,39 +2,46 @@ package api
 
 import (
 	"context"
+	"crypto/rand"
 	"errors"
+	"fmt"
+	"log"
+	"math/big"
+	"time"
 
 	"github.com/danielgtaylor/huma/v2"
-	"golang.org/x/crypto/bcrypt"
 	"vpn-dan/backend/internal/auth"
+	"vpn-dan/backend/internal/email"
 	"vpn-dan/backend/internal/models"
 	"vpn-dan/backend/internal/store"
 )
 
 type AuthHandler struct {
-	users store.UserStore
-	jwt   *auth.JWTService
+	users     store.UserStore
+	authCodes store.AuthCodeStore
+	jwt       *auth.JWTService
+	email     email.Sender
 }
 
-func NewAuthHandler(users store.UserStore, jwt *auth.JWTService) *AuthHandler {
-	return &AuthHandler{users: users, jwt: jwt}
+func NewAuthHandler(users store.UserStore, authCodes store.AuthCodeStore, jwt *auth.JWTService, emailSender email.Sender) *AuthHandler {
+	return &AuthHandler{users: users, authCodes: authCodes, jwt: jwt, email: emailSender}
 }
 
 // Input/Output types for huma
 
-type RegisterInput struct {
-	Body models.RegisterRequest
+type SendCodeInput struct {
+	Body models.SendCodeRequest
 }
 
-type RegisterOutput struct {
-	Body models.AuthResponse
+type SendCodeOutput struct {
+	Body models.SendCodeResponse
 }
 
-type LoginInput struct {
-	Body models.LoginRequest
+type VerifyCodeInput struct {
+	Body models.VerifyCodeRequest
 }
 
-type LoginOutput struct {
+type VerifyCodeOutput struct {
 	Body models.AuthResponse
 }
 
@@ -46,42 +53,66 @@ type RefreshOutput struct {
 	Body models.AuthResponse
 }
 
-func (h *AuthHandler) Register(ctx context.Context, input *RegisterInput) (*RegisterOutput, error) {
-	hashed, err := bcrypt.GenerateFromPassword([]byte(input.Body.Password), bcrypt.DefaultCost)
+func generateCode() (string, error) {
+	n, err := rand.Int(rand.Reader, big.NewInt(1000000))
+	if err != nil {
+		return "", err
+	}
+	return fmt.Sprintf("%06d", n.Int64()), nil
+}
+
+func (h *AuthHandler) SendCode(ctx context.Context, input *SendCodeInput) (*SendCodeOutput, error) {
+	code, err := generateCode()
 	if err != nil {
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 
-	user, err := h.users.CreateUser(ctx, input.Body.Email, string(hashed))
+	expiresAt := time.Now().Add(10 * time.Minute)
+
+	_, err = h.authCodes.CreateCode(ctx, input.Body.Email, code, expiresAt)
 	if err != nil {
-		if errors.Is(err, store.ErrEmailExists) {
-			return nil, huma.Error409Conflict("an account with this email already exists")
+		return nil, huma.Error500InternalServerError("internal server error")
+	}
+
+	if h.email != nil {
+		if err := h.email.SendCode(input.Body.Email, code); err != nil {
+			log.Printf("failed to send email to %s: %v", input.Body.Email, err)
+			return nil, huma.Error500InternalServerError("failed to send verification email")
 		}
-		return nil, huma.Error500InternalServerError("internal server error")
+	} else {
+		// Dev fallback: log the code
+		log.Printf("AUTH CODE for %s: %s", input.Body.Email, code)
 	}
 
-	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID, false)
-	if err != nil {
-		return nil, huma.Error500InternalServerError("internal server error")
-	}
-
-	return &RegisterOutput{Body: models.AuthResponse{
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
+	return &SendCodeOutput{Body: models.SendCodeResponse{
+		Message: "verification code sent",
 	}}, nil
 }
 
-func (h *AuthHandler) Login(ctx context.Context, input *LoginInput) (*LoginOutput, error) {
-	user, err := h.users.GetUserByEmail(ctx, input.Body.Email)
+func (h *AuthHandler) VerifyCode(ctx context.Context, input *VerifyCodeInput) (*VerifyCodeOutput, error) {
+	_, err := h.authCodes.VerifyCode(ctx, input.Body.Email, input.Body.Code)
 	if err != nil {
-		if errors.Is(err, store.ErrUserNotFound) {
-			return nil, huma.Error401Unauthorized("invalid email or password")
+		if errors.Is(err, store.ErrCodeNotFound) || errors.Is(err, store.ErrCodeUsed) {
+			return nil, huma.Error401Unauthorized("invalid verification code")
+		}
+		if errors.Is(err, store.ErrCodeExpired) {
+			return nil, huma.Error401Unauthorized("verification code expired")
 		}
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Body.Password)); err != nil {
-		return nil, huma.Error401Unauthorized("invalid email or password")
+	// Find or create user
+	user, err := h.users.GetUserByEmail(ctx, input.Body.Email)
+	if err != nil {
+		if errors.Is(err, store.ErrUserNotFound) {
+			// Auto-register
+			user, err = h.users.CreateUser(ctx, input.Body.Email, "")
+			if err != nil {
+				return nil, huma.Error500InternalServerError("internal server error")
+			}
+		} else {
+			return nil, huma.Error500InternalServerError("internal server error")
+		}
 	}
 
 	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID, user.IsAdmin)
@@ -89,7 +120,7 @@ func (h *AuthHandler) Login(ctx context.Context, input *LoginInput) (*LoginOutpu
 		return nil, huma.Error500InternalServerError("internal server error")
 	}
 
-	return &LoginOutput{Body: models.AuthResponse{
+	return &VerifyCodeOutput{Body: models.AuthResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}}, nil
@@ -116,4 +147,3 @@ func (h *AuthHandler) Refresh(ctx context.Context, input *RefreshInput) (*Refres
 		RefreshToken: refreshToken,
 	}}, nil
 }
-

@@ -3,9 +3,13 @@ import Foundation
 @Observable
 final class LoginViewModel {
     var email = ""
-    var password = ""
+    var code = ""
 
-    var isValid: Bool {
-        !email.isEmpty && !password.isEmpty
+    var isEmailValid: Bool {
+        !email.isEmpty && email.contains("@")
+    }
+
+    var isCodeValid: Bool {
+        code.count == 6
     }
 }

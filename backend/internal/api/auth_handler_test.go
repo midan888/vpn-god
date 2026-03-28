@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 	"vpn-dan/backend/internal/auth"
 	"vpn-dan/backend/internal/models"
 	"vpn-dan/backend/internal/store"
@@ -93,6 +92,47 @@ func (m *mockUserStore) SetAdmin(_ context.Context, id uuid.UUID, isAdmin bool) 
 	return store.ErrUserNotFound
 }
 
+// mockAuthCodeStore implements store.AuthCodeStore for testing.
+type mockAuthCodeStore struct {
+	codes map[string]*models.AuthCode // keyed by email+code
+}
+
+func newMockAuthCodeStore() *mockAuthCodeStore {
+	return &mockAuthCodeStore{codes: make(map[string]*models.AuthCode)}
+}
+
+func (m *mockAuthCodeStore) CreateCode(_ context.Context, email, code string, expiresAt time.Time) (*models.AuthCode, error) {
+	ac := &models.AuthCode{
+		ID:        uuid.New(),
+		Email:     email,
+		Code:      code,
+		ExpiresAt: expiresAt,
+		Used:      false,
+		CreatedAt: time.Now(),
+	}
+	m.codes[email+":"+code] = ac
+	return ac, nil
+}
+
+func (m *mockAuthCodeStore) VerifyCode(_ context.Context, email, code string) (*models.AuthCode, error) {
+	ac, ok := m.codes[email+":"+code]
+	if !ok {
+		return nil, store.ErrCodeNotFound
+	}
+	if ac.Used {
+		return nil, store.ErrCodeUsed
+	}
+	if time.Now().After(ac.ExpiresAt) {
+		return nil, store.ErrCodeExpired
+	}
+	ac.Used = true
+	return ac, nil
+}
+
+func (m *mockAuthCodeStore) DeleteExpiredCodes(_ context.Context) error {
+	return nil
+}
+
 type mockServerStore struct{}
 
 func (m *mockServerStore) ListActiveServers(_ context.Context) ([]models.Server, error) {
@@ -151,8 +191,8 @@ func (m *mockGeoIPStore) DeleteByCountry(_ context.Context, _ string) error {
 
 type mockPeerManager struct{}
 
-func (m *mockPeerManager) AddPeer(_, _ string) error    { return nil }
-func (m *mockPeerManager) RemovePeer(_ string) error     { return nil }
+func (m *mockPeerManager) AddPeer(_, _ string) error { return nil }
+func (m *mockPeerManager) RemovePeer(_ string) error  { return nil }
 
 type mockPeerStore struct{}
 
@@ -177,11 +217,12 @@ func (m *mockPeerStore) ListAllPeers(_ context.Context) ([]models.Peer, error) {
 	return nil, nil
 }
 
-func setupRouter() (http.Handler, *mockUserStore) {
+func setupRouter() (http.Handler, *mockUserStore, *mockAuthCodeStore) {
 	ms := newMockUserStore()
+	acs := newMockAuthCodeStore()
 	jwtSvc := auth.NewJWTService("test-secret")
-	router := NewRouter(ms, &mockServerStore{}, &mockPeerStore{}, &mockGeoIPStore{}, jwtSvc, &mockPeerManager{}, "", "")
-	return router, ms
+	router := NewRouter(ms, &mockServerStore{}, &mockPeerStore{}, &mockGeoIPStore{}, acs, jwtSvc, nil, &mockPeerManager{}, "", "")
+	return router, ms, acs
 }
 
 func postJSON(router http.Handler, path string, body any) *httptest.ResponseRecorder {
@@ -193,91 +234,48 @@ func postJSON(router http.Handler, path string, body any) *httptest.ResponseReco
 	return w
 }
 
-// --- Register tests ---
+// --- Send Code tests ---
 
-func TestRegister_Success(t *testing.T) {
-	router, _ := setupRouter()
+func TestSendCode_Success(t *testing.T) {
+	router, _, _ := setupRouter()
 
-	w := postJSON(router, "/api/v1/auth/register", map[string]string{
-		"email":    "test@example.com",
-		"password": "password123",
+	w := postJSON(router, "/api/v1/auth/send-code", map[string]string{
+		"email": "test@example.com",
 	})
 
-	if w.Code != http.StatusCreated {
-		t.Fatalf("expected 201, got %d: %s", w.Code, w.Body.String())
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", w.Code, w.Body.String())
 	}
 
-	var resp models.AuthResponse
+	var resp models.SendCodeResponse
 	json.NewDecoder(w.Body).Decode(&resp)
-	if resp.AccessToken == "" || resp.RefreshToken == "" {
-		t.Fatal("expected tokens in response")
+	if resp.Message != "verification code sent" {
+		t.Fatalf("expected confirmation message, got %q", resp.Message)
 	}
 }
 
-func TestRegister_DuplicateEmail(t *testing.T) {
-	router, _ := setupRouter()
+func TestSendCode_InvalidEmail(t *testing.T) {
+	router, _, _ := setupRouter()
 
-	body := map[string]string{"email": "test@example.com", "password": "password123"}
-	postJSON(router, "/api/v1/auth/register", body)
-
-	w := postJSON(router, "/api/v1/auth/register", body)
-	if w.Code != http.StatusConflict {
-		t.Fatalf("expected 409, got %d", w.Code)
-	}
-}
-
-func TestRegister_InvalidEmail(t *testing.T) {
-	router, _ := setupRouter()
-
-	w := postJSON(router, "/api/v1/auth/register", map[string]string{
-		"email":    "not-an-email",
-		"password": "password123",
+	w := postJSON(router, "/api/v1/auth/send-code", map[string]string{
+		"email": "not-an-email",
 	})
 	if w.Code != http.StatusUnprocessableEntity {
 		t.Fatalf("expected 422, got %d: %s", w.Code, w.Body.String())
 	}
 }
 
-func TestRegister_ShortPassword(t *testing.T) {
-	router, _ := setupRouter()
+// --- Verify Code tests ---
 
-	w := postJSON(router, "/api/v1/auth/register", map[string]string{
-		"email":    "test@example.com",
-		"password": "short",
-	})
-	if w.Code != http.StatusUnprocessableEntity {
-		t.Fatalf("expected 422, got %d: %s", w.Code, w.Body.String())
-	}
-}
+func TestVerifyCode_Success_NewUser(t *testing.T) {
+	router, _, acs := setupRouter()
 
-func TestRegister_InvalidBody(t *testing.T) {
-	router, _ := setupRouter()
+	// Pre-create a valid code
+	acs.CreateCode(context.Background(), "new@example.com", "123456", time.Now().Add(10*time.Minute))
 
-	req := httptest.NewRequest(http.MethodPost, "/api/v1/auth/register", bytes.NewReader([]byte("not json")))
-	req.Header.Set("Content-Type", "application/json")
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-
-	if w.Code != http.StatusBadRequest {
-		t.Fatalf("expected 400, got %d", w.Code)
-	}
-}
-
-// --- Login tests ---
-
-func TestLogin_Success(t *testing.T) {
-	router, ms := setupRouter()
-
-	hashed, _ := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.MinCost)
-	ms.users["test@example.com"] = &models.User{
-		ID:       uuid.New(),
-		Email:    "test@example.com",
-		Password: string(hashed),
-	}
-
-	w := postJSON(router, "/api/v1/auth/login", map[string]string{
-		"email":    "test@example.com",
-		"password": "password123",
+	w := postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "new@example.com",
+		"code":  "123456",
 	})
 
 	if w.Code != http.StatusOK {
@@ -291,19 +289,34 @@ func TestLogin_Success(t *testing.T) {
 	}
 }
 
-func TestLogin_WrongPassword(t *testing.T) {
-	router, ms := setupRouter()
+func TestVerifyCode_Success_ExistingUser(t *testing.T) {
+	router, ms, acs := setupRouter()
 
-	hashed, _ := bcrypt.GenerateFromPassword([]byte("password123"), bcrypt.MinCost)
-	ms.users["test@example.com"] = &models.User{
-		ID:       uuid.New(),
-		Email:    "test@example.com",
-		Password: string(hashed),
+	ms.users["existing@example.com"] = &models.User{
+		ID:    uuid.New(),
+		Email: "existing@example.com",
 	}
 
-	w := postJSON(router, "/api/v1/auth/login", map[string]string{
-		"email":    "test@example.com",
-		"password": "wrongpassword",
+	acs.CreateCode(context.Background(), "existing@example.com", "654321", time.Now().Add(10*time.Minute))
+
+	w := postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "existing@example.com",
+		"code":  "654321",
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestVerifyCode_WrongCode(t *testing.T) {
+	router, _, acs := setupRouter()
+
+	acs.CreateCode(context.Background(), "test@example.com", "123456", time.Now().Add(10*time.Minute))
+
+	w := postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "test@example.com",
+		"code":  "000000",
 	})
 
 	if w.Code != http.StatusUnauthorized {
@@ -311,12 +324,14 @@ func TestLogin_WrongPassword(t *testing.T) {
 	}
 }
 
-func TestLogin_UserNotFound(t *testing.T) {
-	router, _ := setupRouter()
+func TestVerifyCode_ExpiredCode(t *testing.T) {
+	router, _, acs := setupRouter()
 
-	w := postJSON(router, "/api/v1/auth/login", map[string]string{
-		"email":    "nobody@example.com",
-		"password": "password123",
+	acs.CreateCode(context.Background(), "test@example.com", "123456", time.Now().Add(-1*time.Minute))
+
+	w := postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "test@example.com",
+		"code":  "123456",
 	})
 
 	if w.Code != http.StatusUnauthorized {
@@ -324,27 +339,32 @@ func TestLogin_UserNotFound(t *testing.T) {
 	}
 }
 
-func TestLogin_GenericErrorMessage(t *testing.T) {
-	router, _ := setupRouter()
+func TestVerifyCode_CodeAlreadyUsed(t *testing.T) {
+	router, _, acs := setupRouter()
 
-	w := postJSON(router, "/api/v1/auth/login", map[string]string{
-		"email":    "nobody@example.com",
-		"password": "password123",
+	acs.CreateCode(context.Background(), "test@example.com", "123456", time.Now().Add(10*time.Minute))
+
+	// First use succeeds
+	postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "test@example.com",
+		"code":  "123456",
 	})
 
-	var resp struct {
-		Detail string `json:"detail"`
-	}
-	json.NewDecoder(w.Body).Decode(&resp)
-	if resp.Detail != "invalid email or password" {
-		t.Fatalf("expected generic error message, got %q", resp.Detail)
+	// Second use fails
+	w := postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "test@example.com",
+		"code":  "123456",
+	})
+
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401, got %d", w.Code)
 	}
 }
 
 // --- Refresh tests ---
 
 func TestRefresh_Success(t *testing.T) {
-	router, ms := setupRouter()
+	router, ms, _ := setupRouter()
 	jwtSvc := auth.NewJWTService("test-secret")
 
 	userID := uuid.New()
@@ -371,7 +391,7 @@ func TestRefresh_Success(t *testing.T) {
 }
 
 func TestRefresh_InvalidToken(t *testing.T) {
-	router, _ := setupRouter()
+	router, _, _ := setupRouter()
 
 	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
 		"refresh_token": "invalid-token",
@@ -383,7 +403,7 @@ func TestRefresh_InvalidToken(t *testing.T) {
 }
 
 func TestRefresh_MissingToken(t *testing.T) {
-	router, _ := setupRouter()
+	router, _, _ := setupRouter()
 
 	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{})
 
@@ -393,7 +413,7 @@ func TestRefresh_MissingToken(t *testing.T) {
 }
 
 func TestRefresh_DeletedUser(t *testing.T) {
-	router, _ := setupRouter()
+	router, _, _ := setupRouter()
 	jwtSvc := auth.NewJWTService("test-secret")
 
 	_, refresh, _ := jwtSvc.GenerateTokenPair(uuid.New(), false)
@@ -408,7 +428,7 @@ func TestRefresh_DeletedUser(t *testing.T) {
 }
 
 func TestRefresh_AccessTokenRejected(t *testing.T) {
-	router, ms := setupRouter()
+	router, ms, _ := setupRouter()
 	jwtSvc := auth.NewJWTService("test-secret")
 
 	userID := uuid.New()
