@@ -102,6 +102,7 @@ struct CodeEntryFormView: View {
     @State private var viewModel = LoginViewModel()
     @Environment(AuthService.self) private var auth
     @State private var shakeError = false
+    @FocusState private var isCodeFieldFocused: Bool
 
     var body: some View {
         VStack(spacing: VPNSpacing.md) {
@@ -122,12 +123,8 @@ struct CodeEntryFormView: View {
                 }
             }
 
-            VPNTextField(
-                placeholder: L10n.Auth.codePlaceholder,
-                text: $viewModel.code,
-                textContentType: .oneTimeCode,
-                keyboardType: .numberPad
-            )
+            // OTP digit boxes
+            OTPCodeView(code: $viewModel.code, isFocused: $isCodeFieldFocused)
 
             // Verify button
             GradientButton(
@@ -170,7 +167,86 @@ struct CodeEntryFormView: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { shakeError = false }
             }
         }
+        .onAppear { isCodeFieldFocused = true }
         .onDisappear { auth.clearError() }
+    }
+}
+
+// MARK: - OTP Code View
+
+struct OTPCodeView: View {
+    @Binding var code: String
+    var isFocused: FocusState<Bool>.Binding
+    private let digitCount = 6
+
+    var body: some View {
+        ZStack {
+            // Hidden text field that captures keyboard input + autofill
+            TextField("", text: $code)
+                .focused(isFocused)
+                .textContentType(.oneTimeCode)
+                .keyboardType(.numberPad)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .frame(width: 1, height: 1)
+                .opacity(0.01)
+                .onChange(of: code) { _, newValue in
+                    // Filter to digits only and cap at 6
+                    let filtered = String(newValue.filter(\.isWholeNumber).prefix(digitCount))
+                    if filtered != newValue {
+                        code = filtered
+                    }
+                }
+
+            // Visual digit boxes
+            HStack(spacing: VPNSpacing.sm) {
+                ForEach(0..<digitCount, id: \.self) { index in
+                    DigitBox(
+                        digit: digit(at: index),
+                        isActive: index == code.count && (isFocused.wrappedValue),
+                        isFilled: index < code.count
+                    )
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                isFocused.wrappedValue = true
+            }
+        }
+    }
+
+    private func digit(at index: Int) -> String {
+        guard index < code.count else { return "" }
+        return String(code[code.index(code.startIndex, offsetBy: index)])
+    }
+}
+
+// MARK: - Single Digit Box
+
+private struct DigitBox: View {
+    let digit: String
+    let isActive: Bool
+    let isFilled: Bool
+
+    var body: some View {
+        Text(digit)
+            .font(.system(size: 24, weight: .semibold, design: .monospaced))
+            .foregroundStyle(Color.vpnTextPrimary)
+            .frame(maxWidth: .infinity)
+            .frame(height: 56)
+            .background(
+                RoundedRectangle(cornerRadius: VPNRadius.textField)
+                    .fill(Color.vpnSurface)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: VPNRadius.textField)
+                    .stroke(
+                        isActive ? Color.vpnPrimary : (isFilled ? Color.vpnPrimary.opacity(0.4) : Color.vpnBorder),
+                        lineWidth: isActive ? 1.5 : 1
+                    )
+            )
+            .animation(.easeInOut(duration: 0.15), value: isActive)
+            .animation(.easeInOut(duration: 0.15), value: isFilled)
     }
 }
 
