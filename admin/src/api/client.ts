@@ -29,7 +29,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     },
   });
 
-  if (res.status === 401) {
+  if (res.status === 401 || res.status === 403) {
     const refreshToken = localStorage.getItem('refresh_token');
     if (refreshToken) {
       // Deduplicate concurrent refresh calls

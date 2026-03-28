@@ -30,7 +30,12 @@ func authenticateAdminRequest(jwt *auth.JWTService, authHeader string) (uuid.UUI
 
 	userID, err := jwt.ValidateAdminAccessToken(token)
 	if err != nil {
-		return uuid.Nil, huma.Error403Forbidden("admin access required")
+		// Distinguish between auth errors (expired/invalid token → 401)
+		// and authorization errors (valid token but not admin → 403)
+		if err.Error() == "admin access required" {
+			return uuid.Nil, huma.Error403Forbidden("admin access required")
+		}
+		return uuid.Nil, huma.Error401Unauthorized("invalid or expired token")
 	}
 
 	return userID, nil
