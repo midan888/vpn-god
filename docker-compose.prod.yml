@@ -43,6 +43,8 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       NODE_SECRET: ${NODE_SECRET}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      EMAIL_FROM: ${EMAIL_FROM:-VPN Dan <noreply@updates.vpndan.com>}
     depends_on:
       postgres:
         condition: service_healthy
