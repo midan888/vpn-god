@@ -34,6 +34,7 @@ targets:
         INFOPLIST_FILE: VPNDan/App/Info.plist
         CODE_SIGN_ENTITLEMENTS: VPNDan/App/VPNDan.entitlements
         MARKETING_VERSION: "1.0.0"
+        TARGETED_DEVICE_FAMILY: "1"
     entitlements:
       path: VPNDan/App/VPNDan.entitlements
       properties:
