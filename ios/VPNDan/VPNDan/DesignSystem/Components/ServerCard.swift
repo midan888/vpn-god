@@ -9,8 +9,7 @@ struct ServerCard: View {
         GlassCard {
             HStack(spacing: VPNSpacing.md) {
                 if let server {
-                    Text(flag(for: server.country))
-                        .font(.system(size: 36))
+                    FlagView(countryCode: server.country, size: 36)
 
                     VStack(alignment: .leading, spacing: VPNSpacing.xs) {
                         Text(server.name)
@@ -53,15 +52,6 @@ struct ServerCard: View {
         }
     }
 
-    private func flag(for countryCode: String) -> String {
-        let base: UInt32 = 127397
-        return countryCode
-            .uppercased()
-            .unicodeScalars
-            .compactMap { UnicodeScalar(base + $0.value) }
-            .map { String($0) }
-            .joined()
-    }
 }
 
 #Preview {

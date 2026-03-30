@@ -30,8 +30,7 @@ struct ConnectionView: View {
 
             // Server info
             VStack(spacing: 8) {
-                Text(flag(for: server.country))
-                    .font(.system(size: 64))
+                FlagView(countryCode: server.country, size: 64)
 
                 Text(server.name)
                     .font(.title2.bold())
@@ -145,13 +144,4 @@ struct ConnectionView: View {
         }
     }
 
-    private func flag(for countryCode: String) -> String {
-        let base: UInt32 = 127397
-        return countryCode
-            .uppercased()
-            .unicodeScalars
-            .compactMap { UnicodeScalar(base + $0.value) }
-            .map { String($0) }
-            .joined()
-    }
 }

@@ -12,8 +12,7 @@ struct ServerRow: View {
     var body: some View {
         HStack(spacing: VPNSpacing.md) {
             // Flag
-            Text(Self.flag(for: server.country))
-                .font(.system(size: 32))
+            FlagView(countryCode: server.country, size: 32)
 
             // Name + status
             VStack(alignment: .leading, spacing: VPNSpacing.xs) {
@@ -67,17 +66,6 @@ struct ServerRow: View {
         .accessibilityLabel("\(server.name), \(server.country)\(isConnected ? ", connected" : "")\(isFavorite ? ", favorite" : "")\(server.isActive ? "" : ", unavailable")\(latencyMs.map { ", \($0) milliseconds" } ?? "")")
     }
 
-    // MARK: - Flag Helper
-
-    static func flag(for countryCode: String) -> String {
-        let base: UInt32 = 127397
-        return countryCode
-            .uppercased()
-            .unicodeScalars
-            .compactMap { UnicodeScalar(base + $0.value) }
-            .map { String($0) }
-            .joined()
-    }
 }
 
 #Preview {

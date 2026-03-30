@@ -29,7 +29,7 @@ enum L10n {
 
     // MARK: - Auth
     enum Auth {
-        static let appName = String(localized: "auth.appName", defaultValue: "VPN GOD")
+        static let appName = String(localized: "auth.appName", defaultValue: "VPN DAN")
         static let email = String(localized: "auth.email", defaultValue: "Email")
         static let enterEmail = String(localized: "auth.enterEmail", defaultValue: "Enter your email to sign in or create an account")
         static let continueButton = String(localized: "auth.continue", defaultValue: "Continue")

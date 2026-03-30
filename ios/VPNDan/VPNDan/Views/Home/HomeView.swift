@@ -231,17 +231,6 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - Helpers
-
-    private func flag(for countryCode: String) -> String {
-        let base: UInt32 = 127397
-        return countryCode
-            .uppercased()
-            .unicodeScalars
-            .compactMap { UnicodeScalar(base + $0.value) }
-            .map { String($0) }
-            .joined()
-    }
 }
 
 #Preview {

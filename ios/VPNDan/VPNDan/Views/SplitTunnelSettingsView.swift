@@ -113,9 +113,7 @@ struct SplitTunnelSettingsView: View {
                     ForEach(Array(splitTunnel.config.excludedCountries.sorted().enumerated()), id: \.element) { index, code in
                         if index > 0 { sectionDivider }
                         HStack(spacing: VPNSpacing.md) {
-                            Text(countryFlag(for: code))
-                                .font(.system(size: 20))
-                                .frame(width: 20)
+                            FlagView(countryCode: code, size: 20)
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(Locale.current.localizedString(forRegionCode: code) ?? code)
@@ -183,8 +181,7 @@ struct SplitTunnelSettingsView: View {
                                     splitTunnel.toggleCountry(country.country)
                                 } label: {
                                     HStack(spacing: VPNSpacing.md) {
-                                        Text(country.flag)
-                                            .font(.system(size: 24))
+                                        FlagView(countryCode: country.country, size: 24)
 
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text(country.displayName)
@@ -249,15 +246,6 @@ struct SplitTunnelSettingsView: View {
         }
     }
 
-    private func countryFlag(for code: String) -> String {
-        let base: UInt32 = 127397
-        return code
-            .uppercased()
-            .unicodeScalars
-            .compactMap { UnicodeScalar(base + $0.value) }
-            .map { String($0) }
-            .joined()
-    }
 
     // MARK: - Excluded Entries
 

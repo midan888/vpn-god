@@ -63,15 +63,6 @@ struct AvailableCountry: Codable, Identifiable {
         Locale.current.localizedString(forRegionCode: country) ?? country
     }
 
-    var flag: String {
-        let base: UInt32 = 127397
-        return country
-            .uppercased()
-            .unicodeScalars
-            .compactMap { UnicodeScalar(base + $0.value) }
-            .map { String($0) }
-            .joined()
-    }
 }
 
 enum SplitTunnelPreset: String, Codable, CaseIterable, Identifiable {
