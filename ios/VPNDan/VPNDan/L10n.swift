@@ -273,7 +273,7 @@ enum L10n {
     // MARK: - API Errors
     enum Errors {
         static let invalidURL = String(localized: "errors.invalidURL", defaultValue: "Invalid URL")
-        static let unauthorized = String(localized: "errors.unauthorized", defaultValue: "Invalid email or password")
+        static let unauthorized = String(localized: "errors.unauthorized", defaultValue: "Authentication failed. Please try again.")
         static let serverUnavailable = String(localized: "errors.serverUnavailable", defaultValue: "Server unavailable. Please select another.")
         static let serverAtCapacity = String(localized: "errors.serverAtCapacity", defaultValue: "Server is at capacity. Try another server.")
         static let serverError = String(localized: "errors.serverError", defaultValue: "Something went wrong. Please try again.")

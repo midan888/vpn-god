@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"vpn-dan/backend/internal/auth"
 	"vpn-dan/backend/internal/models"
@@ -442,5 +443,387 @@ func TestRefresh_AccessTokenRejected(t *testing.T) {
 
 	if w.Code != http.StatusUnauthorized {
 		t.Fatalf("expected 401, got %d", w.Code)
+	}
+}
+
+// --- Refresh with aged tokens (simulate app opened after N days) ---
+
+func makeAgedRefreshToken(t *testing.T, secret string, userID uuid.UUID, age time.Duration) string {
+	t.Helper()
+	issuedAt := time.Now().Add(-age)
+	expiresAt := issuedAt.Add(30 * 24 * time.Hour) // 30-day TTL from issue time
+	claims := auth.Claims{
+		RegisteredClaims: jwt.RegisteredClaims{
+			Subject:   userID.String(),
+			IssuedAt:  jwt.NewNumericDate(issuedAt),
+			ExpiresAt: jwt.NewNumericDate(expiresAt),
+		},
+		Type: "refresh",
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	signed, err := token.SignedString([]byte(secret))
+	if err != nil {
+		t.Fatalf("sign token: %v", err)
+	}
+	return signed
+}
+
+func TestRefresh_After2Days(t *testing.T) {
+	router, ms, _ := setupRouter()
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	refresh := makeAgedRefreshToken(t, "test-secret", userID, 2*24*time.Hour)
+
+	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": refresh,
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("refresh after 2 days should succeed, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var resp models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&resp)
+	if resp.AccessToken == "" || resp.RefreshToken == "" {
+		t.Fatal("expected new tokens in response")
+	}
+}
+
+func TestRefresh_After7Days(t *testing.T) {
+	router, ms, _ := setupRouter()
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	refresh := makeAgedRefreshToken(t, "test-secret", userID, 7*24*time.Hour)
+
+	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": refresh,
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("refresh after 7 days should succeed, got %d: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestRefresh_After29Days(t *testing.T) {
+	router, ms, _ := setupRouter()
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	refresh := makeAgedRefreshToken(t, "test-secret", userID, 29*24*time.Hour)
+
+	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": refresh,
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("refresh after 29 days should succeed, got %d: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestRefresh_After31Days_Expired(t *testing.T) {
+	router, ms, _ := setupRouter()
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	refresh := makeAgedRefreshToken(t, "test-secret", userID, 31*24*time.Hour)
+
+	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": refresh,
+	})
+
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("refresh after 31 days should be rejected, got %d", w.Code)
+	}
+}
+
+// --- Refresh chain: simulate multiple refreshes over time ---
+
+func TestRefresh_ChainedRefreshes(t *testing.T) {
+	router, ms, _ := setupRouter()
+	jwtSvc := auth.NewJWTService("test-secret")
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	// Initial token pair
+	_, refresh, _ := jwtSvc.GenerateTokenPair(userID, false)
+
+	// First refresh
+	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": refresh,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("first refresh failed: %d: %s", w.Code, w.Body.String())
+	}
+
+	var resp1 models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&resp1)
+
+	// Second refresh using new token
+	w = postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": resp1.RefreshToken,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("second refresh failed: %d: %s", w.Code, w.Body.String())
+	}
+
+	var resp2 models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&resp2)
+
+	// Verify new tokens are valid
+	if resp2.AccessToken == "" || resp2.RefreshToken == "" {
+		t.Fatal("expected tokens from second refresh")
+	}
+
+	// Third refresh using latest token
+	w = postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": resp2.RefreshToken,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("third refresh failed: %d: %s", w.Code, w.Body.String())
+	}
+}
+
+// --- Refresh returns tokens that work for authenticated endpoints ---
+
+func TestRefresh_NewAccessTokenWorksForAuthenticatedEndpoints(t *testing.T) {
+	router, ms, _ := setupRouter()
+	jwtSvc := auth.NewJWTService("test-secret")
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	_, refresh, _ := jwtSvc.GenerateTokenPair(userID, false)
+
+	// Refresh to get new tokens
+	w := postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": refresh,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("refresh failed: %d", w.Code)
+	}
+
+	var resp models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&resp)
+
+	// Use the new access token on an authenticated endpoint (GET /servers)
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+resp.AccessToken)
+	w2 := httptest.NewRecorder()
+	router.ServeHTTP(w2, req)
+
+	if w2.Code != http.StatusOK {
+		t.Fatalf("expected 200 with refreshed access token, got %d: %s", w2.Code, w2.Body.String())
+	}
+}
+
+// --- Full auth lifecycle: send code → verify → use token → refresh → use again ---
+
+func TestFullAuthLifecycle(t *testing.T) {
+	router, _, acs := setupRouter()
+
+	email := "lifecycle@example.com"
+
+	// Step 1: Send code
+	w := postJSON(router, "/api/v1/auth/send-code", map[string]string{
+		"email": email,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("send-code: expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	// Step 2: Verify code (need to find the code from the mock store)
+	var code string
+	for key := range acs.codes {
+		if len(key) > len(email)+1 {
+			code = key[len(email)+1:]
+			break
+		}
+	}
+	if code == "" {
+		t.Fatal("no code found in mock store")
+	}
+
+	w = postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": email,
+		"code":  code,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("verify-code: expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var authResp models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&authResp)
+	if authResp.AccessToken == "" || authResp.RefreshToken == "" {
+		t.Fatal("expected tokens from verify-code")
+	}
+
+	// Step 3: Use access token on authenticated endpoint
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+authResp.AccessToken)
+	w2 := httptest.NewRecorder()
+	router.ServeHTTP(w2, req)
+
+	if w2.Code != http.StatusOK {
+		t.Fatalf("authenticated request: expected 200, got %d: %s", w2.Code, w2.Body.String())
+	}
+
+	// Step 4: Refresh tokens
+	w = postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": authResp.RefreshToken,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("refresh: expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var refreshResp models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&refreshResp)
+
+	// Step 5: Use new access token
+	req = httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+refreshResp.AccessToken)
+	w3 := httptest.NewRecorder()
+	router.ServeHTTP(w3, req)
+
+	if w3.Code != http.StatusOK {
+		t.Fatalf("authenticated request with refreshed token: expected 200, got %d: %s", w3.Code, w3.Body.String())
+	}
+}
+
+// --- Authenticated endpoint tests ---
+
+func TestAuthenticatedEndpoint_NoToken(t *testing.T) {
+	router, _, _ := setupRouter()
+
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	// Huma returns 422 for missing required Authorization header
+	if w.Code != http.StatusUnprocessableEntity && w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 422 or 401 without token, got %d", w.Code)
+	}
+}
+
+func TestAuthenticatedEndpoint_InvalidToken(t *testing.T) {
+	router, _, _ := setupRouter()
+
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer invalid-token")
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 with invalid token, got %d", w.Code)
+	}
+}
+
+func TestAuthenticatedEndpoint_ExpiredAccessToken(t *testing.T) {
+	router, _, _ := setupRouter()
+
+	userID := uuid.New()
+
+	// Create an expired access token
+	claims := auth.Claims{
+		RegisteredClaims: jwt.RegisteredClaims{
+			Subject:   userID.String(),
+			IssuedAt:  jwt.NewNumericDate(time.Now().Add(-1 * time.Hour)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(-30 * time.Minute)),
+		},
+		Type: "access",
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	expired, _ := token.SignedString([]byte("test-secret"))
+
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+expired)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 with expired token, got %d", w.Code)
+	}
+}
+
+func TestAuthenticatedEndpoint_RefreshTokenRejectedAsBearer(t *testing.T) {
+	router, ms, _ := setupRouter()
+	jwtSvc := auth.NewJWTService("test-secret")
+
+	userID := uuid.New()
+	ms.users["test@example.com"] = &models.User{ID: userID, Email: "test@example.com"}
+
+	_, refresh, _ := jwtSvc.GenerateTokenPair(userID, false)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+refresh)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 when using refresh token as bearer, got %d", w.Code)
+	}
+}
+
+func TestAuthenticatedEndpoint_WrongSecretToken(t *testing.T) {
+	router, _, _ := setupRouter()
+	wrongSvc := auth.NewJWTService("wrong-secret")
+
+	access, _, _ := wrongSvc.GenerateTokenPair(uuid.New(), false)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+access)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusUnauthorized {
+		t.Fatalf("expected 401 with wrong-secret token, got %d", w.Code)
+	}
+}
+
+// --- Verify code issues new token for same user on re-login ---
+
+func TestVerifyCode_ReturnsValidTokensOnReLogin(t *testing.T) {
+	router, ms, acs := setupRouter()
+
+	userID := uuid.New()
+	ms.users["re@example.com"] = &models.User{ID: userID, Email: "re@example.com"}
+
+	// Create code and verify (re-login)
+	acs.CreateCode(context.Background(), "re@example.com", "111111", time.Now().Add(10*time.Minute))
+
+	w := postJSON(router, "/api/v1/auth/verify-code", map[string]string{
+		"email": "re@example.com",
+		"code":  "111111",
+	})
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var resp models.AuthResponse
+	json.NewDecoder(w.Body).Decode(&resp)
+
+	// New access token should work
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/servers", nil)
+	req.Header.Set("Authorization", "Bearer "+resp.AccessToken)
+	w2 := httptest.NewRecorder()
+	router.ServeHTTP(w2, req)
+
+	if w2.Code != http.StatusOK {
+		t.Fatalf("re-login token should work, got %d", w2.Code)
+	}
+
+	// New refresh token should also work
+	w = postJSON(router, "/api/v1/auth/refresh", map[string]string{
+		"refresh_token": resp.RefreshToken,
+	})
+	if w.Code != http.StatusOK {
+		t.Fatalf("re-login refresh token should work, got %d: %s", w.Code, w.Body.String())
 	}
 }

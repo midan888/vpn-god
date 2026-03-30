@@ -26,14 +26,49 @@ final class AuthService {
             return
         }
 
-        do {
-            let response = try await APIClient.shared.refresh(token: refreshToken)
-            KeychainService.saveTokens(access: response.accessToken, refresh: response.refreshToken)
-            userEmail = KeychainService.getEmail()
-            isAuthenticated = true
-        } catch {
-            KeychainService.clearTokens()
-            isAuthenticated = false
+        // Retry on transient network errors to avoid logging out unnecessarily
+        let maxAttempts = 3
+        for attempt in 1...maxAttempts {
+            do {
+                let response = try await APIClient.shared.refresh(token: refreshToken)
+                KeychainService.saveTokens(access: response.accessToken, refresh: response.refreshToken)
+                userEmail = KeychainService.getEmail()
+                isAuthenticated = true
+                return
+            } catch let apiError as APIError {
+                switch apiError {
+                case .networkError:
+                    // Transient — retry after a short delay
+                    if attempt < maxAttempts {
+                        try? await Task.sleep(for: .seconds(2 * attempt))
+                        continue
+                    }
+                    // All retries exhausted but don't clear tokens for network errors —
+                    // user can try again when connectivity returns
+                    isAuthenticated = false
+                    return
+                case .sessionExpired, .unauthorized:
+                    // Token is genuinely invalid/expired — clear and log out
+                    KeychainService.clearTokens()
+                    isAuthenticated = false
+                    return
+                default:
+                    // Server error or other issue — retry
+                    if attempt < maxAttempts {
+                        try? await Task.sleep(for: .seconds(2 * attempt))
+                        continue
+                    }
+                    isAuthenticated = false
+                    return
+                }
+            } catch {
+                if attempt < maxAttempts {
+                    try? await Task.sleep(for: .seconds(2 * attempt))
+                    continue
+                }
+                isAuthenticated = false
+                return
+            }
         }
     }
 
