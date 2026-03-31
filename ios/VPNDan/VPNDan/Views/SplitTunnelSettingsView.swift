@@ -411,22 +411,32 @@ struct SplitTunnelSettingsView: View {
     private func parseEntry(_ input: String) -> ExcludedEntry? {
         guard !input.isEmpty else { return nil }
 
+        // Extract domain from URL if a URL was pasted
+        let cleaned = extractDomain(from: input)
+
         // Check if it's a valid CIDR
-        if isValidCIDR(input) {
-            return ExcludedEntry(value: input, type: .ip)
+        if isValidCIDR(cleaned) {
+            return ExcludedEntry(value: cleaned, type: .ip)
         }
 
         // Check if it's a plain IP (add /32)
-        if isValidIP(input) {
-            return ExcludedEntry(value: "\(input)/32", type: .ip)
+        if isValidIP(cleaned) {
+            return ExcludedEntry(value: "\(cleaned)/32", type: .ip)
         }
 
         // Otherwise treat as domain
-        if isValidDomain(input) {
-            return ExcludedEntry(value: input, type: .domain)
+        if isValidDomain(cleaned) {
+            return ExcludedEntry(value: cleaned, type: .domain)
         }
 
         return nil
+    }
+
+    private func extractDomain(from input: String) -> String {
+        guard let url = URL(string: input), let host = url.host(), host.contains(".") else {
+            return input
+        }
+        return host
     }
 
     private func isValidCIDR(_ string: String) -> Bool {
