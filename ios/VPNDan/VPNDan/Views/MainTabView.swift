@@ -21,6 +21,7 @@ struct MainTabView: View {
                 SettingsView()
             }
         }
+        .tint(Color.vpnPrimary)
         .tabBarMinimizeBehavior(.onScrollDown)
     }
 
