@@ -44,6 +44,14 @@ func NewRouter(users store.UserStore, servers store.ServerStore, peers store.Pee
 	}, authHandler.Refresh)
 
 	huma.Register(humaAPI, huma.Operation{
+		Method:      http.MethodPost,
+		Path:        "/api/v1/auth/admin-login",
+		OperationID: "admin-login",
+		Summary:     "Admin login with email and password",
+		Tags:        []string{"Auth"},
+	}, authHandler.AdminLogin)
+
+	huma.Register(humaAPI, huma.Operation{
 		Method:      http.MethodDelete,
 		Path:        "/api/v1/auth/account",
 		OperationID: "delete-account",

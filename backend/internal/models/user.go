@@ -14,6 +14,11 @@ type User struct {
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
+type AdminLoginRequest struct {
+	Email    string `json:"email" doc:"Admin email address" format:"email" minLength:"1"`
+	Password string `json:"password" doc:"Admin password" minLength:"1"`
+}
+
 type RefreshRequest struct {
 	RefreshToken string `json:"refresh_token" doc:"Refresh token" minLength:"1"`
 }

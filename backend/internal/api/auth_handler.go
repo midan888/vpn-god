@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/danielgtaylor/huma/v2"
+	"golang.org/x/crypto/bcrypt"
 	"vpn-dan/backend/internal/auth"
 	"vpn-dan/backend/internal/email"
 	"vpn-dan/backend/internal/models"
@@ -147,6 +148,44 @@ func (h *AuthHandler) Refresh(ctx context.Context, input *RefreshInput) (*Refres
 	}
 
 	return &RefreshOutput{Body: models.AuthResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+	}}, nil
+}
+
+// POST /api/v1/auth/admin-login
+
+type AdminLoginInput struct {
+	Body models.AdminLoginRequest
+}
+
+type AdminLoginOutput struct {
+	Body models.AuthResponse
+}
+
+func (h *AuthHandler) AdminLogin(ctx context.Context, input *AdminLoginInput) (*AdminLoginOutput, error) {
+	user, err := h.users.GetUserByEmail(ctx, input.Body.Email)
+	if err != nil {
+		if errors.Is(err, store.ErrUserNotFound) {
+			return nil, huma.Error401Unauthorized("invalid email or password")
+		}
+		return nil, huma.Error500InternalServerError("internal server error")
+	}
+
+	if !user.IsAdmin {
+		return nil, huma.Error403Forbidden("admin access required")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Body.Password)); err != nil {
+		return nil, huma.Error401Unauthorized("invalid email or password")
+	}
+
+	accessToken, refreshToken, err := h.jwt.GenerateTokenPair(user.ID, user.IsAdmin)
+	if err != nil {
+		return nil, huma.Error500InternalServerError("internal server error")
+	}
+
+	return &AdminLoginOutput{Body: models.AuthResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}}, nil
